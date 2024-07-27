@@ -1,0 +1,139 @@
+
+
+/Vary the size of queries
+1000/
+
+Data: Deep1M 	qSize: 1000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 6.118 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     684ms	   1.642ms 	   12431 	   12431
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    9640ms	   5.132ms 	   27081 	   27081
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1126ms 	   6.142ms 	   25920 	   25920
+
+/Vary the size of queries
+2000/
+
+Data: Deep1M 	qSize: 2000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 7.040 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     637ms	   1.640ms 	   12305 	   12305
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    9066ms	   4.725ms 	   28432 	   28432
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1013ms 	   4.244ms 	   26334 	   26334
+
+/Vary the size of queries
+2000/
+
+Data: Deep1M 	qSize: 2000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 5.565 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     540ms	   1.385ms 	   12417 	   12417
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    8956ms	   5.403ms 	   28752 	   28752
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     926ms 	   5.665ms 	   25885 	   25885
+
+/Vary the size of queries
+4000/
+
+Data: Deep1M 	qSize: 4000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 5.136 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     600ms	   1.552ms 	   12553 	   12553
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    8987ms	   5.001ms 	   28257 	   28257
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     972ms 	   4.951ms 	   25757 	   25757
+
+/Vary the size of queries
+5000/
+
+Data: Deep1M 	qSize: 5000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 6.246 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     640ms	   1.631ms 	   12548 	   12548
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    9114ms	   5.552ms 	   27380 	   27380
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     833ms 	   4.873ms 	   25798 	   25798
+
+/Vary the size of database
+100000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 100000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 1.793 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     238ms	   0.939ms 	    8690 	    8690
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    4391ms	   3.267ms 	   20008 	   20008
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     395ms 	   3.019ms 	   18891 	   18891
+
+/Vary the size of database
+200000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 5.304 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     613ms	   1.561ms 	   12237 	   12237
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    9085ms	   5.143ms 	   28194 	   28194
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     834ms 	   5.406ms 	   25403 	   25403
+
+/Vary the size of database
+200000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 5.187 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     608ms	   1.599ms 	   12400 	   12400
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    9047ms	   5.084ms 	   28071 	   28071
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     916ms 	   4.916ms 	   25510 	   25510
+
+/Vary the size of database
+400000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 400000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 10.150 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1554ms	   2.738ms 	   17899 	   17899

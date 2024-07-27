@@ -219,12 +219,6 @@ public class VPTreeBySample {
 		return best;
 	}
 
-	public ArrayList<double[]> searchRange(double[] q, double range) {
-		rangeRes = new ArrayList<>();
-		_searchRange(root, q, range);
-		return rangeRes;
-	}
-
 	/**
 	 * Helper function to recursively _searchOneNN the VP Tree for the nearest
 	 * neighbor of
@@ -264,6 +258,12 @@ public class VPTreeBySample {
 			_searchOneNN(n.getLeft(), q);
 			_searchOneNN(n.getRight(), q);
 		}
+	}
+
+	public ArrayList<double[]> searchRange(double[] q, double range) {
+		rangeRes = new ArrayList<>();
+		_searchRange(root, q, range);
+		return rangeRes;
 	}
 
 	private void _searchRange(VPNode n, double[] q, double range) {

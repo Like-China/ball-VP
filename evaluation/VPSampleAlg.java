@@ -44,7 +44,7 @@ public class VPSampleAlg {
         fTime = t2 - t1;
         int n = qData.size();
         info = String.format(
-                "**VPSampleTree**\nnn construct time: %d ms / search time: %.3f ms\nnn mean node accesses: %d / calc times: %d",
+                "**VPSampleTree**\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms\t%8.3fms \t%8d \t%8d",
                 cTime, fTime / n, vp.searchCount / n, vp.searchCount / n);
         System.out.println(info);
         searchCount = vp.searchCount / n;

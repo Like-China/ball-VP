@@ -16,7 +16,7 @@ import java.util.HashSet;
  * Class to represent a VP Tree
  * It inherits the VPTree abstract class
  */
-public final class VPTreeByFarest extends VPTreeBySample {
+public class VPTreeByFarest {
 	private VPNode root;
 	private DistanceFunction dFunc;
 	// the distance of the currently discovered NN
@@ -24,6 +24,8 @@ public final class VPTreeByFarest extends VPTreeBySample {
 	// the currently discovered NN
 	private double[] best;
 	private ArrayList<double[]> rangeRes;
+	// the number of node access when conduct queries
+	public int searchCount = 0;
 
 	/**
 	 * Constructor
@@ -31,7 +33,6 @@ public final class VPTreeByFarest extends VPTreeBySample {
 	 * @param the train dataset of double[]s, Distance metric d to be used
 	 */
 	public VPTreeByFarest(Collection<double[]> collection, DistanceFunction d) {
-		super(collection, d, 100);
 
 		dFunc = d;
 		tau = java.lang.Double.MAX_VALUE;
@@ -43,7 +44,7 @@ public final class VPTreeByFarest extends VPTreeBySample {
 			list.add(itm);
 		}
 
-		root = recurse(list, getVP(list, 200));
+		root = recurse(list, getVP(list, 500));
 	}
 
 	/**
@@ -94,12 +95,109 @@ public final class VPTreeByFarest extends VPTreeBySample {
 		n.leftMax = maxLeft;
 		n.rightMax = maxRight;
 		// if (L.size() <= 20) {
-		// 	n.items = list;
+		// n.items = list;
 		// } else {
-			n.setLeft(recurse(L, leftVP));
-			n.setRight(recurse(R, rightVP));
+		n.setLeft(recurse(L, leftVP));
+		n.setRight(recurse(R, rightVP));
 		// }
 		return n;
+	}
+
+	/**
+	 * Helper function to select the Vantage Point
+	 * 
+	 * @param ArrayList of Item objects
+	 * @return Item object containing the Vantage Point
+	 */
+	public Item getVP(ArrayList<Item> list, int sampleNB) {
+		if (list.size() == 1)
+			return list.get(0);
+
+		int size = sampleNB;
+		if (list.size() < sampleNB)
+			size = list.size();
+		ArrayList<Item> p;
+		if (size != list.size()) {
+			p = getSample(list, size);
+		} else {
+			p = list;
+		}
+		double best_spread = 0.0;
+		Item best = list.get(0);
+		for (Item i : p) {
+			ArrayList<Item> d;
+			if (size != list.size()) {
+				d = getSample(list, size);
+			} else {
+				d = list;
+			}
+
+			ArrayList<Double> arr = new ArrayList<Double>();
+			for (Item j : d) {
+				arr.add(dFunc.distance(j.getPixels(), i.getPixels()));
+			}
+
+			Collections.sort(arr);
+
+			size = arr.size();
+			double mu = 0.0;
+			if ((size % 2) == 1)
+				mu = arr.get(size / 2);
+			else
+				mu = (arr.get(size / 2) + arr.get((size / 2) - 1)) / 2.00;
+
+			double spread = 0.0;
+			for (double f : arr) {
+				spread += ((f - mu) * (f - mu));
+			}
+
+			if (spread > best_spread) {
+				best_spread = spread;
+				best = i;
+			}
+		}
+
+		return best;
+	}
+
+	/**
+	 * Helper function to get a random sample of data points
+	 * This is used by getVP() method to select the Vantage Point
+	 * 
+	 * @param ArrayList of Item objects and size of sample
+	 * @return ArrayList of Item objects representing the sample
+	 */
+	public ArrayList<Item> getSample(ArrayList<Item> list, int size) {
+		if (list.size() <= size)
+			return list;
+
+		Random rand = new Random();
+		ArrayList<Item> ans = new ArrayList<Item>();
+		HashSet<Integer> set = new HashSet<Integer>();
+
+		while (ans.size() < size) {
+			int i = rand.nextInt(list.size());
+			if (set.contains(i))
+				continue;
+			set.add(i);
+			ans.add(list.get(i));
+		}
+		return ans;
+	}
+
+	/**
+	 * Helper function to delete an Item object from the ArrayList
+	 * 
+	 * @param ArrayList of Item objects
+	 */
+	public void deleteItem(ArrayList<Item> list, Item itm) {
+		for (int i = 0; i < list.size(); ++i) {
+			if ((list.get(i)).equals(itm)) {
+				list.remove(i);
+				return;
+			}
+		}
+		return;
 	}
 
 	/**
@@ -108,7 +206,6 @@ public final class VPTreeByFarest extends VPTreeBySample {
 	 * @param query double[] object q
 	 * @return nearest neighbor double[] object
 	 */
-	@Override
 	public double[] searchOneNN(double[] q) {
 		tau = Double.MAX_VALUE;
 		best = q;
@@ -116,6 +213,31 @@ public final class VPTreeByFarest extends VPTreeBySample {
 		_searchOneNN(root, q);
 
 		return best;
+	}
+
+	/**
+	 * Helper function to get the Median distance of the data points from vantage
+	 * point
+	 * 
+	 * @param ArrayList of Item objects
+	 * @return median as a double
+	 */
+	public double getMedian(ArrayList<Item> list) {
+		if (list.size() == 0)
+			return 0.0;
+
+		ArrayList<Double> arr = new ArrayList<Double>();
+		for (Item i : list) {
+			arr.add(i.tail());
+		}
+
+		Collections.sort(arr);
+		int size = arr.size();
+
+		if ((size % 2) == 1)
+			return arr.get(size / 2);
+		else
+			return (arr.get(size / 2) + arr.get((size / 2) - 1)) / 2.00;
 	}
 
 	/**
@@ -136,15 +258,15 @@ public final class VPTreeByFarest extends VPTreeBySample {
 		}
 		// if(n.items != null)
 		// {
-		// 	for(Item item: n.items)
-		// 	{
-		// 		double d = dFunc.distance(q, item.getPixels());
-		// 		if(d<tau){
-		// 			tau = d;
-		// 			best = item.getPixels();
-		// 		}
-		// 	}
-		// 	return;
+		// for(Item item: n.items)
+		// {
+		// double d = dFunc.distance(q, item.getPixels());
+		// if(d<tau){
+		// tau = d;
+		// best = item.getPixels();
+		// }
+		// }
+		// return;
 		// }
 
 		double dist = dFunc.distance(q, n.getItem().getPixels());
@@ -171,5 +293,36 @@ public final class VPTreeByFarest extends VPTreeBySample {
 		}
 	}
 
+	public ArrayList<double[]> searchRange(double[] q, double range) {
+		rangeRes = new ArrayList<>();
+		_searchRange(root, q, range);
+		return rangeRes;
+	}
+
+	private void _searchRange(VPNode n, double[] q, double range) {
+		if (n == null)
+			return;
+		double dist = dFunc.distance(q, n.getItem().getPixels());
+		double mu = n.getMu();
+
+		if (dist <= range) {
+			rangeRes.add(n.getItem().getPixels());
+		}
+
+		// If tau circle lies completely outside mu circle
+		if (dist > range + mu) {
+			_searchRange(n.getRight(), q, range);
+		}
+		// If tau circle lies completely inside mu circle
+		// else if (dist < Math.max(range, mu) - Math.min(range, mu)) {
+		else if (dist < mu - range) {
+			_searchRange(n.getLeft(), q, range);
+		}
+		// If both circles overlap
+		else {
+			_searchRange(n.getLeft(), q, range);
+			_searchRange(n.getRight(), q, range);
+		}
+	}
 
 }

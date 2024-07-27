@@ -63,8 +63,8 @@ public class BJAlg {
         fTime = t2 - t1;
         int n = qData.size();
         info = String.format(
-                "**BallTree**\nnn construct time: %d ms / search time: %.3f ms\nnn mean node accesses: %d / calc times: %d",
-                cTime, fTime / n, bt.searchCount / n, bt.calcCount / n);
+                "**BallTree**\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms\t%8.3fms \t%8d \t%8d",
+                cTime, fTime / n, bt.searchCount / n, bt.searchCount / n);
         System.out.println(info);
         return res;
     }
