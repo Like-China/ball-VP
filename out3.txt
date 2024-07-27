@@ -1,0 +1,4067 @@
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 5---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**BallTree**
+nn construct time: 2097ms / search time: 10ms
+nn mean node accesses: 28644 / calc times: 98561
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 10---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**BallTree**
+nn construct time: 1969ms / search time: 13ms
+nn mean node accesses: 21800 / calc times: 99849
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 20---------------
+**Brute-Forced**
+nn-Search time cost: 25ms
+ 
+**BallTree**
+nn construct time: 1946ms / search time: 17ms
+nn mean node accesses: 14745 / calc times: 105817
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 40---------------
+**Brute-Forced**
+nn-Search time cost: 22ms
+ 
+**BallTree**
+nn construct time: 1790ms / search time: 20ms
+nn mean node accesses: 9143 / calc times: 115336
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 60---------------
+**Brute-Forced**
+nn-Search time cost: 22ms
+ 
+**BallTree**
+nn construct time: 1742ms / search time: 22ms
+nn mean node accesses: 6780 / calc times: 122266
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 80---------------
+**Brute-Forced**
+nn-Search time cost: 23ms
+ 
+**BallTree**
+nn construct time: 1715ms / search time: 24ms
+nn mean node accesses: 5448 / calc times: 127781
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 100---------------
+**Brute-Forced**
+nn-Search time cost: 24ms
+ 
+**BallTree**
+nn construct time: 1707ms / search time: 25ms
+nn mean node accesses: 4568 / calc times: 131988
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 120---------------
+**Brute-Forced**
+nn-Search time cost: 24ms
+ 
+**BallTree**
+nn construct time: 1660ms / search time: 27ms
+nn mean node accesses: 3946 / calc times: 135498
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:50---------------
+**Brute-Forced**
+nn-Search time cost: 24ms
+ 
+**VPTree**
+nn construct time: 1521ms / search time: 33ms
+nn mean node accesses: 84328 / calc times: 84328
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 28ms
+ 
+**VPTree**
+nn construct time: 1429ms / search time: 34ms
+nn mean node accesses: 84318 / calc times: 84318
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 31ms
+ 
+**VPTree**
+nn construct time: 1356ms / search time: 15ms
+nn mean node accesses: 84475 / calc times: 84475
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 15ms
+ 
+**VPTree**
+nn construct time: 1213ms / search time: 31ms
+nn mean node accesses: 84432 / calc times: 84432
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:400---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**VPTree**
+nn construct time: 1368ms / search time: 33ms
+nn mean node accesses: 84644 / calc times: 84644
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:500---------------
+**Brute-Forced**
+nn-Search time cost: 22ms
+ 
+**VPTree**
+nn construct time: 1281ms / search time: 33ms
+nn mean node accesses: 84147 / calc times: 84147
+
+
+
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 2---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**BallTree**
+nn construct time: 2308ms / search time: 8ms
+nn mean node accesses: 34120 / calc times: 102355
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 16ms
+ 
+**BallTree**
+nn construct time: 2015ms / search time: 10ms
+nn mean node accesses: 30334 / calc times: 98514
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 6---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**BallTree**
+nn construct time: 2025ms / search time: 11ms
+nn mean node accesses: 26960 / calc times: 98236
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 8---------------
+**Brute-Forced**
+nn-Search time cost: 18ms
+ 
+**BallTree**
+nn construct time: 2002ms / search time: 12ms
+nn mean node accesses: 24085 / calc times: 98667
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 10---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**BallTree**
+nn construct time: 1969ms / search time: 14ms
+nn mean node accesses: 21753 / calc times: 99699
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:5000---------------
+**Brute-Forced**
+nn-Search time cost: 21ms
+ 
+**VPTree**
+nn construct time: 1565ms / search time: 34ms
+nn mean node accesses: 84439 / calc times: 84439
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:10000---------------
+**Brute-Forced**
+nn-Search time cost: 25ms
+ 
+**VPTree**
+nn construct time: 1367ms / search time: 34ms
+nn mean node accesses: 84543 / calc times: 84543
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:20000---------------
+**Brute-Forced**
+nn-Search time cost: 27ms
+ 
+**VPTree**
+nn construct time: 1306ms / search time: 34ms
+nn mean node accesses: 84477 / calc times: 84477
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:30000---------------
+**Brute-Forced**
+nn-Search time cost: 31ms
+ 
+**VPTree**
+nn construct time: 1407ms / search time: 35ms
+nn mean node accesses: 84314 / calc times: 84314
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:40000---------------
+**Brute-Forced**
+nn-Search time cost: 33ms
+ 
+**VPTree**
+nn construct time: 1348ms / search time: 28ms
+nn mean node accesses: 84580 / calc times: 84580
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:50000---------------
+**Brute-Forced**
+nn-Search time cost: 18ms
+ 
+**VPTree**
+nn construct time: 1311ms / search time: 32ms
+nn mean node accesses: 84524 / calc times: 84524
+
+---------------Vary Dim	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 10	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 8ms
+ 
+**BallTree**
+nn construct time: 925ms / search time: 0ms
+nn mean node accesses: 4156 / calc times: 13051
+ 
+**VPTree**
+nn construct time: 1237ms / search time: 0ms
+nn mean node accesses: 8891 / calc times: 8891
+
+---------------Vary Dim	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 10ms
+ 
+**BallTree**
+nn construct time: 1273ms / search time: 2ms
+nn mean node accesses: 12350 / calc times: 39463
+ 
+**VPTree**
+nn construct time: 1182ms / search time: 6ms
+nn mean node accesses: 29197 / calc times: 29197
+
+---------------Vary Dim	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 17ms
+ 
+**BallTree**
+nn construct time: 2175ms / search time: 10ms
+nn mean node accesses: 30362 / calc times: 98592
+ 
+**VPTree**
+nn construct time: 1310ms / search time: 31ms
+nn mean node accesses: 84451 / calc times: 84451
+
+---------------Vary Dim	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 60	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 30ms
+ 
+**BallTree**
+nn construct time: 3313ms / search time: 17ms
+nn mean node accesses: 35652 / calc times: 117834
+ 
+**VPTree**
+nn construct time: 1569ms / search time: 32ms
+nn mean node accesses: 106737 / calc times: 106737
+
+---------------Vary Dim	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 80	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 36ms
+ 
+**BallTree**
+nn construct time: 4274ms / search time: 28ms
+nn mean node accesses: 45509 / calc times: 152022
+ 
+**VPTree**
+nn construct time: 1702ms / search time: 31ms
+nn mean node accesses: 124311 / calc times: 124311
+
+---------------Vary Dim	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 100	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 46ms
+ 
+**BallTree**
+nn construct time: 5094ms / search time: 38ms
+nn mean node accesses: 47781 / calc times: 160507
+ 
+**VPTree**
+nn construct time: 1832ms / search time: 81ms
+nn mean node accesses: 133198 / calc times: 133198
+
+---------------Vary Dim	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 120	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 50ms
+ 
+**BallTree**
+nn construct time: 6161ms / search time: 53ms
+nn mean node accesses: 57462 / calc times: 193886
+ 
+**VPTree**
+nn construct time: 1807ms / search time: 85ms
+nn mean node accesses: 139239 / calc times: 139239
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 2---------------
+**Brute-Forced**
+nn-Search time cost: 21ms
+ 
+**BallTree**
+nn construct time: 2379ms / search time: 9ms
+nn mean node accesses: 33882 / calc times: 101640
+ 
+**VPTree**
+nn construct time: 1296ms / search time: 32ms
+nn mean node accesses: 84553 / calc times: 84553
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 16ms
+ 
+**BallTree**
+nn construct time: 2139ms / search time: 10ms
+nn mean node accesses: 30243 / calc times: 98214
+ 
+**VPTree**
+nn construct time: 1309ms / search time: 32ms
+nn mean node accesses: 84540 / calc times: 84540
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 6---------------
+**Brute-Forced**
+nn-Search time cost: 17ms
+ 
+**BallTree**
+nn construct time: 2025ms / search time: 11ms
+nn mean node accesses: 27020 / calc times: 98537
+ 
+**VPTree**
+nn construct time: 1227ms / search time: 32ms
+nn mean node accesses: 84219 / calc times: 84219
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 8---------------
+**Brute-Forced**
+nn-Search time cost: 19ms
+ 
+**BallTree**
+nn construct time: 2040ms / search time: 12ms
+nn mean node accesses: 24166 / calc times: 99013
+ 
+**VPTree**
+nn construct time: 1393ms / search time: 28ms
+nn mean node accesses: 84400 / calc times: 84400
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 10---------------
+**Brute-Forced**
+nn-Search time cost: 23ms
+ 
+**BallTree**
+nn construct time: 2131ms / search time: 14ms
+nn mean node accesses: 21819 / calc times: 99765
+ 
+**VPTree**
+nn construct time: 1460ms / search time: 31ms
+nn mean node accesses: 84532 / calc times: 84532
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 20---------------
+**Brute-Forced**
+nn-Search time cost: 17ms
+ 
+**BallTree**
+nn construct time: 1873ms / search time: 16ms
+nn mean node accesses: 14772 / calc times: 105807
+ 
+**VPTree**
+nn construct time: 1342ms / search time: 32ms
+nn mean node accesses: 84515 / calc times: 84515
+
+---------------Vary minLeaf	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	minLeaf: 30---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**BallTree**
+nn construct time: 1876ms / search time: 18ms
+nn mean node accesses: 11325 / calc times: 111088
+ 
+**VPTree**
+nn construct time: 1373ms / search time: 32ms
+nn mean node accesses: 84551 / calc times: 84551
+
+
+
+
+
+
+
+
+*******New Experiments*******
+
+
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 13150ms / search time: 3ms
+nn mean node accesses: 25453 / calc times: 25453
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12775ms / search time: 4ms
+nn mean node accesses: 27665 / calc times: 27665
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12692ms / search time: 5ms
+nn mean node accesses: 28359 / calc times: 28359
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12512ms / search time: 4ms
+nn mean node accesses: 22162 / calc times: 22162
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12235ms / search time: 4ms
+nn mean node accesses: 27727 / calc times: 27727
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12419ms / search time: 4ms
+nn mean node accesses: 24964 / calc times: 24964
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12098ms / search time: 5ms
+nn mean node accesses: 26787 / calc times: 26787
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12196ms / search time: 3ms
+nn mean node accesses: 20058 / calc times: 20058
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12370ms / search time: 5ms
+nn mean node accesses: 27122 / calc times: 27122
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 11963ms / search time: 4ms
+nn mean node accesses: 26502 / calc times: 26502
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12040ms / search time: 4ms
+nn mean node accesses: 22719 / calc times: 22719
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12269ms / search time: 4ms
+nn mean node accesses: 25467 / calc times: 25467
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12171ms / search time: 4ms
+nn mean node accesses: 26947 / calc times: 26947
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 11901ms / search time: 4ms
+nn mean node accesses: 26698 / calc times: 26698
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 11974ms / search time: 4ms
+nn mean node accesses: 20088 / calc times: 20088
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12164ms / search time: 4ms
+nn mean node accesses: 26941 / calc times: 26941
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12254ms / search time: 5ms
+nn mean node accesses: 27071 / calc times: 27071
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12016ms / search time: 4ms
+nn mean node accesses: 27296 / calc times: 27296
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12107ms / search time: 4ms
+nn mean node accesses: 24467 / calc times: 24467
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+**VPTree**
+nn construct time: 12217ms / search time: 4ms
+nn mean node accesses: 23865 / calc times: 23865
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:100---------------
+
+maxCTime:13150 minCTime:11901 diff:9 maxFTime:4550 minFTime:3730 diff:18  maxCalc:28359 minCalc:20058 diff:29
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 25597ms / search time: 3ms
+nn mean node accesses: 23553 / calc times: 23553
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 25652ms / search time: 3ms
+nn mean node accesses: 24862 / calc times: 24862
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 25901ms / search time: 3ms
+nn mean node accesses: 26962 / calc times: 26962
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 26569ms / search time: 4ms
+nn mean node accesses: 26857 / calc times: 26857
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 25520ms / search time: 3ms
+nn mean node accesses: 21907 / calc times: 21907
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 26373ms / search time: 4ms
+nn mean node accesses: 28259 / calc times: 28259
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27174ms / search time: 4ms
+nn mean node accesses: 26121 / calc times: 26121
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 28064ms / search time: 4ms
+nn mean node accesses: 27004 / calc times: 27004
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 26917ms / search time: 4ms
+nn mean node accesses: 29712 / calc times: 29712
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27659ms / search time: 3ms
+nn mean node accesses: 22748 / calc times: 22748
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27421ms / search time: 4ms
+nn mean node accesses: 25020 / calc times: 25020
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 26889ms / search time: 3ms
+nn mean node accesses: 22181 / calc times: 22181
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27476ms / search time: 3ms
+nn mean node accesses: 21151 / calc times: 21151
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27886ms / search time: 3ms
+nn mean node accesses: 24461 / calc times: 24461
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27770ms / search time: 3ms
+nn mean node accesses: 22991 / calc times: 22991
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27318ms / search time: 3ms
+nn mean node accesses: 21413 / calc times: 21413
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 26898ms / search time: 4ms
+nn mean node accesses: 27481 / calc times: 27481
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27755ms / search time: 3ms
+nn mean node accesses: 21743 / calc times: 21743
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27342ms / search time: 4ms
+nn mean node accesses: 26294 / calc times: 26294
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+**VPTree**
+nn construct time: 27912ms / search time: 4ms
+nn mean node accesses: 24494 / calc times: 24494
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:200---------------
+
+maxCTime:28064 minCTime:25520 diff:9 maxFTime:4018 minFTime:3147 diff:21  maxCalc:29712 minCalc:21151 diff:28
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 41592ms / search time: 2ms
+nn mean node accesses: 21163 / calc times: 21163
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 43045ms / search time: 3ms
+nn mean node accesses: 26514 / calc times: 26514
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 43758ms / search time: 3ms
+nn mean node accesses: 20657 / calc times: 20657
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 47012ms / search time: 4ms
+nn mean node accesses: 24200 / calc times: 24200
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 47169ms / search time: 4ms
+nn mean node accesses: 26975 / calc times: 26975
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46453ms / search time: 3ms
+nn mean node accesses: 20545 / calc times: 20545
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46361ms / search time: 4ms
+nn mean node accesses: 27078 / calc times: 27078
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 47149ms / search time: 4ms
+nn mean node accesses: 27101 / calc times: 27101
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 47058ms / search time: 3ms
+nn mean node accesses: 22574 / calc times: 22574
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46377ms / search time: 3ms
+nn mean node accesses: 21978 / calc times: 21978
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46515ms / search time: 4ms
+nn mean node accesses: 26192 / calc times: 26192
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46956ms / search time: 3ms
+nn mean node accesses: 21960 / calc times: 21960
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 47128ms / search time: 4ms
+nn mean node accesses: 29200 / calc times: 29200
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 47083ms / search time: 3ms
+nn mean node accesses: 25280 / calc times: 25280
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 47146ms / search time: 4ms
+nn mean node accesses: 27143 / calc times: 27143
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46329ms / search time: 3ms
+nn mean node accesses: 22474 / calc times: 22474
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46594ms / search time: 4ms
+nn mean node accesses: 27010 / calc times: 27010
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46797ms / search time: 4ms
+nn mean node accesses: 26937 / calc times: 26937
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 46233ms / search time: 3ms
+nn mean node accesses: 22006 / calc times: 22006
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+**VPTree**
+nn construct time: 47219ms / search time: 4ms
+nn mean node accesses: 27514 / calc times: 27514
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 20	SampleNB:300---------------
+
+maxCTime:47219 minCTime:41592 diff:11 maxFTime:4278 minFTime:2737 diff:36  maxCalc:29200 minCalc:20545 diff:29
+
+
+
+
+
+
+*******New Experiments*******
+
+
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**VPTree**
+nn construct time: 17317ms / search time: 22ms
+nn mean node accesses: 82082 / calc times: 82082
+ 
+**VPTree**
+nn construct time: 16883ms / search time: 24ms
+nn mean node accesses: 84055 / calc times: 84055
+ 
+**VPTree**
+nn construct time: 18177ms / search time: 23ms
+nn mean node accesses: 76004 / calc times: 76004
+ 
+**VPTree**
+nn construct time: 17544ms / search time: 24ms
+nn mean node accesses: 79845 / calc times: 79845
+ 
+**VPTree**
+nn construct time: 16958ms / search time: 23ms
+nn mean node accesses: 78051 / calc times: 78051
+ 
+**VPTree**
+nn construct time: 17361ms / search time: 24ms
+nn mean node accesses: 80184 / calc times: 80184
+ 
+**VPTree**
+nn construct time: 16558ms / search time: 24ms
+nn mean node accesses: 81954 / calc times: 81954
+ 
+**VPTree**
+nn construct time: 16427ms / search time: 24ms
+nn mean node accesses: 80931 / calc times: 80931
+ 
+**VPTree**
+nn construct time: 16923ms / search time: 25ms
+nn mean node accesses: 84258 / calc times: 84258
+ 
+**VPTree**
+nn construct time: 16548ms / search time: 24ms
+nn mean node accesses: 82914 / calc times: 82914
+ 
+**VPTree**
+nn construct time: 16859ms / search time: 22ms
+nn mean node accesses: 76621 / calc times: 76621
+ 
+**VPTree**
+nn construct time: 17625ms / search time: 22ms
+nn mean node accesses: 77511 / calc times: 77511
+ 
+**VPTree**
+nn construct time: 17145ms / search time: 19ms
+nn mean node accesses: 67684 / calc times: 67684
+ 
+**VPTree**
+nn construct time: 18203ms / search time: 24ms
+nn mean node accesses: 81485 / calc times: 81485
+ 
+**VPTree**
+nn construct time: 16740ms / search time: 21ms
+nn mean node accesses: 72902 / calc times: 72902
+ 
+**VPTree**
+nn construct time: 16812ms / search time: 24ms
+nn mean node accesses: 84380 / calc times: 84380
+ 
+**VPTree**
+nn construct time: 17636ms / search time: 22ms
+nn mean node accesses: 73351 / calc times: 73351
+ 
+**VPTree**
+nn construct time: 16190ms / search time: 24ms
+nn mean node accesses: 80940 / calc times: 80940
+ 
+**VPTree**
+nn construct time: 17362ms / search time: 19ms
+nn mean node accesses: 65940 / calc times: 65940
+ 
+**VPTree**
+nn construct time: 17915ms / search time: 22ms
+nn mean node accesses: 77374 / calc times: 77374
+ 
+
+maxCTime:18203	 minCTime:16190	 diff:11	 maxFTime:22467	 minFTime:19747	 diff:12	 maxCalc:84380	 minCalc:65940	 diff:21	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 17ms
+ 
+**VPTree**
+nn construct time: 34221ms / search time: 13ms
+nn mean node accesses: 80398 / calc times: 80398
+ 
+**VPTree**
+nn construct time: 34668ms / search time: 15ms
+nn mean node accesses: 81148 / calc times: 81148
+ 
+**VPTree**
+nn construct time: 33194ms / search time: 15ms
+nn mean node accesses: 80650 / calc times: 80650
+ 
+**VPTree**
+nn construct time: 34352ms / search time: 15ms
+nn mean node accesses: 81582 / calc times: 81582
+ 
+**VPTree**
+nn construct time: 37202ms / search time: 24ms
+nn mean node accesses: 71162 / calc times: 71162
+ 
+**VPTree**
+nn construct time: 36248ms / search time: 22ms
+nn mean node accesses: 69697 / calc times: 69697
+ 
+**VPTree**
+nn construct time: 36587ms / search time: 19ms
+nn mean node accesses: 68065 / calc times: 68065
+ 
+**VPTree**
+nn construct time: 36543ms / search time: 26ms
+nn mean node accesses: 82665 / calc times: 82665
+ 
+**VPTree**
+nn construct time: 36983ms / search time: 24ms
+nn mean node accesses: 81595 / calc times: 81595
+ 
+**VPTree**
+nn construct time: 36649ms / search time: 26ms
+nn mean node accesses: 81612 / calc times: 81612
+ 
+**VPTree**
+nn construct time: 36388ms / search time: 24ms
+nn mean node accesses: 80429 / calc times: 80429
+ 
+**VPTree**
+nn construct time: 36588ms / search time: 21ms
+nn mean node accesses: 68892 / calc times: 68892
+ 
+**VPTree**
+nn construct time: 36737ms / search time: 19ms
+nn mean node accesses: 69990 / calc times: 69990
+ 
+**VPTree**
+nn construct time: 36691ms / search time: 20ms
+nn mean node accesses: 69180 / calc times: 69180
+ 
+**VPTree**
+nn construct time: 36749ms / search time: 22ms
+nn mean node accesses: 73197 / calc times: 73197
+ 
+**VPTree**
+nn construct time: 37235ms / search time: 23ms
+nn mean node accesses: 80384 / calc times: 80384
+ 
+**VPTree**
+nn construct time: 37922ms / search time: 20ms
+nn mean node accesses: 68114 / calc times: 68114
+ 
+**VPTree**
+nn construct time: 37726ms / search time: 23ms
+nn mean node accesses: 76765 / calc times: 76765
+ 
+**VPTree**
+nn construct time: 37737ms / search time: 19ms
+nn mean node accesses: 67790 / calc times: 67790
+ 
+**VPTree**
+nn construct time: 39073ms / search time: 25ms
+nn mean node accesses: 81725 / calc times: 81725
+ 
+
+maxCTime:39073	 minCTime:33194	 diff:15	 maxFTime:25361	 minFTime:13736	 diff:45	 maxCalc:82665	 minCalc:67790	 diff:17	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 22ms
+ 
+**VPTree**
+nn construct time: 57454ms / search time: 10ms
+nn mean node accesses: 69033 / calc times: 69033
+ 
+**VPTree**
+nn construct time: 57415ms / search time: 10ms
+nn mean node accesses: 68859 / calc times: 68859
+ 
+**VPTree**
+nn construct time: 60631ms / search time: 22ms
+nn mean node accesses: 77119 / calc times: 77119
+ 
+**VPTree**
+nn construct time: 60605ms / search time: 18ms
+nn mean node accesses: 70332 / calc times: 70332
+ 
+**VPTree**
+nn construct time: 59637ms / search time: 19ms
+nn mean node accesses: 68946 / calc times: 68946
+ 
+**VPTree**
+nn construct time: 59631ms / search time: 21ms
+nn mean node accesses: 71206 / calc times: 71206
+ 
+**VPTree**
+nn construct time: 61170ms / search time: 24ms
+nn mean node accesses: 79053 / calc times: 79053
+ 
+**VPTree**
+nn construct time: 59129ms / search time: 22ms
+nn mean node accesses: 80606 / calc times: 80606
+ 
+**VPTree**
+nn construct time: 60814ms / search time: 19ms
+nn mean node accesses: 65668 / calc times: 65668
+ 
+**VPTree**
+nn construct time: 61080ms / search time: 24ms
+nn mean node accesses: 81119 / calc times: 81119
+ 
+**VPTree**
+nn construct time: 59551ms / search time: 20ms
+nn mean node accesses: 71531 / calc times: 71531
+ 
+**VPTree**
+nn construct time: 61209ms / search time: 21ms
+nn mean node accesses: 71702 / calc times: 71702
+ 
+**VPTree**
+nn construct time: 61375ms / search time: 23ms
+nn mean node accesses: 80526 / calc times: 80526
+ 
+**VPTree**
+nn construct time: 60570ms / search time: 23ms
+nn mean node accesses: 78126 / calc times: 78126
+ 
+**VPTree**
+nn construct time: 59449ms / search time: 23ms
+nn mean node accesses: 82547 / calc times: 82547
+ 
+**VPTree**
+nn construct time: 59721ms / search time: 23ms
+nn mean node accesses: 75160 / calc times: 75160
+ 
+**VPTree**
+nn construct time: 60141ms / search time: 23ms
+nn mean node accesses: 82500 / calc times: 82500
+ 
+**VPTree**
+nn construct time: 58881ms / search time: 22ms
+nn mean node accesses: 80004 / calc times: 80004
+ 
+**VPTree**
+nn construct time: 59215ms / search time: 20ms
+nn mean node accesses: 69009 / calc times: 69009
+ 
+**VPTree**
+nn construct time: 60468ms / search time: 20ms
+nn mean node accesses: 71602 / calc times: 71602
+ 
+
+maxCTime:61375	 minCTime:57415	 diff:6	 maxFTime:20665	 minFTime:10239	 diff:50	 maxCalc:82547	 minCalc:65668	 diff:20	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 40	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 22ms
+ 
+**VPTree**
+nn construct time: 205318ms / search time: 16ms
+nn mean node accesses: 69347 / calc times: 69347
+ 
+**VPTree**
+nn construct time: 209187ms / search time: 19ms
+nn mean node accesses: 82662 / calc times: 82662
+ 
+**VPTree**
+nn construct time: 212481ms / search time: 16ms
+nn mean node accesses: 75714 / calc times: 75714
+ 
+**VPTree**
+nn construct time: 217190ms / search time: 18ms
+nn mean node accesses: 81630 / calc times: 81630
+ 
+**VPTree**
+nn construct time: 211422ms / search time: 18ms
+nn mean node accesses: 82111 / calc times: 82111
+ 
+**VPTree**
+nn construct time: 217025ms / search time: 17ms
+nn mean node accesses: 77585 / calc times: 77585
+ 
+**VPTree**
+nn construct time: 218247ms / search time: 17ms
+nn mean node accesses: 80297 / calc times: 80297
+ 
+**VPTree**
+nn construct time: 217752ms / search time: 18ms
+nn mean node accesses: 80842 / calc times: 80842
+ 
+**VPTree**
+nn construct time: 208931ms / search time: 17ms
+nn mean node accesses: 81145 / calc times: 81145
+ 
+**VPTree**
+nn construct time: 209051ms / search time: 15ms
+nn mean node accesses: 67500 / calc times: 67500
+ 
+**VPTree**
+nn construct time: 213131ms / search time: 16ms
+nn mean node accesses: 76061 / calc times: 76061
+ 
+**VPTree**
+nn construct time: 210436ms / search time: 16ms
+nn mean node accesses: 77236 / calc times: 77236
+ 
+**VPTree**
+nn construct time: 210107ms / search time: 17ms
+nn mean node accesses: 77987 / calc times: 77987
+ 
+**VPTree**
+nn construct time: 208460ms / search time: 17ms
+nn mean node accesses: 76526 / calc times: 76526
+ 
+**VPTree**
+nn construct time: 209453ms / search time: 17ms
+nn mean node accesses: 81118 / calc times: 81118
+ 
+**VPTree**
+nn construct time: 209067ms / search time: 15ms
+nn mean node accesses: 69321 / calc times: 69321
+ 
+**VPTree**
+nn construct time: 209828ms / search time: 15ms
+nn mean node accesses: 70921 / calc times: 70921
+ 
+**VPTree**
+nn construct time: 209878ms / search time: 18ms
+nn mean node accesses: 80672 / calc times: 80672
+ 
+**VPTree**
+nn construct time: 212335ms / search time: 15ms
+nn mean node accesses: 67855 / calc times: 67855
+ 
+**VPTree**
+nn construct time: 212221ms / search time: 17ms
+nn mean node accesses: 77547 / calc times: 77547
+ 
+
+maxCTime:218247	 minCTime:205318	 diff:5	 maxFTime:17375	 minFTime:15045	 diff:13	 maxCalc:82662	 minCalc:67500	 diff:18	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 60	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 31ms
+ 
+**VPTree**
+nn construct time: 16692ms / search time: 26ms
+nn mean node accesses: 106087 / calc times: 106087
+ 
+**VPTree**
+nn construct time: 16233ms / search time: 19ms
+nn mean node accesses: 88615 / calc times: 88615
+ 
+**VPTree**
+nn construct time: 17612ms / search time: 28ms
+nn mean node accesses: 91331 / calc times: 91331
+ 
+**VPTree**
+nn construct time: 18107ms / search time: 41ms
+nn mean node accesses: 108887 / calc times: 108887
+ 
+**VPTree**
+nn construct time: 18238ms / search time: 32ms
+nn mean node accesses: 86528 / calc times: 86528
+ 
+**VPTree**
+nn construct time: 18263ms / search time: 35ms
+nn mean node accesses: 105451 / calc times: 105451
+ 
+**VPTree**
+nn construct time: 18280ms / search time: 36ms
+nn mean node accesses: 106933 / calc times: 106933
+ 
+**VPTree**
+nn construct time: 18248ms / search time: 29ms
+nn mean node accesses: 88569 / calc times: 88569
+ 
+**VPTree**
+nn construct time: 18072ms / search time: 35ms
+nn mean node accesses: 106414 / calc times: 106414
+ 
+**VPTree**
+nn construct time: 18084ms / search time: 37ms
+nn mean node accesses: 89618 / calc times: 89618
+ 
+**VPTree**
+nn construct time: 18165ms / search time: 43ms
+nn mean node accesses: 105818 / calc times: 105818
+ 
+**VPTree**
+nn construct time: 18128ms / search time: 45ms
+nn mean node accesses: 105446 / calc times: 105446
+ 
+**VPTree**
+nn construct time: 18655ms / search time: 44ms
+nn mean node accesses: 108536 / calc times: 108536
+ 
+**VPTree**
+nn construct time: 18408ms / search time: 41ms
+nn mean node accesses: 106553 / calc times: 106553
+ 
+**VPTree**
+nn construct time: 18398ms / search time: 42ms
+nn mean node accesses: 105604 / calc times: 105604
+ 
+**VPTree**
+nn construct time: 17821ms / search time: 35ms
+nn mean node accesses: 92449 / calc times: 92449
+ 
+**VPTree**
+nn construct time: 17881ms / search time: 43ms
+nn mean node accesses: 106885 / calc times: 106885
+ 
+**VPTree**
+nn construct time: 17963ms / search time: 35ms
+nn mean node accesses: 91140 / calc times: 91140
+ 
+**VPTree**
+nn construct time: 18264ms / search time: 40ms
+nn mean node accesses: 105738 / calc times: 105738
+ 
+**VPTree**
+nn construct time: 18118ms / search time: 34ms
+nn mean node accesses: 86828 / calc times: 86828
+ 
+
+maxCTime:18655	 minCTime:16233	 diff:12	 maxFTime:34031	 minFTime:19606	 diff:42	 maxCalc:108887	 minCalc:86528	 diff:20	
+
+
+
+
+*******New Experiments*******
+
+
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 60	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 32ms
+ 
+**VPTree**
+nn construct time: 23042ms / search time: 34ms
+nn mean node accesses: 106992 / calc times: 106992
+ 
+**VPTree**
+nn construct time: 23406ms / search time: 40ms
+nn mean node accesses: 108879 / calc times: 108879
+ 
+**VPTree**
+nn construct time: 22937ms / search time: 40ms
+nn mean node accesses: 107977 / calc times: 107977
+ 
+**VPTree**
+nn construct time: 22879ms / search time: 40ms
+nn mean node accesses: 107256 / calc times: 107256
+ 
+**VPTree**
+nn construct time: 22731ms / search time: 39ms
+nn mean node accesses: 104172 / calc times: 104172
+ 
+**VPTree**
+nn construct time: 22936ms / search time: 41ms
+nn mean node accesses: 107135 / calc times: 107135
+ 
+**VPTree**
+nn construct time: 22707ms / search time: 40ms
+nn mean node accesses: 104620 / calc times: 104620
+ 
+**VPTree**
+nn construct time: 22459ms / search time: 40ms
+nn mean node accesses: 106060 / calc times: 106060
+ 
+**VPTree**
+nn construct time: 22612ms / search time: 40ms
+nn mean node accesses: 105435 / calc times: 105435
+ 
+**VPTree**
+nn construct time: 22553ms / search time: 33ms
+nn mean node accesses: 90519 / calc times: 90519
+ 
+
+maxCTime:23406	 minCTime:22459	 diff:4	 maxFTime:40492	 minFTime:33474	 diff:17	 maxCalc:108879	 minCalc:90519	 diff:16	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 60	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 24ms
+ 
+**VPTree**
+nn construct time: 46385ms / search time: 20ms
+nn mean node accesses: 87183 / calc times: 87183
+ 
+**VPTree**
+nn construct time: 46647ms / search time: 41ms
+nn mean node accesses: 106277 / calc times: 106277
+ 
+**VPTree**
+nn construct time: 46337ms / search time: 38ms
+nn mean node accesses: 105167 / calc times: 105167
+ 
+**VPTree**
+nn construct time: 46117ms / search time: 33ms
+nn mean node accesses: 87512 / calc times: 87512
+ 
+**VPTree**
+nn construct time: 46543ms / search time: 33ms
+nn mean node accesses: 87292 / calc times: 87292
+ 
+**VPTree**
+nn construct time: 46020ms / search time: 42ms
+nn mean node accesses: 108250 / calc times: 108250
+ 
+**VPTree**
+nn construct time: 46186ms / search time: 41ms
+nn mean node accesses: 106446 / calc times: 106446
+ 
+**VPTree**
+nn construct time: 45427ms / search time: 39ms
+nn mean node accesses: 106141 / calc times: 106141
+ 
+**VPTree**
+nn construct time: 46112ms / search time: 40ms
+nn mean node accesses: 105553 / calc times: 105553
+ 
+**VPTree**
+nn construct time: 46014ms / search time: 34ms
+nn mean node accesses: 103922 / calc times: 103922
+ 
+
+maxCTime:46647	 minCTime:45427	 diff:2	 maxFTime:34841	 minFTime:20691	 diff:40	 maxCalc:108250	 minCalc:87183	 diff:19	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 60	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 37ms
+ 
+**VPTree**
+nn construct time: 71426ms / search time: 38ms
+nn mean node accesses: 105891 / calc times: 105891
+ 
+**VPTree**
+nn construct time: 72258ms / search time: 36ms
+nn mean node accesses: 88133 / calc times: 88133
+ 
+**VPTree**
+nn construct time: 72512ms / search time: 42ms
+nn mean node accesses: 108083 / calc times: 108083
+ 
+**VPTree**
+nn construct time: 71204ms / search time: 40ms
+nn mean node accesses: 107198 / calc times: 107198
+ 
+**VPTree**
+nn construct time: 71522ms / search time: 41ms
+nn mean node accesses: 105987 / calc times: 105987
+ 
+**VPTree**
+nn construct time: 71657ms / search time: 40ms
+nn mean node accesses: 105238 / calc times: 105238
+ 
+**VPTree**
+nn construct time: 72736ms / search time: 36ms
+nn mean node accesses: 105285 / calc times: 105285
+ 
+**VPTree**
+nn construct time: 72043ms / search time: 42ms
+nn mean node accesses: 106244 / calc times: 106244
+ 
+**VPTree**
+nn construct time: 71382ms / search time: 40ms
+nn mean node accesses: 103753 / calc times: 103753
+ 
+**VPTree**
+nn construct time: 72333ms / search time: 37ms
+nn mean node accesses: 104904 / calc times: 104904
+ 
+
+maxCTime:72736	 minCTime:71204	 diff:2	 maxFTime:37406	 minFTime:36289	 diff:2	 maxCalc:108083	 minCalc:88133	 diff:18	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 60	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 25ms
+ 
+**VPTree**
+nn construct time: 254699ms / search time: 34ms
+nn mean node accesses: 107206 / calc times: 107206
+ 
+**VPTree**
+nn construct time: 255972ms / search time: 32ms
+nn mean node accesses: 105625 / calc times: 105625
+ 
+**VPTree**
+nn construct time: 255791ms / search time: 31ms
+nn mean node accesses: 106101 / calc times: 106101
+ 
+**VPTree**
+nn construct time: 255814ms / search time: 31ms
+nn mean node accesses: 106505 / calc times: 106505
+ 
+**VPTree**
+nn construct time: 255820ms / search time: 31ms
+nn mean node accesses: 106317 / calc times: 106317
+ 
+**VPTree**
+nn construct time: 255731ms / search time: 30ms
+nn mean node accesses: 105666 / calc times: 105666
+ 
+**VPTree**
+nn construct time: 255565ms / search time: 31ms
+nn mean node accesses: 107351 / calc times: 107351
+ 
+**VPTree**
+nn construct time: 255392ms / search time: 31ms
+nn mean node accesses: 104540 / calc times: 104540
+ 
+**VPTree**
+nn construct time: 255537ms / search time: 31ms
+nn mean node accesses: 104112 / calc times: 104112
+ 
+**VPTree**
+nn construct time: 255258ms / search time: 31ms
+nn mean node accesses: 105512 / calc times: 105512
+ 
+
+maxCTime:255972	 minCTime:254699	 diff:0	 maxFTime:31898	 minFTime:30196	 diff:5	 maxCalc:107351	 minCalc:104112	 diff:3	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 80	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 45ms
+ 
+**VPTree**
+nn construct time: 24720ms / search time: 34ms
+nn mean node accesses: 127753 / calc times: 127753
+ 
+**VPTree**
+nn construct time: 24582ms / search time: 55ms
+nn mean node accesses: 124706 / calc times: 124706
+ 
+**VPTree**
+nn construct time: 24527ms / search time: 51ms
+nn mean node accesses: 117032 / calc times: 117032
+ 
+**VPTree**
+nn construct time: 24914ms / search time: 57ms
+nn mean node accesses: 125590 / calc times: 125590
+ 
+**VPTree**
+nn construct time: 24613ms / search time: 54ms
+nn mean node accesses: 122512 / calc times: 122512
+ 
+**VPTree**
+nn construct time: 24497ms / search time: 55ms
+nn mean node accesses: 127101 / calc times: 127101
+ 
+**VPTree**
+nn construct time: 24565ms / search time: 53ms
+nn mean node accesses: 125953 / calc times: 125953
+ 
+**VPTree**
+nn construct time: 24824ms / search time: 48ms
+nn mean node accesses: 115720 / calc times: 115720
+ 
+**VPTree**
+nn construct time: 24543ms / search time: 53ms
+nn mean node accesses: 124061 / calc times: 124061
+ 
+**VPTree**
+nn construct time: 24452ms / search time: 52ms
+nn mean node accesses: 123996 / calc times: 123996
+ 
+
+maxCTime:24914	 minCTime:24452	 diff:1	 maxFTime:52175	 minFTime:34145	 diff:34	 maxCalc:127753	 minCalc:115720	 diff:9	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 80	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 43ms
+ 
+**VPTree**
+nn construct time: 51226ms / search time: 57ms
+nn mean node accesses: 124735 / calc times: 124735
+ 
+**VPTree**
+nn construct time: 50902ms / search time: 61ms
+nn mean node accesses: 125627 / calc times: 125627
+ 
+**VPTree**
+nn construct time: 50819ms / search time: 49ms
+nn mean node accesses: 113461 / calc times: 113461
+ 
+**VPTree**
+nn construct time: 51282ms / search time: 54ms
+nn mean node accesses: 124100 / calc times: 124100
+ 
+**VPTree**
+nn construct time: 50582ms / search time: 51ms
+nn mean node accesses: 113875 / calc times: 113875
+ 
+**VPTree**
+nn construct time: 50929ms / search time: 58ms
+nn mean node accesses: 126553 / calc times: 126553
+ 
+**VPTree**
+nn construct time: 50718ms / search time: 56ms
+nn mean node accesses: 125137 / calc times: 125137
+ 
+**VPTree**
+nn construct time: 50877ms / search time: 53ms
+nn mean node accesses: 124188 / calc times: 124188
+ 
+**VPTree**
+nn construct time: 50962ms / search time: 59ms
+nn mean node accesses: 125362 / calc times: 125362
+ 
+**VPTree**
+nn construct time: 51031ms / search time: 59ms
+nn mean node accesses: 126257 / calc times: 126257
+ 
+
+maxCTime:51282	 minCTime:50582	 diff:1	 maxFTime:59373	 minFTime:49934	 diff:15	 maxCalc:126553	 minCalc:113461	 diff:10	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 80	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 49ms
+ 
+**VPTree**
+nn construct time: 78194ms / search time: 32ms
+nn mean node accesses: 109398 / calc times: 109398
+ 
+**VPTree**
+nn construct time: 78980ms / search time: 62ms
+nn mean node accesses: 125415 / calc times: 125415
+ 
+**VPTree**
+nn construct time: 78736ms / search time: 60ms
+nn mean node accesses: 125507 / calc times: 125507
+ 
+**VPTree**
+nn construct time: 78710ms / search time: 51ms
+nn mean node accesses: 108506 / calc times: 108506
+ 
+**VPTree**
+nn construct time: 78726ms / search time: 58ms
+nn mean node accesses: 124646 / calc times: 124646
+ 
+**VPTree**
+nn construct time: 78575ms / search time: 55ms
+nn mean node accesses: 125517 / calc times: 125517
+ 
+**VPTree**
+nn construct time: 78698ms / search time: 57ms
+nn mean node accesses: 124769 / calc times: 124769
+ 
+**VPTree**
+nn construct time: 78700ms / search time: 55ms
+nn mean node accesses: 125549 / calc times: 125549
+ 
+**VPTree**
+nn construct time: 78229ms / search time: 54ms
+nn mean node accesses: 125594 / calc times: 125594
+ 
+**VPTree**
+nn construct time: 78540ms / search time: 54ms
+nn mean node accesses: 125270 / calc times: 125270
+ 
+
+maxCTime:78980	 minCTime:78194	 diff:0	 maxFTime:54405	 minFTime:32404	 diff:40	 maxCalc:125594	 minCalc:108506	 diff:13	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 80	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 42ms
+ 
+**VPTree**
+nn construct time: 280778ms / search time: 41ms
+nn mean node accesses: 123111 / calc times: 123111
+ 
+**VPTree**
+nn construct time: 282790ms / search time: 42ms
+nn mean node accesses: 124437 / calc times: 124437
+ 
+**VPTree**
+nn construct time: 282395ms / search time: 44ms
+nn mean node accesses: 125393 / calc times: 125393
+ 
+**VPTree**
+nn construct time: 282523ms / search time: 45ms
+nn mean node accesses: 126500 / calc times: 126500
+ 
+**VPTree**
+nn construct time: 282718ms / search time: 46ms
+nn mean node accesses: 125537 / calc times: 125537
+ 
+**VPTree**
+nn construct time: 281583ms / search time: 43ms
+nn mean node accesses: 125297 / calc times: 125297
+ 
+**VPTree**
+nn construct time: 281744ms / search time: 43ms
+nn mean node accesses: 125116 / calc times: 125116
+ 
+**VPTree**
+nn construct time: 282345ms / search time: 43ms
+nn mean node accesses: 125712 / calc times: 125712
+ 
+**VPTree**
+nn construct time: 282215ms / search time: 44ms
+nn mean node accesses: 124511 / calc times: 124511
+ 
+**VPTree**
+nn construct time: 282319ms / search time: 43ms
+nn mean node accesses: 125510 / calc times: 125510
+ 
+
+maxCTime:282790	 minCTime:280778	 diff:0	 maxFTime:43038	 minFTime:41785	 diff:2	 maxCalc:126500	 minCalc:123111	 diff:2	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 100	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 54ms
+ 
+**VPTree**
+nn construct time: 27067ms / search time: 37ms
+nn mean node accesses: 132686 / calc times: 132686
+ 
+**VPTree**
+nn construct time: 27125ms / search time: 64ms
+nn mean node accesses: 133118 / calc times: 133118
+ 
+**VPTree**
+nn construct time: 27121ms / search time: 64ms
+nn mean node accesses: 130497 / calc times: 130497
+ 
+**VPTree**
+nn construct time: 27182ms / search time: 62ms
+nn mean node accesses: 129458 / calc times: 129458
+ 
+**VPTree**
+nn construct time: 27265ms / search time: 65ms
+nn mean node accesses: 133828 / calc times: 133828
+ 
+**VPTree**
+nn construct time: 27240ms / search time: 62ms
+nn mean node accesses: 132562 / calc times: 132562
+ 
+**VPTree**
+nn construct time: 27047ms / search time: 62ms
+nn mean node accesses: 130539 / calc times: 130539
+ 
+**VPTree**
+nn construct time: 27057ms / search time: 61ms
+nn mean node accesses: 133004 / calc times: 133004
+ 
+**VPTree**
+nn construct time: 27107ms / search time: 62ms
+nn mean node accesses: 131133 / calc times: 131133
+ 
+**VPTree**
+nn construct time: 27295ms / search time: 63ms
+nn mean node accesses: 129873 / calc times: 129873
+ 
+
+maxCTime:27295	 minCTime:27047	 diff:0	 maxFTime:63639	 minFTime:37844	 diff:40	 maxCalc:133828	 minCalc:129458	 diff:3	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 100	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 49ms
+ 
+**VPTree**
+nn construct time: 55837ms / search time: 64ms
+nn mean node accesses: 123925 / calc times: 123925
+ 
+**VPTree**
+nn construct time: 56019ms / search time: 69ms
+nn mean node accesses: 132422 / calc times: 132422
+ 
+**VPTree**
+nn construct time: 56195ms / search time: 71ms
+nn mean node accesses: 130411 / calc times: 130411
+ 
+**VPTree**
+nn construct time: 56169ms / search time: 69ms
+nn mean node accesses: 130601 / calc times: 130601
+ 
+**VPTree**
+nn construct time: 55698ms / search time: 64ms
+nn mean node accesses: 128368 / calc times: 128368
+ 
+**VPTree**
+nn construct time: 55945ms / search time: 64ms
+nn mean node accesses: 130557 / calc times: 130557
+ 
+**VPTree**
+nn construct time: 56035ms / search time: 67ms
+nn mean node accesses: 131400 / calc times: 131400
+ 
+**VPTree**
+nn construct time: 56082ms / search time: 66ms
+nn mean node accesses: 131840 / calc times: 131840
+ 
+**VPTree**
+nn construct time: 55725ms / search time: 67ms
+nn mean node accesses: 133949 / calc times: 133949
+ 
+**VPTree**
+nn construct time: 55694ms / search time: 63ms
+nn mean node accesses: 130795 / calc times: 130795
+ 
+
+maxCTime:56195	 minCTime:55694	 diff:0	 maxFTime:67164	 minFTime:63560	 diff:5	 maxCalc:133949	 minCalc:123925	 diff:7	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 100	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 52ms
+ 
+**VPTree**
+nn construct time: 86284ms / search time: 65ms
+nn mean node accesses: 131979 / calc times: 131979
+ 
+**VPTree**
+nn construct time: 86135ms / search time: 67ms
+nn mean node accesses: 131606 / calc times: 131606
+ 
+**VPTree**
+nn construct time: 86096ms / search time: 66ms
+nn mean node accesses: 130837 / calc times: 130837
+ 
+**VPTree**
+nn construct time: 86354ms / search time: 68ms
+nn mean node accesses: 132234 / calc times: 132234
+ 
+**VPTree**
+nn construct time: 85842ms / search time: 65ms
+nn mean node accesses: 131010 / calc times: 131010
+ 
+**VPTree**
+nn construct time: 86065ms / search time: 66ms
+nn mean node accesses: 131560 / calc times: 131560
+ 
+**VPTree**
+nn construct time: 86168ms / search time: 67ms
+nn mean node accesses: 133018 / calc times: 133018
+ 
+**VPTree**
+nn construct time: 85643ms / search time: 64ms
+nn mean node accesses: 131670 / calc times: 131670
+ 
+**VPTree**
+nn construct time: 86147ms / search time: 65ms
+nn mean node accesses: 131083 / calc times: 131083
+ 
+**VPTree**
+nn construct time: 86176ms / search time: 63ms
+nn mean node accesses: 131079 / calc times: 131079
+ 
+
+maxCTime:86354	 minCTime:85643	 diff:0	 maxFTime:65614	 minFTime:63339	 diff:3	 maxCalc:133018	 minCalc:130837	 diff:1	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 100	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 50ms
+ 
+**VPTree**
+nn construct time: 309923ms / search time: 67ms
+nn mean node accesses: 129167 / calc times: 129167
+ 
+**VPTree**
+nn construct time: 310225ms / search time: 61ms
+nn mean node accesses: 130789 / calc times: 130789
+ 
+**VPTree**
+nn construct time: 309798ms / search time: 53ms
+nn mean node accesses: 130824 / calc times: 130824
+ 
+**VPTree**
+nn construct time: 310497ms / search time: 56ms
+nn mean node accesses: 132081 / calc times: 132081
+ 
+**VPTree**
+nn construct time: 309962ms / search time: 57ms
+nn mean node accesses: 130320 / calc times: 130320
+ 
+**VPTree**
+nn construct time: 309206ms / search time: 56ms
+nn mean node accesses: 131051 / calc times: 131051
+ 
+**VPTree**
+nn construct time: 311501ms / search time: 56ms
+nn mean node accesses: 129852 / calc times: 129852
+ 
+**VPTree**
+nn construct time: 309746ms / search time: 57ms
+nn mean node accesses: 131595 / calc times: 131595
+ 
+**VPTree**
+nn construct time: 309950ms / search time: 55ms
+nn mean node accesses: 130030 / calc times: 130030
+ 
+**VPTree**
+nn construct time: 310661ms / search time: 57ms
+nn mean node accesses: 131403 / calc times: 131403
+ 
+
+maxCTime:311501	 minCTime:309206	 diff:0	 maxFTime:57451	 minFTime:53488	 diff:6	 maxCalc:132081	 minCalc:129167	 diff:2	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 128	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 57ms
+ 
+**VPTree**
+nn construct time: 30656ms / search time: 55ms
+nn mean node accesses: 140063 / calc times: 140063
+ 
+**VPTree**
+nn construct time: 30716ms / search time: 85ms
+nn mean node accesses: 141400 / calc times: 141400
+ 
+**VPTree**
+nn construct time: 30981ms / search time: 84ms
+nn mean node accesses: 141981 / calc times: 141981
+ 
+**VPTree**
+nn construct time: 30837ms / search time: 85ms
+nn mean node accesses: 142150 / calc times: 142150
+ 
+**VPTree**
+nn construct time: 31048ms / search time: 81ms
+nn mean node accesses: 141044 / calc times: 141044
+ 
+**VPTree**
+nn construct time: 30684ms / search time: 84ms
+nn mean node accesses: 141533 / calc times: 141533
+ 
+**VPTree**
+nn construct time: 30705ms / search time: 77ms
+nn mean node accesses: 142446 / calc times: 142446
+ 
+**VPTree**
+nn construct time: 30645ms / search time: 73ms
+nn mean node accesses: 139590 / calc times: 139590
+ 
+**VPTree**
+nn construct time: 30927ms / search time: 75ms
+nn mean node accesses: 141050 / calc times: 141050
+ 
+**VPTree**
+nn construct time: 30947ms / search time: 77ms
+nn mean node accesses: 140305 / calc times: 140305
+ 
+
+maxCTime:31048	 minCTime:30645	 diff:1	 maxFTime:77350	 minFTime:55624	 diff:28	 maxCalc:142446	 minCalc:139590	 diff:2	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 128	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 56ms
+ 
+**VPTree**
+nn construct time: 63109ms / search time: 86ms
+nn mean node accesses: 141736 / calc times: 141736
+ 
+**VPTree**
+nn construct time: 63086ms / search time: 87ms
+nn mean node accesses: 141046 / calc times: 141046
+ 
+**VPTree**
+nn construct time: 63477ms / search time: 83ms
+nn mean node accesses: 141081 / calc times: 141081
+ 
+**VPTree**
+nn construct time: 62995ms / search time: 79ms
+nn mean node accesses: 140487 / calc times: 140487
+ 
+**VPTree**
+nn construct time: 63167ms / search time: 77ms
+nn mean node accesses: 141619 / calc times: 141619
+ 
+**VPTree**
+nn construct time: 63315ms / search time: 76ms
+nn mean node accesses: 141202 / calc times: 141202
+ 
+**VPTree**
+nn construct time: 62946ms / search time: 77ms
+nn mean node accesses: 141844 / calc times: 141844
+ 
+**VPTree**
+nn construct time: 63191ms / search time: 80ms
+nn mean node accesses: 141814 / calc times: 141814
+ 
+**VPTree**
+nn construct time: 63363ms / search time: 79ms
+nn mean node accesses: 141562 / calc times: 141562
+ 
+**VPTree**
+nn construct time: 63277ms / search time: 79ms
+nn mean node accesses: 140499 / calc times: 140499
+ 
+
+maxCTime:63477	 minCTime:62946	 diff:0	 maxFTime:79181	 minFTime:76186	 diff:3	 maxCalc:141844	 minCalc:140487	 diff:0	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 128	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 58ms
+ 
+**VPTree**
+nn construct time: 96356ms / search time: 70ms
+nn mean node accesses: 140549 / calc times: 140549
+ 
+**VPTree**
+nn construct time: 96762ms / search time: 82ms
+nn mean node accesses: 141506 / calc times: 141506
+ 
+**VPTree**
+nn construct time: 96253ms / search time: 81ms
+nn mean node accesses: 141097 / calc times: 141097
+ 
+**VPTree**
+nn construct time: 96085ms / search time: 75ms
+nn mean node accesses: 140852 / calc times: 140852
+ 
+**VPTree**
+nn construct time: 97007ms / search time: 78ms
+nn mean node accesses: 140657 / calc times: 140657
+ 
+**VPTree**
+nn construct time: 96496ms / search time: 78ms
+nn mean node accesses: 141193 / calc times: 141193
+ 
+**VPTree**
+nn construct time: 96134ms / search time: 74ms
+nn mean node accesses: 140505 / calc times: 140505
+ 
+**VPTree**
+nn construct time: 96451ms / search time: 75ms
+nn mean node accesses: 141342 / calc times: 141342
+ 
+**VPTree**
+nn construct time: 96656ms / search time: 74ms
+nn mean node accesses: 140743 / calc times: 140743
+ 
+**VPTree**
+nn construct time: 96220ms / search time: 76ms
+nn mean node accesses: 140849 / calc times: 140849
+ 
+
+maxCTime:97007	 minCTime:96085	 diff:0	 maxFTime:76442	 minFTime:70669	 diff:7	 maxCalc:141506	 minCalc:140505	 diff:0	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 200000	dim: 128	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 59ms
+ 
+**VPTree**
+nn construct time: 347669ms / search time: 72ms
+nn mean node accesses: 140711 / calc times: 140711
+ 
+**VPTree**
+nn construct time: 347786ms / search time: 74ms
+nn mean node accesses: 141646 / calc times: 141646
+ 
+**VPTree**
+nn construct time: 346353ms / search time: 68ms
+nn mean node accesses: 140237 / calc times: 140237
+ 
+**VPTree**
+nn construct time: 345731ms / search time: 68ms
+nn mean node accesses: 140801 / calc times: 140801
+ 
+**VPTree**
+nn construct time: 347186ms / search time: 67ms
+nn mean node accesses: 140823 / calc times: 140823
+ 
+**VPTree**
+nn construct time: 347238ms / search time: 67ms
+nn mean node accesses: 140799 / calc times: 140799
+ 
+**VPTree**
+nn construct time: 347622ms / search time: 65ms
+nn mean node accesses: 140668 / calc times: 140668
+ 
+**VPTree**
+nn construct time: 346558ms / search time: 70ms
+nn mean node accesses: 140657 / calc times: 140657
+ 
+**VPTree**
+nn construct time: 347161ms / search time: 67ms
+nn mean node accesses: 141162 / calc times: 141162
+ 
+**VPTree**
+nn construct time: 346391ms / search time: 66ms
+nn mean node accesses: 140438 / calc times: 140438
+ 
+
+maxCTime:347786	 minCTime:345731	 diff:0	 maxFTime:66990	 minFTime:65215	 diff:2	 maxCalc:141646	 minCalc:140237	 diff:0	
+
+
+*******New Experiments*******
+
+
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 20	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 22ms
+ 
+**VPTree**
+nn construct time: 27461ms / search time: 8ms
+nn mean node accesses: 41766 / calc times: 41766
+ 
+**VPTree**
+nn construct time: 26264ms / search time: 7ms
+nn mean node accesses: 35145 / calc times: 35145
+ 
+**VPTree**
+nn construct time: 26042ms / search time: 9ms
+nn mean node accesses: 40407 / calc times: 40407
+ 
+**VPTree**
+nn construct time: 26098ms / search time: 9ms
+nn mean node accesses: 41251 / calc times: 41251
+ 
+**VPTree**
+nn construct time: 25579ms / search time: 9ms
+nn mean node accesses: 41783 / calc times: 41783
+ 
+**VPTree**
+nn construct time: 25370ms / search time: 10ms
+nn mean node accesses: 46502 / calc times: 46502
+ 
+**VPTree**
+nn construct time: 24977ms / search time: 9ms
+nn mean node accesses: 41358 / calc times: 41358
+ 
+**VPTree**
+nn construct time: 25259ms / search time: 9ms
+nn mean node accesses: 43686 / calc times: 43686
+ 
+**VPTree**
+nn construct time: 25171ms / search time: 7ms
+nn mean node accesses: 32259 / calc times: 32259
+ 
+**VPTree**
+nn construct time: 25166ms / search time: 7ms
+nn mean node accesses: 31760 / calc times: 31760
+ 
+
+maxCTime:27461	 minCTime:24977	 diff:9	 maxFTime:9985	 minFTime:7050	 diff:29	 maxCalc:46502	 minCalc:31760	 diff:31	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 20	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 40ms
+ 
+**VPTree**
+nn construct time: 56788ms / search time: 7ms
+nn mean node accesses: 41902 / calc times: 41902
+ 
+**VPTree**
+nn construct time: 58077ms / search time: 7ms
+nn mean node accesses: 34853 / calc times: 34853
+ 
+**VPTree**
+nn construct time: 57913ms / search time: 10ms
+nn mean node accesses: 45575 / calc times: 45575
+ 
+**VPTree**
+nn construct time: 57823ms / search time: 7ms
+nn mean node accesses: 37375 / calc times: 37375
+ 
+**VPTree**
+nn construct time: 57824ms / search time: 8ms
+nn mean node accesses: 40140 / calc times: 40140
+ 
+**VPTree**
+nn construct time: 56821ms / search time: 8ms
+nn mean node accesses: 35177 / calc times: 35177
+ 
+**VPTree**
+nn construct time: 57810ms / search time: 8ms
+nn mean node accesses: 36285 / calc times: 36285
+ 
+**VPTree**
+nn construct time: 57397ms / search time: 7ms
+nn mean node accesses: 33734 / calc times: 33734
+ 
+**VPTree**
+nn construct time: 57040ms / search time: 9ms
+nn mean node accesses: 37819 / calc times: 37819
+ 
+**VPTree**
+nn construct time: 56657ms / search time: 7ms
+nn mean node accesses: 37719 / calc times: 37719
+ 
+
+maxCTime:58077	 minCTime:56657	 diff:2	 maxFTime:7926	 minFTime:7439	 diff:6	 maxCalc:45575	 minCalc:33734	 diff:25	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 20	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 18ms
+ 
+**VPTree**
+nn construct time: 95565ms / search time: 6ms
+nn mean node accesses: 31694 / calc times: 31694
+ 
+**VPTree**
+nn construct time: 96538ms / search time: 8ms
+nn mean node accesses: 36359 / calc times: 36359
+ 
+**VPTree**
+nn construct time: 96711ms / search time: 7ms
+nn mean node accesses: 33678 / calc times: 33678
+ 
+**VPTree**
+nn construct time: 96847ms / search time: 8ms
+nn mean node accesses: 35895 / calc times: 35895
+ 
+**VPTree**
+nn construct time: 96008ms / search time: 8ms
+nn mean node accesses: 41653 / calc times: 41653
+ 
+**VPTree**
+nn construct time: 96874ms / search time: 8ms
+nn mean node accesses: 35879 / calc times: 35879
+ 
+**VPTree**
+nn construct time: 96417ms / search time: 8ms
+nn mean node accesses: 41828 / calc times: 41828
+ 
+**VPTree**
+nn construct time: 96809ms / search time: 8ms
+nn mean node accesses: 39991 / calc times: 39991
+ 
+**VPTree**
+nn construct time: 96565ms / search time: 8ms
+nn mean node accesses: 40019 / calc times: 40019
+ 
+**VPTree**
+nn construct time: 96941ms / search time: 8ms
+nn mean node accesses: 42557 / calc times: 42557
+ 
+
+maxCTime:96941	 minCTime:95565	 diff:1	 maxFTime:8885	 minFTime:6686	 diff:24	 maxCalc:42557	 minCalc:31694	 diff:25	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 20	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 23ms
+ 
+**VPTree**
+nn construct time: 334522ms / search time: 8ms
+nn mean node accesses: 38643 / calc times: 38643
+ 
+**VPTree**
+nn construct time: 339466ms / search time: 6ms
+nn mean node accesses: 38412 / calc times: 38412
+ 
+**VPTree**
+nn construct time: 339603ms / search time: 8ms
+nn mean node accesses: 40435 / calc times: 40435
+ 
+**VPTree**
+nn construct time: 339587ms / search time: 8ms
+nn mean node accesses: 40204 / calc times: 40204
+ 
+**VPTree**
+nn construct time: 340452ms / search time: 8ms
+nn mean node accesses: 39463 / calc times: 39463
+ 
+**VPTree**
+nn construct time: 339236ms / search time: 7ms
+nn mean node accesses: 36255 / calc times: 36255
+ 
+**VPTree**
+nn construct time: 339144ms / search time: 8ms
+nn mean node accesses: 38816 / calc times: 38816
+ 
+**VPTree**
+nn construct time: 338497ms / search time: 6ms
+nn mean node accesses: 33246 / calc times: 33246
+ 
+**VPTree**
+nn construct time: 339595ms / search time: 8ms
+nn mean node accesses: 40320 / calc times: 40320
+ 
+**VPTree**
+nn construct time: 339007ms / search time: 7ms
+nn mean node accesses: 35944 / calc times: 35944
+ 
+
+maxCTime:340452	 minCTime:334522	 diff:1	 maxFTime:7492	 minFTime:6287	 diff:16	 maxCalc:40435	 minCalc:33246	 diff:17	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 40	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 33ms
+ 
+**VPTree**
+nn construct time: 33158ms / search time: 45ms
+nn mean node accesses: 141453 / calc times: 141453
+ 
+**VPTree**
+nn construct time: 34399ms / search time: 52ms
+nn mean node accesses: 140760 / calc times: 140760
+ 
+**VPTree**
+nn construct time: 33863ms / search time: 45ms
+nn mean node accesses: 117336 / calc times: 117336
+ 
+**VPTree**
+nn construct time: 33660ms / search time: 51ms
+nn mean node accesses: 148630 / calc times: 148630
+ 
+**VPTree**
+nn construct time: 34189ms / search time: 51ms
+nn mean node accesses: 139914 / calc times: 139914
+ 
+**VPTree**
+nn construct time: 35943ms / search time: 46ms
+nn mean node accesses: 122844 / calc times: 122844
+ 
+**VPTree**
+nn construct time: 34065ms / search time: 46ms
+nn mean node accesses: 138414 / calc times: 138414
+ 
+**VPTree**
+nn construct time: 33731ms / search time: 40ms
+nn mean node accesses: 123714 / calc times: 123714
+ 
+**VPTree**
+nn construct time: 34056ms / search time: 45ms
+nn mean node accesses: 137497 / calc times: 137497
+ 
+**VPTree**
+nn construct time: 35724ms / search time: 45ms
+nn mean node accesses: 139284 / calc times: 139284
+ 
+
+maxCTime:35943	 minCTime:33158	 diff:7	 maxFTime:45851	 minFTime:40614	 diff:11	 maxCalc:148630	 minCalc:117336	 diff:21	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 40	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 47ms
+ 
+**VPTree**
+nn construct time: 72826ms / search time: 40ms
+nn mean node accesses: 138890 / calc times: 138890
+ 
+**VPTree**
+nn construct time: 73469ms / search time: 43ms
+nn mean node accesses: 116858 / calc times: 116858
+ 
+**VPTree**
+nn construct time: 74064ms / search time: 45ms
+nn mean node accesses: 122200 / calc times: 122200
+ 
+**VPTree**
+nn construct time: 77001ms / search time: 42ms
+nn mean node accesses: 120635 / calc times: 120635
+ 
+**VPTree**
+nn construct time: 74497ms / search time: 46ms
+nn mean node accesses: 122407 / calc times: 122407
+ 
+**VPTree**
+nn construct time: 74958ms / search time: 41ms
+nn mean node accesses: 116185 / calc times: 116185
+ 
+**VPTree**
+nn construct time: 74775ms / search time: 48ms
+nn mean node accesses: 139864 / calc times: 139864
+ 
+**VPTree**
+nn construct time: 74797ms / search time: 48ms
+nn mean node accesses: 147459 / calc times: 147459
+ 
+**VPTree**
+nn construct time: 74157ms / search time: 50ms
+nn mean node accesses: 136337 / calc times: 136337
+ 
+**VPTree**
+nn construct time: 73204ms / search time: 37ms
+nn mean node accesses: 114880 / calc times: 114880
+ 
+
+maxCTime:77001	 minCTime:72826	 diff:5	 maxFTime:50123	 minFTime:37299	 diff:25	 maxCalc:147459	 minCalc:114880	 diff:22	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 40	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 41ms
+ 
+**VPTree**
+nn construct time: 121106ms / search time: 38ms
+nn mean node accesses: 114345 / calc times: 114345
+ 
+**VPTree**
+nn construct time: 119548ms / search time: 51ms
+nn mean node accesses: 143314 / calc times: 143314
+ 
+**VPTree**
+nn construct time: 120916ms / search time: 45ms
+nn mean node accesses: 136851 / calc times: 136851
+ 
+**VPTree**
+nn construct time: 120765ms / search time: 47ms
+nn mean node accesses: 136249 / calc times: 136249
+ 
+**VPTree**
+nn construct time: 119677ms / search time: 43ms
+nn mean node accesses: 122678 / calc times: 122678
+ 
+**VPTree**
+nn construct time: 122730ms / search time: 45ms
+nn mean node accesses: 137411 / calc times: 137411
+ 
+**VPTree**
+nn construct time: 124180ms / search time: 39ms
+nn mean node accesses: 119493 / calc times: 119493
+ 
+**VPTree**
+nn construct time: 120584ms / search time: 40ms
+nn mean node accesses: 123804 / calc times: 123804
+ 
+**VPTree**
+nn construct time: 123187ms / search time: 43ms
+nn mean node accesses: 139505 / calc times: 139505
+ 
+**VPTree**
+nn construct time: 121433ms / search time: 36ms
+nn mean node accesses: 121310 / calc times: 121310
+ 
+
+maxCTime:124180	 minCTime:119548	 diff:3	 maxFTime:43395	 minFTime:36369	 diff:16	 maxCalc:143314	 minCalc:114345	 diff:20	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 40	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 28ms
+ 
+**VPTree**
+nn construct time: 427045ms / search time: 32ms
+nn mean node accesses: 118086 / calc times: 118086
+ 
+**VPTree**
+nn construct time: 427510ms / search time: 37ms
+nn mean node accesses: 114974 / calc times: 114974
+ 
+**VPTree**
+nn construct time: 429330ms / search time: 41ms
+nn mean node accesses: 121296 / calc times: 121296
+ 
+**VPTree**
+nn construct time: 433710ms / search time: 37ms
+nn mean node accesses: 119025 / calc times: 119025
+ 
+**VPTree**
+nn construct time: 428460ms / search time: 36ms
+nn mean node accesses: 120070 / calc times: 120070
+ 
+**VPTree**
+nn construct time: 438512ms / search time: 44ms
+nn mean node accesses: 137068 / calc times: 137068
+ 
+**VPTree**
+nn construct time: 423843ms / search time: 42ms
+nn mean node accesses: 135020 / calc times: 135020
+ 
+**VPTree**
+nn construct time: 422921ms / search time: 41ms
+nn mean node accesses: 136045 / calc times: 136045
+ 
+**VPTree**
+nn construct time: 426893ms / search time: 42ms
+nn mean node accesses: 137524 / calc times: 137524
+ 
+**VPTree**
+nn construct time: 424766ms / search time: 41ms
+nn mean node accesses: 134830 / calc times: 134830
+ 
+
+maxCTime:438512	 minCTime:422921	 diff:3	 maxFTime:41418	 minFTime:32921	 diff:20	 maxCalc:137524	 minCalc:114974	 diff:16	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 60	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 52ms
+ 
+**VPTree**
+nn construct time: 37812ms / search time: 91ms
+nn mean node accesses: 198907 / calc times: 198907
+ 
+**VPTree**
+nn construct time: 38909ms / search time: 93ms
+nn mean node accesses: 196967 / calc times: 196967
+ 
+**VPTree**
+nn construct time: 40605ms / search time: 94ms
+nn mean node accesses: 201388 / calc times: 201388
+ 
+**VPTree**
+nn construct time: 40212ms / search time: 76ms
+nn mean node accesses: 155315 / calc times: 155315
+ 
+**VPTree**
+nn construct time: 40761ms / search time: 92ms
+nn mean node accesses: 195312 / calc times: 195312
+ 
+**VPTree**
+nn construct time: 42317ms / search time: 90ms
+nn mean node accesses: 197456 / calc times: 197456
+ 
+**VPTree**
+nn construct time: 39331ms / search time: 92ms
+nn mean node accesses: 202446 / calc times: 202446
+ 
+**VPTree**
+nn construct time: 38737ms / search time: 91ms
+nn mean node accesses: 193555 / calc times: 193555
+ 
+**VPTree**
+nn construct time: 39262ms / search time: 67ms
+nn mean node accesses: 156574 / calc times: 156574
+ 
+**VPTree**
+nn construct time: 39101ms / search time: 93ms
+nn mean node accesses: 205461 / calc times: 205461
+ 
+
+maxCTime:42317	 minCTime:37812	 diff:10	 maxFTime:93280	 minFTime:67463	 diff:27	 maxCalc:205461	 minCalc:155315	 diff:24	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 60	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 65ms
+ 
+**VPTree**
+nn construct time: 83550ms / search time: 89ms
+nn mean node accesses: 196802 / calc times: 196802
+ 
+**VPTree**
+nn construct time: 85782ms / search time: 93ms
+nn mean node accesses: 198646 / calc times: 198646
+ 
+**VPTree**
+nn construct time: 85638ms / search time: 93ms
+nn mean node accesses: 197303 / calc times: 197303
+ 
+**VPTree**
+nn construct time: 85543ms / search time: 71ms
+nn mean node accesses: 154015 / calc times: 154015
+ 
+**VPTree**
+nn construct time: 85133ms / search time: 71ms
+nn mean node accesses: 152436 / calc times: 152436
+ 
+**VPTree**
+nn construct time: 87984ms / search time: 76ms
+nn mean node accesses: 157043 / calc times: 157043
+ 
+**VPTree**
+nn construct time: 85439ms / search time: 84ms
+nn mean node accesses: 192467 / calc times: 192467
+ 
+**VPTree**
+nn construct time: 84684ms / search time: 82ms
+nn mean node accesses: 200362 / calc times: 200362
+ 
+**VPTree**
+nn construct time: 84841ms / search time: 66ms
+nn mean node accesses: 159034 / calc times: 159034
+ 
+**VPTree**
+nn construct time: 86946ms / search time: 77ms
+nn mean node accesses: 193894 / calc times: 193894
+ 
+
+maxCTime:87984	 minCTime:83550	 diff:5	 maxFTime:77569	 minFTime:66165	 diff:14	 maxCalc:200362	 minCalc:152436	 diff:23	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 60	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 55ms
+ 
+**VPTree**
+nn construct time: 135550ms / search time: 85ms
+nn mean node accesses: 194624 / calc times: 194624
+ 
+**VPTree**
+nn construct time: 136257ms / search time: 88ms
+nn mean node accesses: 199426 / calc times: 199426
+ 
+**VPTree**
+nn construct time: 135443ms / search time: 85ms
+nn mean node accesses: 198525 / calc times: 198525
+ 
+**VPTree**
+nn construct time: 136001ms / search time: 78ms
+nn mean node accesses: 192727 / calc times: 192727
+ 
+**VPTree**
+nn construct time: 136903ms / search time: 77ms
+nn mean node accesses: 201287 / calc times: 201287
+ 
+**VPTree**
+nn construct time: 137114ms / search time: 79ms
+nn mean node accesses: 196266 / calc times: 196266
+ 
+**VPTree**
+nn construct time: 135501ms / search time: 82ms
+nn mean node accesses: 197223 / calc times: 197223
+ 
+**VPTree**
+nn construct time: 135587ms / search time: 80ms
+nn mean node accesses: 195336 / calc times: 195336
+ 
+**VPTree**
+nn construct time: 135499ms / search time: 81ms
+nn mean node accesses: 193851 / calc times: 193851
+ 
+**VPTree**
+nn construct time: 134769ms / search time: 80ms
+nn mean node accesses: 194458 / calc times: 194458
+ 
+
+maxCTime:137114	 minCTime:134769	 diff:1	 maxFTime:80270	 minFTime:77705	 diff:3	 maxCalc:201287	 minCalc:192727	 diff:4	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 60	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 68ms
+ 
+**VPTree**
+nn construct time: 467441ms / search time: 73ms
+nn mean node accesses: 198655 / calc times: 198655
+ 
+**VPTree**
+nn construct time: 467590ms / search time: 63ms
+nn mean node accesses: 158222 / calc times: 158222
+ 
+**VPTree**
+nn construct time: 468143ms / search time: 73ms
+nn mean node accesses: 191426 / calc times: 191426
+ 
+**VPTree**
+nn construct time: 469986ms / search time: 79ms
+nn mean node accesses: 196498 / calc times: 196498
+ 
+**VPTree**
+nn construct time: 481248ms / search time: 74ms
+nn mean node accesses: 194566 / calc times: 194566
+ 
+**VPTree**
+nn construct time: 483656ms / search time: 77ms
+nn mean node accesses: 197414 / calc times: 197414
+ 
+**VPTree**
+nn construct time: 481095ms / search time: 76ms
+nn mean node accesses: 196696 / calc times: 196696
+ 
+**VPTree**
+nn construct time: 477614ms / search time: 72ms
+nn mean node accesses: 197861 / calc times: 197861
+ 
+**VPTree**
+nn construct time: 476506ms / search time: 73ms
+nn mean node accesses: 198460 / calc times: 198460
+ 
+**VPTree**
+nn construct time: 466663ms / search time: 74ms
+nn mean node accesses: 194498 / calc times: 194498
+ 
+
+maxCTime:483656	 minCTime:466663	 diff:3	 maxFTime:74235	 minFTime:63347	 diff:14	 maxCalc:198655	 minCalc:158222	 diff:20	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 80	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 72ms
+ 
+**VPTree**
+nn construct time: 41015ms / search time: 94ms
+nn mean node accesses: 239827 / calc times: 239827
+ 
+**VPTree**
+nn construct time: 41147ms / search time: 116ms
+nn mean node accesses: 245123 / calc times: 245123
+ 
+**VPTree**
+nn construct time: 44621ms / search time: 112ms
+nn mean node accesses: 226013 / calc times: 226013
+ 
+**VPTree**
+nn construct time: 42841ms / search time: 111ms
+nn mean node accesses: 238950 / calc times: 238950
+ 
+**VPTree**
+nn construct time: 44791ms / search time: 112ms
+nn mean node accesses: 244658 / calc times: 244658
+ 
+**VPTree**
+nn construct time: 44952ms / search time: 107ms
+nn mean node accesses: 216940 / calc times: 216940
+ 
+**VPTree**
+nn construct time: 42158ms / search time: 106ms
+nn mean node accesses: 228317 / calc times: 228317
+ 
+**VPTree**
+nn construct time: 42426ms / search time: 108ms
+nn mean node accesses: 240966 / calc times: 240966
+ 
+**VPTree**
+nn construct time: 44312ms / search time: 106ms
+nn mean node accesses: 239787 / calc times: 239787
+ 
+**VPTree**
+nn construct time: 45657ms / search time: 113ms
+nn mean node accesses: 246860 / calc times: 246860
+ 
+
+maxCTime:45657	 minCTime:41015	 diff:10	 maxFTime:113520	 minFTime:94628	 diff:16	 maxCalc:246860	 minCalc:216940	 diff:12	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 80	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 69ms
+ 
+**VPTree**
+nn construct time: 93390ms / search time: 126ms
+nn mean node accesses: 241866 / calc times: 241866
+ 
+**VPTree**
+nn construct time: 95311ms / search time: 130ms
+nn mean node accesses: 243067 / calc times: 243067
+ 
+**VPTree**
+nn construct time: 93995ms / search time: 126ms
+nn mean node accesses: 243701 / calc times: 243701
+ 
+**VPTree**
+nn construct time: 94695ms / search time: 122ms
+nn mean node accesses: 241282 / calc times: 241282
+ 
+**VPTree**
+nn construct time: 93180ms / search time: 125ms
+nn mean node accesses: 238725 / calc times: 238725
+ 
+**VPTree**
+nn construct time: 92854ms / search time: 120ms
+nn mean node accesses: 238003 / calc times: 238003
+ 
+**VPTree**
+nn construct time: 90249ms / search time: 115ms
+nn mean node accesses: 242815 / calc times: 242815
+ 
+**VPTree**
+nn construct time: 91320ms / search time: 108ms
+nn mean node accesses: 242421 / calc times: 242421
+ 
+**VPTree**
+nn construct time: 95673ms / search time: 119ms
+nn mean node accesses: 240001 / calc times: 240001
+ 
+**VPTree**
+nn construct time: 91507ms / search time: 111ms
+nn mean node accesses: 240108 / calc times: 240108
+ 
+
+maxCTime:95673	 minCTime:90249	 diff:5	 maxFTime:111728	 minFTime:108225	 diff:3	 maxCalc:243701	 minCalc:238003	 diff:2	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 80	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 88ms
+ 
+**VPTree**
+nn construct time: 151161ms / search time: 116ms
+nn mean node accesses: 241605 / calc times: 241605
+ 
+**VPTree**
+nn construct time: 147703ms / search time: 126ms
+nn mean node accesses: 242554 / calc times: 242554
+ 
+**VPTree**
+nn construct time: 151109ms / search time: 104ms
+nn mean node accesses: 216138 / calc times: 216138
+ 
+**VPTree**
+nn construct time: 147849ms / search time: 110ms
+nn mean node accesses: 240392 / calc times: 240392
+ 
+**VPTree**
+nn construct time: 144895ms / search time: 107ms
+nn mean node accesses: 241748 / calc times: 241748
+ 
+**VPTree**
+nn construct time: 151055ms / search time: 102ms
+nn mean node accesses: 241871 / calc times: 241871
+ 
+**VPTree**
+nn construct time: 147730ms / search time: 103ms
+nn mean node accesses: 241512 / calc times: 241512
+ 
+**VPTree**
+nn construct time: 149847ms / search time: 108ms
+nn mean node accesses: 240357 / calc times: 240357
+ 
+**VPTree**
+nn construct time: 145709ms / search time: 101ms
+nn mean node accesses: 243441 / calc times: 243441
+ 
+**VPTree**
+nn construct time: 151433ms / search time: 99ms
+nn mean node accesses: 239877 / calc times: 239877
+ 
+
+maxCTime:151433	 minCTime:144895	 diff:4	 maxFTime:108264	 minFTime:99274	 diff:8	 maxCalc:243441	 minCalc:216138	 diff:11	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 80	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 67ms
+ 
+**VPTree**
+nn construct time: 521582ms / search time: 107ms
+nn mean node accesses: 241832 / calc times: 241832
+ 
+**VPTree**
+nn construct time: 509154ms / search time: 107ms
+nn mean node accesses: 241344 / calc times: 241344
+ 
+**VPTree**
+nn construct time: 510916ms / search time: 107ms
+nn mean node accesses: 243024 / calc times: 243024
+ 
+**VPTree**
+nn construct time: 528059ms / search time: 113ms
+nn mean node accesses: 243387 / calc times: 243387
+ 
+**VPTree**
+nn construct time: 510788ms / search time: 109ms
+nn mean node accesses: 242181 / calc times: 242181
+ 
+**VPTree**
+nn construct time: 534090ms / search time: 110ms
+nn mean node accesses: 242816 / calc times: 242816
+ 
+**VPTree**
+nn construct time: 523422ms / search time: 108ms
+nn mean node accesses: 239920 / calc times: 239920
+ 
+**VPTree**
+nn construct time: 540655ms / search time: 104ms
+nn mean node accesses: 241776 / calc times: 241776
+ 
+**VPTree**
+nn construct time: 528106ms / search time: 103ms
+nn mean node accesses: 242693 / calc times: 242693
+ 
+**VPTree**
+nn construct time: 515946ms / search time: 100ms
+nn mean node accesses: 242302 / calc times: 242302
+ 
+
+maxCTime:540655	 minCTime:509154	 diff:5	 maxFTime:108149	 minFTime:100000	 diff:7	 maxCalc:243387	 minCalc:239920	 diff:1	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 100	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 90ms
+ 
+**VPTree**
+nn construct time: 49383ms / search time: 116ms
+nn mean node accesses: 257967 / calc times: 257967
+ 
+**VPTree**
+nn construct time: 47021ms / search time: 119ms
+nn mean node accesses: 252577 / calc times: 252577
+ 
+**VPTree**
+nn construct time: 51102ms / search time: 120ms
+nn mean node accesses: 256668 / calc times: 256668
+ 
+**VPTree**
+nn construct time: 46664ms / search time: 118ms
+nn mean node accesses: 250698 / calc times: 250698
+ 
+**VPTree**
+nn construct time: 48665ms / search time: 122ms
+nn mean node accesses: 257511 / calc times: 257511
+ 
+**VPTree**
+nn construct time: 46369ms / search time: 119ms
+nn mean node accesses: 251981 / calc times: 251981
+ 
+**VPTree**
+nn construct time: 46518ms / search time: 134ms
+nn mean node accesses: 253678 / calc times: 253678
+ 
+**VPTree**
+nn construct time: 46705ms / search time: 130ms
+nn mean node accesses: 254602 / calc times: 254602
+ 
+**VPTree**
+nn construct time: 51194ms / search time: 138ms
+nn mean node accesses: 250740 / calc times: 250740
+ 
+**VPTree**
+nn construct time: 47891ms / search time: 129ms
+nn mean node accesses: 256971 / calc times: 256971
+ 
+
+maxCTime:51194	 minCTime:46369	 diff:9	 maxFTime:129769	 minFTime:116733	 diff:10	 maxCalc:257967	 minCalc:250698	 diff:2	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 100	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 122ms
+ 
+**VPTree**
+nn construct time: 101019ms / search time: 122ms
+nn mean node accesses: 252143 / calc times: 252143
+ 
+**VPTree**
+nn construct time: 104210ms / search time: 143ms
+nn mean node accesses: 251587 / calc times: 251587
+ 
+**VPTree**
+nn construct time: 105231ms / search time: 129ms
+nn mean node accesses: 251891 / calc times: 251891
+ 
+**VPTree**
+nn construct time: 103513ms / search time: 129ms
+nn mean node accesses: 252431 / calc times: 252431
+ 
+**VPTree**
+nn construct time: 103815ms / search time: 135ms
+nn mean node accesses: 260154 / calc times: 260154
+ 
+**VPTree**
+nn construct time: 102064ms / search time: 127ms
+nn mean node accesses: 251471 / calc times: 251471
+ 
+**VPTree**
+nn construct time: 102445ms / search time: 126ms
+nn mean node accesses: 250985 / calc times: 250985
+ 
+**VPTree**
+nn construct time: 102467ms / search time: 122ms
+nn mean node accesses: 256792 / calc times: 256792
+ 
+**VPTree**
+nn construct time: 103755ms / search time: 122ms
+nn mean node accesses: 251230 / calc times: 251230
+ 
+**VPTree**
+nn construct time: 102289ms / search time: 123ms
+nn mean node accesses: 254991 / calc times: 254991
+ 
+
+maxCTime:105231	 minCTime:101019	 diff:4	 maxFTime:123000	 minFTime:122102	 diff:0	 maxCalc:260154	 minCalc:250985	 diff:3	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 100	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 106ms
+ 
+**VPTree**
+nn construct time: 161022ms / search time: 130ms
+nn mean node accesses: 252893 / calc times: 252893
+ 
+**VPTree**
+nn construct time: 163093ms / search time: 137ms
+nn mean node accesses: 252198 / calc times: 252198
+ 
+**VPTree**
+nn construct time: 163746ms / search time: 130ms
+nn mean node accesses: 252054 / calc times: 252054
+ 
+**VPTree**
+nn construct time: 163389ms / search time: 129ms
+nn mean node accesses: 252042 / calc times: 252042
+ 
+**VPTree**
+nn construct time: 161838ms / search time: 128ms
+nn mean node accesses: 253159 / calc times: 253159
+ 
+**VPTree**
+nn construct time: 161292ms / search time: 123ms
+nn mean node accesses: 250065 / calc times: 250065
+ 
+**VPTree**
+nn construct time: 164314ms / search time: 126ms
+nn mean node accesses: 254797 / calc times: 254797
+ 
+**VPTree**
+nn construct time: 163835ms / search time: 126ms
+nn mean node accesses: 257632 / calc times: 257632
+ 
+**VPTree**
+nn construct time: 161256ms / search time: 119ms
+nn mean node accesses: 253660 / calc times: 253660
+ 
+**VPTree**
+nn construct time: 165550ms / search time: 120ms
+nn mean node accesses: 256280 / calc times: 256280
+ 
+
+maxCTime:165550	 minCTime:161022	 diff:2	 maxFTime:120027	 minFTime:119362	 diff:0	 maxCalc:257632	 minCalc:250065	 diff:2	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 100	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 91ms
+ 
+**VPTree**
+nn construct time: 575212ms / search time: 133ms
+nn mean node accesses: 256800 / calc times: 256800
+ 
+**VPTree**
+nn construct time: 576927ms / search time: 134ms
+nn mean node accesses: 253462 / calc times: 253462
+ 
+**VPTree**
+nn construct time: 587978ms / search time: 137ms
+nn mean node accesses: 252058 / calc times: 252058
+ 
+**VPTree**
+nn construct time: 569114ms / search time: 126ms
+nn mean node accesses: 252763 / calc times: 252763
+ 
+**VPTree**
+nn construct time: 578863ms / search time: 125ms
+nn mean node accesses: 255110 / calc times: 255110
+ 
+**VPTree**
+nn construct time: 575539ms / search time: 119ms
+nn mean node accesses: 250214 / calc times: 250214
+ 
+**VPTree**
+nn construct time: 575000ms / search time: 126ms
+nn mean node accesses: 250626 / calc times: 250626
+ 
+**VPTree**
+nn construct time: 581845ms / search time: 127ms
+nn mean node accesses: 247753 / calc times: 247753
+ 
+**VPTree**
+nn construct time: 563001ms / search time: 127ms
+nn mean node accesses: 257437 / calc times: 257437
+ 
+**VPTree**
+nn construct time: 562375ms / search time: 121ms
+nn mean node accesses: 253214 / calc times: 253214
+ 
+
+maxCTime:587978	 minCTime:562375	 diff:4	 maxFTime:121229	 minFTime:119105	 diff:1	 maxCalc:257437	 minCalc:247753	 diff:3	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 128	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 107ms
+ 
+**VPTree**
+nn construct time: 51389ms / search time: 150ms
+nn mean node accesses: 275723 / calc times: 275723
+ 
+**VPTree**
+nn construct time: 52468ms / search time: 150ms
+nn mean node accesses: 276555 / calc times: 276555
+ 
+**VPTree**
+nn construct time: 52614ms / search time: 152ms
+nn mean node accesses: 274653 / calc times: 274653
+ 
+**VPTree**
+nn construct time: 53453ms / search time: 152ms
+nn mean node accesses: 275528 / calc times: 275528
+ 
+**VPTree**
+nn construct time: 51867ms / search time: 152ms
+nn mean node accesses: 276771 / calc times: 276771
+ 
+**VPTree**
+nn construct time: 54627ms / search time: 157ms
+nn mean node accesses: 279046 / calc times: 279046
+ 
+**VPTree**
+nn construct time: 52377ms / search time: 154ms
+nn mean node accesses: 276926 / calc times: 276926
+ 
+**VPTree**
+nn construct time: 52824ms / search time: 158ms
+nn mean node accesses: 276020 / calc times: 276020
+ 
+**VPTree**
+nn construct time: 52050ms / search time: 166ms
+nn mean node accesses: 277714 / calc times: 277714
+ 
+**VPTree**
+nn construct time: 54996ms / search time: 163ms
+nn mean node accesses: 276851 / calc times: 276851
+ 
+
+maxCTime:54996	 minCTime:51389	 diff:6	 maxFTime:163164	 minFTime:150457	 diff:7	 maxCalc:279046	 minCalc:274653	 diff:1	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 128	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 121ms
+ 
+**VPTree**
+nn construct time: 115584ms / search time: 161ms
+nn mean node accesses: 276204 / calc times: 276204
+ 
+**VPTree**
+nn construct time: 124699ms / search time: 182ms
+nn mean node accesses: 275400 / calc times: 275400
+ 
+**VPTree**
+nn construct time: 119542ms / search time: 169ms
+nn mean node accesses: 274031 / calc times: 274031
+ 
+**VPTree**
+nn construct time: 111875ms / search time: 168ms
+nn mean node accesses: 276933 / calc times: 276933
+ 
+**VPTree**
+nn construct time: 113223ms / search time: 156ms
+nn mean node accesses: 274204 / calc times: 274204
+ 
+**VPTree**
+nn construct time: 115912ms / search time: 157ms
+nn mean node accesses: 275033 / calc times: 275033
+ 
+**VPTree**
+nn construct time: 119701ms / search time: 153ms
+nn mean node accesses: 271888 / calc times: 271888
+ 
+**VPTree**
+nn construct time: 113045ms / search time: 165ms
+nn mean node accesses: 275900 / calc times: 275900
+ 
+**VPTree**
+nn construct time: 113938ms / search time: 157ms
+nn mean node accesses: 275218 / calc times: 275218
+ 
+**VPTree**
+nn construct time: 112649ms / search time: 159ms
+nn mean node accesses: 276075 / calc times: 276075
+ 
+
+maxCTime:124699	 minCTime:111875	 diff:10	 maxFTime:159437	 minFTime:153493	 diff:3	 maxCalc:276933	 minCalc:271888	 diff:1	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 128	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 114ms
+ 
+**VPTree**
+nn construct time: 172604ms / search time: 142ms
+nn mean node accesses: 273420 / calc times: 273420
+ 
+**VPTree**
+nn construct time: 179078ms / search time: 157ms
+nn mean node accesses: 273964 / calc times: 273964
+ 
+**VPTree**
+nn construct time: 177983ms / search time: 160ms
+nn mean node accesses: 274603 / calc times: 274603
+ 
+**VPTree**
+nn construct time: 175904ms / search time: 155ms
+nn mean node accesses: 273259 / calc times: 273259
+ 
+**VPTree**
+nn construct time: 178873ms / search time: 158ms
+nn mean node accesses: 274855 / calc times: 274855
+ 
+**VPTree**
+nn construct time: 177309ms / search time: 148ms
+nn mean node accesses: 275087 / calc times: 275087
+ 
+**VPTree**
+nn construct time: 176656ms / search time: 151ms
+nn mean node accesses: 275465 / calc times: 275465
+ 
+**VPTree**
+nn construct time: 175913ms / search time: 149ms
+nn mean node accesses: 276249 / calc times: 276249
+ 
+**VPTree**
+nn construct time: 179646ms / search time: 146ms
+nn mean node accesses: 276067 / calc times: 276067
+ 
+**VPTree**
+nn construct time: 179513ms / search time: 150ms
+nn mean node accesses: 275853 / calc times: 275853
+ 
+
+maxCTime:179646	 minCTime:172604	 diff:3	 maxFTime:150260	 minFTime:142017	 diff:5	 maxCalc:276249	 minCalc:273259	 diff:1	
+
+---------------Vary sampleNB	Data: SIFT	qNB: 1000	dbNB: 400000	dim: 128	SampleNB:1000---------------
+**Brute-Forced**
+nn-Search time cost: 106ms
+ 
+**VPTree**
+nn construct time: 612880ms / search time: 150ms
+nn mean node accesses: 275583 / calc times: 275583
+ 
+**VPTree**
+nn construct time: 608457ms / search time: 163ms
+nn mean node accesses: 275147 / calc times: 275147
+ 
+**VPTree**
+nn construct time: 608494ms / search time: 155ms
+nn mean node accesses: 274288 / calc times: 274288
+ 
+**VPTree**
+nn construct time: 614605ms / search time: 149ms
+nn mean node accesses: 274335 / calc times: 274335
+ 
+**VPTree**
+nn construct time: 649597ms / search time: 149ms
+nn mean node accesses: 275085 / calc times: 275085
+ 
+**VPTree**
+nn construct time: 620853ms / search time: 156ms
+nn mean node accesses: 275956 / calc times: 275956
+ 
+**VPTree**
+nn construct time: 605233ms / search time: 150ms
+nn mean node accesses: 275374 / calc times: 275374
+ 
+**VPTree**
+nn construct time: 616622ms / search time: 156ms
+nn mean node accesses: 273321 / calc times: 273321
+ 
+**VPTree**
+nn construct time: 617632ms / search time: 145ms
+nn mean node accesses: 274383 / calc times: 274383
+ 
+**VPTree**
+nn construct time: 613738ms / search time: 149ms
+nn mean node accesses: 275447 / calc times: 275447
+ 
+
+maxCTime:649597	 minCTime:605233	 diff:6	 maxFTime:149067	 minFTime:145301	 diff:2	 maxCalc:275956	 minCalc:273321	 diff:0	
+
+
+*******New Experiments*******
+
+
+
+---------------Vary QSize	Data: SIFT	qNB: 1000	dbNB: 400000	dim:        40	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 38ms
+ 
+**BallTree**
+nn construct time: 4621ms / search time: 17ms
+nn mean node accesses: 49664 / calc times: 160436
+ 
+**VPTree**
+nn construct time: 1486344ms / search time: 37ms
+nn mean node accesses: 131899 / calc times: 131899
+
+---------------Vary QSize	Data: SIFT	qNB: 2000	dbNB: 400000	dim:        40	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 40ms
+ 
+**BallTree**
+nn construct time: 4918ms / search time: 18ms
+nn mean node accesses: 50624 / calc times: 163491
+ 
+**VPTree**
+nn construct time: 1525664ms / search time: 39ms
+nn mean node accesses: 128476 / calc times: 128476
+
+---------------Vary QSize	Data: SIFT	qNB: 4000	dbNB: 400000	dim:        40	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 38ms
+ 
+**BallTree**
+nn construct time: 4823ms / search time: 18ms
+nn mean node accesses: 49475 / calc times: 159855
+ 
+**VPTree**
+nn construct time: 1518283ms / search time: 39ms
+nn mean node accesses: 136015 / calc times: 136015
+
+---------------Vary QSize	Data: SIFT	qNB: 6000	dbNB: 400000	dim:        40	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 40ms
+ 
+**BallTree**
+nn construct time: 4802ms / search time: 18ms
+nn mean node accesses: 49061 / calc times: 158444
+
+
+*******New Experiments*******
+
+
+
+---------------Vary QSize	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 15ms
+ 
+**BallTree**
+nn construct time: 1383ms / search time: 43ms
+nn mean node accesses: 125288 / calc times: 436026
+ 
+**VPTree**
+nn construct time: 25282ms / search time: 50ms
+nn mean node accesses: 199984 / calc times: 199984
+
+---------------Vary QSize	Data: Deep	qNB: 2000	dbNB: 200000	dim:        30	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 15ms
+ 
+**BallTree**
+nn construct time: 1358ms / search time: 45ms
+nn mean node accesses: 125263 / calc times: 435669
+ 
+**VPTree**
+nn construct time: 24824ms / search time: 51ms
+nn mean node accesses: 199982 / calc times: 199982
+
+---------------Vary QSize	Data: Deep	qNB: 4000	dbNB: 200000	dim:        30	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 14ms
+ 
+**BallTree**
+nn construct time: 1333ms / search time: 43ms
+nn mean node accesses: 125267 / calc times: 435838
+ 
+**VPTree**
+nn construct time: 24911ms / search time: 51ms
+nn mean node accesses: 199986 / calc times: 199986
+
+---------------Vary QSize	Data: Deep	qNB: 6000	dbNB: 200000	dim:        30	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 18ms
+ 
+**BallTree**
+nn construct time: 1590ms / search time: 46ms
+nn mean node accesses: 125085 / calc times: -280746
+ 
+**VPTree**
+nn construct time: 24621ms / search time: 51ms
+nn mean node accesses: 199984 / calc times: 199984
+
+
+
+
+*******New Experiments*******
+
+
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 20	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 9ms
+ 
+**BallTree**
+nn construct time: 1259ms / search time: 20ms
+nn mean node accesses: 85166 / calc times: 284738
+ 
+**VPTree**
+nn construct time: 28633ms / search time: 47ms
+nn mean node accesses: 188873 / calc times: 188873
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 40	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 22ms
+ 
+**BallTree**
+nn construct time: 2106ms / search time: 64ms
+nn mean node accesses: 134496 / calc times: 467086
+ 
+**VPTree**
+nn construct time: 24641ms / search time: 53ms
+nn mean node accesses: 199979 / calc times: 199979
+ 
+**VPTree**
+nn construct time: 36235ms / search time: 50ms
+nn mean node accesses: 199999 / calc times: 199999
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 60	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 26ms
+
+---------------Vary QSize	Data: Deep	qNB: 10000	dbNB: 200000	dim:        30	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 15ms
+ 
+**BallTree**
+nn construct time: 3000ms / search time: 84ms
+nn mean node accesses: 137228 / calc times: 475470
+ 
+**VPTree**
+nn construct time: 43530ms / search time: 61ms
+nn mean node accesses: 200000 / calc times: 200000
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 80	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 50ms
+ 
+**BallTree**
+nn construct time: 4012ms / search time: 114ms
+nn mean node accesses: 137376 / calc times: 475890
+ 
+**VPTree**
+nn construct time: 44768ms / search time: 90ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**BallTree**
+nn construct time: 1442ms / search time: 45ms
+nn mean node accesses: 125057 / calc times: 5634
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 100	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 41ms
+ 
+**BallTree**
+nn construct time: 4518ms / search time: 128ms
+nn mean node accesses: 137275 / calc times: 475653
+ 
+**VPTree**
+nn construct time: 49662ms / search time: 98ms
+nn mean node accesses: 200000 / calc times: 200000
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 128	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 54ms
+ 
+**BallTree**
+nn construct time: 5662ms / search time: 152ms
+nn mean node accesses: 137313 / calc times: 475747
+ 
+**VPTree**
+nn construct time: 24929ms / search time: 56ms
+nn mean node accesses: 199984 / calc times: 199984
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 20	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 12ms
+ 
+**BallTree**
+nn construct time: 1046ms / search time: 22ms
+nn mean node accesses: 84812 / calc times: 283371
+ 
+**VPTree**
+nn construct time: 61411ms / search time: 108ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 21613ms / search time: 46ms
+nn mean node accesses: 188933 / calc times: 188933
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 2---------------
+**Brute-Forced**
+nn-Search time cost: 21ms
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 40	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 18ms
+ 
+**BallTree**
+nn construct time: 1866ms / search time: 36ms
+nn mean node accesses: 167592 / calc times: 502769
+ 
+**BallTree**
+nn construct time: 1711ms / search time: 60ms
+nn mean node accesses: 134523 / calc times: 467100
+ 
+**VPTree**
+nn construct time: 34597ms / search time: 44ms
+nn mean node accesses: 199986 / calc times: 199986
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 14ms
+ 
+**VPTree**
+nn construct time: 26802ms / search time: 62ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**BallTree**
+nn construct time: 1665ms / search time: 46ms
+nn mean node accesses: 125209 / calc times: 435599
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 60	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 27ms
+ 
+**VPTree**
+nn construct time: 33688ms / search time: 50ms
+nn mean node accesses: 199988 / calc times: 199988
+ 
+**BallTree**
+nn construct time: 2644ms / search time: 90ms
+nn mean node accesses: 137244 / calc times: 475534
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 6---------------
+**Brute-Forced**
+nn-Search time cost: 23ms
+ 
+**BallTree**
+nn construct time: 1716ms / search time: 49ms
+nn mean node accesses: 94326 / calc times: 382166
+ 
+**VPTree**
+nn construct time: 31632ms / search time: 86ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 32786ms / search time: 33ms
+nn mean node accesses: 199983 / calc times: 199983
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 8---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 80	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 41ms
+ 
+**BallTree**
+nn construct time: 1678ms / search time: 49ms
+nn mean node accesses: 74426 / calc times: 346159
+ 
+**VPTree**
+nn construct time: 34103ms / search time: 32ms
+nn mean node accesses: 199978 / calc times: 199978
+ 
+**BallTree**
+nn construct time: 3688ms / search time: 124ms
+nn mean node accesses: 137504 / calc times: 476106
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 10---------------
+**Brute-Forced**
+nn-Search time cost: 16ms
+ 
+**BallTree**
+nn construct time: 1478ms / search time: 45ms
+nn mean node accesses: 60871 / calc times: 320523
+ 
+**VPTree**
+nn construct time: 34482ms / search time: 31ms
+nn mean node accesses: 199983 / calc times: 199983
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 20---------------
+**Brute-Forced**
+nn-Search time cost: 12ms
+ 
+**VPTree**
+nn construct time: 36728ms / search time: 95ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**BallTree**
+nn construct time: 1349ms / search time: 37ms
+nn mean node accesses: 30968 / calc times: 261899
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 100	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 47ms
+ 
+**VPTree**
+nn construct time: 34908ms / search time: 46ms
+nn mean node accesses: 199982 / calc times: 199982
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 30---------------
+**Brute-Forced**
+nn-Search time cost: 19ms
+ 
+**BallTree**
+nn construct time: 1525ms / search time: 42ms
+nn mean node accesses: 20653 / calc times: 241302
+ 
+**BallTree**
+nn construct time: 4291ms / search time: 135ms
+nn mean node accesses: 137479 / calc times: 476104
+ 
+**VPTree**
+nn construct time: 35454ms / search time: 51ms
+nn mean node accesses: 199986 / calc times: 199986
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        20	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 18ms
+ 
+**VPTree**
+nn construct time: 11783ms / search time: 27ms
+nn mean node accesses: 189098 / calc times: 189098
+ 
+**VPTree**
+nn construct time: 41453ms / search time: 109ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 12456ms / search time: 48ms
+nn mean node accesses: 189122 / calc times: 189122
+
+---------------Vary Dim	Data: Deep	qNB: 1000	dbNB: 200000	dim: 128	minLeaf:        4---------------
+**Brute-Forced**
+nn-Search time cost: 61ms
+ 
+**VPTree**
+nn construct time: 12553ms / search time: 48ms
+nn mean node accesses: 189190 / calc times: 189190
+ 
+**VPTree**
+nn construct time: 11990ms / search time: 48ms
+nn mean node accesses: 189077 / calc times: 189077
+ 
+**VPTree**
+nn construct time: 12492ms / search time: 46ms
+nn mean node accesses: 188694 / calc times: 188694
+ 
+**BallTree**
+nn construct time: 5459ms / search time: 167ms
+nn mean node accesses: 137576 / calc times: 476276
+ 
+**VPTree**
+nn construct time: 12470ms / search time: 48ms
+nn mean node accesses: 189225 / calc times: 189225
+ 
+**VPTree**
+nn construct time: 11976ms / search time: 54ms
+nn mean node accesses: 189169 / calc times: 189169
+ 
+**VPTree**
+nn construct time: 48202ms / search time: 117ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 12411ms / search time: 49ms
+nn mean node accesses: 189164 / calc times: 189164
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 2---------------
+**Brute-Forced**
+nn-Search time cost: 15ms
+ 
+**BallTree**
+nn construct time: 1512ms / search time: 39ms
+nn mean node accesses: 168742 / calc times: 506222
+ 
+**VPTree**
+nn construct time: 25180ms / search time: 61ms
+nn mean node accesses: 199985 / calc times: 199985
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 4---------------
+**Brute-Forced**
+nn-Search time cost: 15ms
+ 
+**BallTree**
+nn construct time: 1339ms / search time: 45ms
+nn mean node accesses: 125120 / calc times: 435249
+ 
+**VPTree**
+nn construct time: 24928ms / search time: 59ms
+nn mean node accesses: 199986 / calc times: 199986
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 6---------------
+**Brute-Forced**
+nn-Search time cost: 14ms
+ 
+**BallTree**
+nn construct time: 1272ms / search time: 44ms
+nn mean node accesses: 94398 / calc times: 382470
+ 
+**VPTree**
+nn construct time: 25017ms / search time: 59ms
+nn mean node accesses: 199985 / calc times: 199985
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 8---------------
+**Brute-Forced**
+nn-Search time cost: 16ms
+ 
+**BallTree**
+nn construct time: 1305ms / search time: 43ms
+nn mean node accesses: 74487 / calc times: 346369
+ 
+**VPTree**
+nn construct time: 24988ms / search time: 55ms
+nn mean node accesses: 199982 / calc times: 199982
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 10---------------
+**Brute-Forced**
+nn-Search time cost: 15ms
+ 
+**BallTree**
+nn construct time: 1232ms / search time: 41ms
+nn mean node accesses: 60856 / calc times: 320569
+ 
+**VPTree**
+nn construct time: 24835ms / search time: 51ms
+nn mean node accesses: 199983 / calc times: 199983
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 20---------------
+**Brute-Forced**
+nn-Search time cost: 15ms
+ 
+**BallTree**
+nn construct time: 1156ms / search time: 37ms
+nn mean node accesses: 30918 / calc times: 261801
+ 
+**VPTree**
+nn construct time: 24823ms / search time: 49ms
+nn mean node accesses: 199986 / calc times: 199986
+
+---------------Vary minLeaf	Data: Deep	qNB: 1000	dbNB: 200000	dim:        30	minLeaf: 30---------------
+**Brute-Forced**
+nn-Search time cost: 16ms
+ 
+**BallTree**
+nn construct time: 1142ms / search time: 35ms
+nn mean node accesses: 20709 / calc times: 241406
+ 
+**VPTree**
+nn construct time: 24703ms / search time: 55ms
+nn mean node accesses: 199984 / calc times: 199984
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        20	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 10ms
+ 
+**VPTree**
+nn construct time: 9992ms / search time: 48ms
+nn mean node accesses: 189395 / calc times: 189395
+ 
+**VPTree**
+nn construct time: 10089ms / search time: 50ms
+nn mean node accesses: 189781 / calc times: 189781
+ 
+**VPTree**
+nn construct time: 10147ms / search time: 48ms
+nn mean node accesses: 189141 / calc times: 189141
+ 
+**VPTree**
+nn construct time: 10150ms / search time: 51ms
+nn mean node accesses: 189346 / calc times: 189346
+ 
+**VPTree**
+nn construct time: 10168ms / search time: 47ms
+nn mean node accesses: 189434 / calc times: 189434
+ 
+**VPTree**
+nn construct time: 10086ms / search time: 51ms
+nn mean node accesses: 189501 / calc times: 189501
+ 
+**VPTree**
+nn construct time: 10137ms / search time: 48ms
+nn mean node accesses: 189305 / calc times: 189305
+ 
+**VPTree**
+nn construct time: 10098ms / search time: 50ms
+nn mean node accesses: 189387 / calc times: 189387
+ 
+**VPTree**
+nn construct time: 10109ms / search time: 50ms
+nn mean node accesses: 189050 / calc times: 189050
+ 
+**VPTree**
+nn construct time: 10144ms / search time: 46ms
+nn mean node accesses: 189666 / calc times: 189666
+ 
+
+maxCTime:10168	 minCTime:9992	 diff:1	 maxFTime:50478	 minFTime:46135	        diff:8	 maxCalc:189781	 minCalc:189050	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        20	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 9ms
+ 
+**VPTree**
+nn construct time: 21569ms / search time: 50ms
+nn mean node accesses: 188836 / calc times: 188836
+ 
+**VPTree**
+nn construct time: 21882ms / search time: 46ms
+nn mean node accesses: 189273 / calc times: 189273
+ 
+**VPTree**
+nn construct time: 21702ms / search time: 47ms
+nn mean node accesses: 188767 / calc times: 188767
+ 
+**VPTree**
+nn construct time: 21717ms / search time: 45ms
+nn mean node accesses: 188693 / calc times: 188693
+ 
+**VPTree**
+nn construct time: 21642ms / search time: 45ms
+nn mean node accesses: 188802 / calc times: 188802
+ 
+**VPTree**
+nn construct time: 21773ms / search time: 44ms
+nn mean node accesses: 189238 / calc times: 189238
+ 
+**VPTree**
+nn construct time: 21584ms / search time: 44ms
+nn mean node accesses: 189152 / calc times: 189152
+ 
+**VPTree**
+nn construct time: 21704ms / search time: 47ms
+nn mean node accesses: 188900 / calc times: 188900
+ 
+**VPTree**
+nn construct time: 21604ms / search time: 44ms
+nn mean node accesses: 189218 / calc times: 189218
+ 
+**VPTree**
+nn construct time: 21675ms / search time: 49ms
+nn mean node accesses: 188940 / calc times: 188940
+ 
+
+maxCTime:21882	 minCTime:21569	 diff:1	 maxFTime:49055	 minFTime:44404	        diff:9	 maxCalc:189273	 minCalc:188693	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        20	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 9ms
+ 
+**VPTree**
+nn construct time: 34828ms / search time: 48ms
+nn mean node accesses: 188407 / calc times: 188407
+ 
+**VPTree**
+nn construct time: 35206ms / search time: 46ms
+nn mean node accesses: 188350 / calc times: 188350
+ 
+**VPTree**
+nn construct time: 35028ms / search time: 45ms
+nn mean node accesses: 188429 / calc times: 188429
+ 
+**VPTree**
+nn construct time: 35073ms / search time: 45ms
+nn mean node accesses: 188543 / calc times: 188543
+ 
+**VPTree**
+nn construct time: 34956ms / search time: 48ms
+nn mean node accesses: 188333 / calc times: 188333
+ 
+**VPTree**
+nn construct time: 35156ms / search time: 45ms
+nn mean node accesses: 188393 / calc times: 188393
+ 
+**VPTree**
+nn construct time: 34970ms / search time: 48ms
+nn mean node accesses: 188545 / calc times: 188545
+ 
+**VPTree**
+nn construct time: 35269ms / search time: 44ms
+nn mean node accesses: 188373 / calc times: 188373
+ 
+**VPTree**
+nn construct time: 34934ms / search time: 48ms
+nn mean node accesses: 188633 / calc times: 188633
+ 
+**VPTree**
+nn construct time: 35093ms / search time: 44ms
+nn mean node accesses: 188484 / calc times: 188484
+ 
+
+maxCTime:35269	 minCTime:34828	 diff:1	 maxFTime:44970	 minFTime:44250	        diff:1	 maxCalc:188633	 minCalc:188333	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        20	SampleNB:400---------------
+**Brute-Forced**
+nn-Search time cost: 11ms
+ 
+**VPTree**
+nn construct time: 45796ms / search time: 44ms
+nn mean node accesses: 188809 / calc times: 188809
+ 
+**VPTree**
+nn construct time: 46223ms / search time: 49ms
+nn mean node accesses: 188036 / calc times: 188036
+ 
+**VPTree**
+nn construct time: 46193ms / search time: 43ms
+nn mean node accesses: 188788 / calc times: 188788
+ 
+**VPTree**
+nn construct time: 46343ms / search time: 44ms
+nn mean node accesses: 188481 / calc times: 188481
+ 
+**VPTree**
+nn construct time: 46125ms / search time: 50ms
+nn mean node accesses: 188583 / calc times: 188583
+ 
+**VPTree**
+nn construct time: 46291ms / search time: 45ms
+nn mean node accesses: 188431 / calc times: 188431
+ 
+**VPTree**
+nn construct time: 46320ms / search time: 47ms
+nn mean node accesses: 188669 / calc times: 188669
+ 
+**VPTree**
+nn construct time: 46392ms / search time: 45ms
+nn mean node accesses: 188576 / calc times: 188576
+ 
+**VPTree**
+nn construct time: 46109ms / search time: 43ms
+nn mean node accesses: 188532 / calc times: 188532
+ 
+**VPTree**
+nn construct time: 46140ms / search time: 48ms
+nn mean node accesses: 188910 / calc times: 188910
+ 
+
+maxCTime:46392	 minCTime:45796	 diff:1	 maxFTime:48290	 minFTime:43475	        diff:9	 maxCalc:188910	 minCalc:188036	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        40	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**VPTree**
+nn construct time: 12924ms / search time: 67ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 13063ms / search time: 63ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 12973ms / search time: 63ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 13201ms / search time: 59ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 13020ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 12916ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 13053ms / search time: 58ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 13014ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 13021ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 12970ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+
+maxCTime:13201	 minCTime:12916	 diff:2	 maxFTime:60424	 minFTime:58955	        diff:2	 maxCalc:199999	 minCalc:199999	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        40	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 19ms
+ 
+**VPTree**
+nn construct time: 26780ms / search time: 58ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 26866ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 27052ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 26912ms / search time: 60ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 26920ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 26989ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 27094ms / search time: 59ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 26830ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 27097ms / search time: 59ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 27058ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+
+maxCTime:27097	 minCTime:26780	 diff:1	 maxFTime:60650	 minFTime:58863	        diff:2	 maxCalc:200000	 minCalc:199999	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        40	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 20ms
+ 
+**VPTree**
+nn construct time: 43147ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 42946ms / search time: 62ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 43071ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 42862ms / search time: 62ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 43135ms / search time: 61ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 43028ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 43012ms / search time: 59ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 42920ms / search time: 62ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 43096ms / search time: 62ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 42995ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+
+maxCTime:43147	 minCTime:42862	 diff:0	 maxFTime:60254	 minFTime:59589	        diff:1	 maxCalc:200000	 minCalc:199999	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        40	SampleNB:400---------------
+**Brute-Forced**
+nn-Search time cost: 19ms
+ 
+**VPTree**
+nn construct time: 56641ms / search time: 62ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 56838ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 56782ms / search time: 59ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 57004ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 56902ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 56888ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 56880ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 56843ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 56771ms / search time: 61ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+**VPTree**
+nn construct time: 56923ms / search time: 60ms
+nn mean node accesses: 199999 / calc times: 199999
+ 
+
+maxCTime:57004	 minCTime:56641	 diff:0	 maxFTime:60053	 minFTime:59163	        diff:1	 maxCalc:199999	 minCalc:199999	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        60	SampleNB:100---------------
+**Brute-Forced**
+nn-Search time cost: 28ms
+ 
+**VPTree**
+nn construct time: 15360ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15515ms / search time: 77ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15539ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15520ms / search time: 77ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15504ms / search time: 77ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15467ms / search time: 77ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15342ms / search time: 76ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15518ms / search time: 76ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15430ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 15468ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+
+maxCTime:15539	 minCTime:15342	 diff:1	 maxFTime:75470	 minFTime:74266	        diff:1	 maxCalc:200000	 minCalc:200000	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        60	SampleNB:200---------------
+**Brute-Forced**
+nn-Search time cost: 31ms
+ 
+**VPTree**
+nn construct time: 31821ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31835ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31886ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31809ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31887ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31824ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31871ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31877ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31897ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 31920ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+
+maxCTime:31920	 minCTime:31809	 diff:0	 maxFTime:75620	 minFTime:74190	        diff:1	 maxCalc:200000	 minCalc:200000	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        60	SampleNB:300---------------
+**Brute-Forced**
+nn-Search time cost: 29ms
+ 
+**VPTree**
+nn construct time: 50248ms / search time: 76ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50039ms / search time: 77ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50110ms / search time: 77ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50201ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50236ms / search time: 77ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50047ms / search time: 77ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50017ms / search time: 76ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50074ms / search time: 76ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50039ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 50202ms / search time: 73ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+
+maxCTime:50248	 minCTime:50017	 diff:0	 maxFTime:76273	 minFTime:73893	        diff:3	 maxCalc:200000	 minCalc:200000	 diff:0	
+
+---------------Vary sampleNB	Data: Deep	qNB: 1000	dbNB: 200000	dim:        60	SampleNB:400---------------
+**Brute-Forced**
+nn-Search time cost: 27ms
+ 
+**VPTree**
+nn construct time: 66533ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 66746ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 67098ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 66789ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 66908ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 66889ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 66872ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 66914ms / search time: 75ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 67002ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+**VPTree**
+nn construct time: 66786ms / search time: 74ms
+nn mean node accesses: 200000 / calc times: 200000
+ 
+
+maxCTime:67098	 minCTime:66533	 diff:0	 maxFTime:74970	 minFTime:74114	        diff:1	 maxCalc:200000	 minCalc:200000	 diff:0	
