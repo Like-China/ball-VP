@@ -137,3 +137,1550 @@ nn-Search time cost: 10.150 ms
 **BallTree**
 nn construct time / mean search time / nn mean node accesses / calc times:
     1554ms	   2.738ms 	   17899 	   17899
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   18229ms	   6.851ms 	   38495 	   38495
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    2198ms 	   6.960ms 	   33819 	   33819
+
+/Vary the size of database
+500000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 500000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 12.575 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1760ms	   2.719ms 	   19905 	   19905
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   25133ms	   7.610ms 	   40271 	   40271
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    2699ms 	   7.538ms 	   38839 	   38839
+
+/Vary the size of dim
+10/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 4.673 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     548ms	   1.436ms 	   12450 	   12450
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    8864ms	   4.978ms 	   27907 	   27907
+
+
+
+ Neww Experiments 
+
+
+  
+
+/Vary the size of queries
+1000/
+
+Data: Deep1M 	qSize: 1000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 6.052 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     701ms	   1.750ms 	   12226 	   12226
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   32126ms	   5.422ms 	   27962 	   27962
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1338ms 	   5.386ms 	   25515 	   25515
+
+/Vary the size of queries
+2000/
+
+Data: Deep1M 	qSize: 2000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 5.724 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     539ms	   1.416ms 	   12489 	   12489
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   31011ms	   4.799ms 	   27617 	   27617
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1136ms 	   5.145ms 	   25057 	   25057
+
+/Vary the size of queries
+2000/
+
+Data: Deep1M 	qSize: 2000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 4.575 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     571ms	   1.565ms 	   12739 	   12739
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   31052ms	   4.553ms 	   28081 	   28081
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1051ms 	   4.399ms 	   25858 	   25858
+
+/Vary the size of queries
+4000/
+
+Data: Deep1M 	qSize: 4000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 5.437 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     585ms	   1.459ms 	   12392 	   12392
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   31053ms	   5.495ms 	   27775 	   27775
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1129ms 	   6.319ms 	   25893 	   25893
+
+/Vary the size of queries
+5000/
+
+Data: Deep1M 	qSize: 5000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 5.934 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     620ms	   1.584ms 	   12319 	   12319
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   31082ms	   5.377ms 	   27044 	   27044
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1149ms 	   5.303ms 	   25585 	   25585
+
+/Vary the size of database
+100000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 100000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 1.711 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     233ms	   0.895ms 	    8660 	    8660
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   15369ms	   2.930ms 	   19898 	   19898
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     452ms 	   3.728ms 	   18509 	   18509
+
+/Vary the size of database
+200000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 6.670 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     690ms	   1.586ms 	   12612 	   12612
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   31297ms	   5.049ms 	   27784 	   27784
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1104ms 	   4.727ms 	   25285 	   25285
+
+/Vary the size of database
+200000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 4.452 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     563ms	   1.475ms 	   12678 	   12678
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   31054ms	   4.979ms 	   27461 	   27461
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1243ms 	   5.209ms 	   25826 	   25826
+
+/Vary the size of database
+400000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 400000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 10.019 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1462ms	   2.423ms 	   17568 	   17568
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   62992ms	   9.028ms 	   39891 	   39891
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    2691ms 	   8.422ms 	   34999 	   34999
+
+/Vary the size of database
+500000/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 500000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 11.140 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1915ms	   2.830ms 	   20130 	   20130
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   73975ms	   8.852ms 	   39610 	   39610
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    3092ms 	   8.323ms 	   37296 	   37296
+
+/Vary the size of dim
+10/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 4.977 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     605ms	   1.550ms 	   12344 	   12344
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   31193ms	   4.798ms 	   27269 	   27269
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1042ms 	   3.911ms 	   26006 	   26006
+
+/Vary the size of dim
+20/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 20 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 8.929 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     925ms	  20.171ms 	   85059 	   85059
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   34358ms	  46.579ms 	  188731 	  188731
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1221ms 	  58.383ms 	  185221 	  185221
+
+/Vary the size of dim
+40/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 40 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 18.230 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1741ms	  60.215ms 	  134685 	  134685
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   42317ms	  66.553ms 	  199999 	  199999
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1403ms 	  77.076ms 	  199999 	  199999
+
+/Vary the size of dim
+60/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 60 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 30.803 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    2768ms	  91.324ms 	  137394 	  137394
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   49283ms	  87.419ms 	  200000 	  200000
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1516ms 	  88.539ms 	  200000 	  200000
+
+/Vary the size of dim
+80/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 80 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 41.103 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    3855ms	 112.919ms 	  137410 	  137410
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   56261ms	  99.089ms 	  200000 	  200000
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1838ms 	 100.185ms 	  200000 	  200000
+
+/Vary the size of dim
+100/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 100 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 47.489 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    4449ms	 131.620ms 	  137229 	  137229
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   63507ms	 110.986ms 	  200000 	  200000
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    2028ms 	 111.904ms 	  200000 	  200000
+
+/Vary the leafSize
+2/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 2 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 5.137 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     659ms	   1.407ms 	   13431 	   13431
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   30850ms	   4.207ms 	   28254 	   28254
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     929ms 	   4.205ms 	   25474 	   25474
+
+/Vary the leafSize
+4/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 4.316 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     550ms	   1.478ms 	   12410 	   12410
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   30907ms	   4.265ms 	   27990 	   27990
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     964ms 	   3.975ms 	   25758 	   25758
+
+/Vary the leafSize
+6/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 6 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 4.509 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     535ms	   1.610ms 	   11758 	   11758
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   30793ms	   4.229ms 	   27600 	   27600
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1026ms 	   4.034ms 	   26651 	   26651
+
+/Vary the leafSize
+8/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 8 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 5.320 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     535ms	   1.822ms 	   11135 	   11135
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   30888ms	   4.846ms 	   27904 	   27904
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1051ms 	   4.289ms 	   27012 	   27012
+
+/Vary the leafSize
+10/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 10 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 5.052 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     520ms	   1.904ms 	   10194 	   10194
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   30942ms	   5.132ms 	   28107 	   28107
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     959ms 	   4.966ms 	   25451 	   25451
+
+/Vary the leafSize
+20/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 20 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 5.322 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     503ms	   2.783ms 	    8157 	    8157
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   30936ms	   4.834ms 	   27693 	   27693
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     950ms 	   5.759ms 	   25674 	   25674
+
+/Vary the leafSize
+40/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 40 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 4.672 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     472ms	   4.200ms 	    5876 	    5876
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   30943ms	   5.036ms 	   28712 	   28712
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1124ms 	   4.732ms 	   25892 	   25892
+
+/Vary the size of sample
+100/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**Brute-Forced**
+nn-Search time cost: 5.384 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     576ms	   1.498ms 	   12518 	   12518
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    9052ms	   5.071ms 	   27771 	   27771
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1086ms 	   4.237ms 	   25296 	   25296
+
+/Vary the size of sample
+200/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 200
+**Brute-Forced**
+nn-Search time cost: 4.740 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     572ms	   1.501ms 	   12566 	   12566
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   18865ms	   5.280ms 	   28186 	   28186
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1116ms 	   4.528ms 	   26403 	   26403
+
+/Vary the size of sample
+300/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 4.381 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     549ms	   1.469ms 	   12709 	   12709
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   30923ms	   4.563ms 	   27492 	   27492
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1198ms 	   4.321ms 	   25863 	   25863
+
+/Vary the size of sample
+400/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 400
+**Brute-Forced**
+nn-Search time cost: 5.386 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     575ms	   1.488ms 	   12562 	   12562
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   40033ms	   4.457ms 	   27311 	   27311
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1109ms 	   4.499ms 	   25359 	   25359
+
+/Vary the size of sample
+500/
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 500
+**Brute-Forced**
+nn-Search time cost: 5.069 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     561ms	   1.473ms 	   12490 	   12490
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+   51125ms	   4.803ms 	   28531 	   28531
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1250ms 	   4.088ms 	   25151 	   25151
+
+
+
+ Neww Experiments 
+
+
+  
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 1000
+**Brute-Forced**
+nn-Search time cost: 5.103 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     666ms	   1.383ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  114439ms	   4.873ms 	   28167 	   28167
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1252ms 	   4.121ms 	   26565 	   26565
+**Brute-Forced**
+nn-Search time cost: 5.283 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     540ms	   1.508ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113651ms	   3.872ms 	   27870 	   27870
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1081ms 	   5.023ms 	   25924 	   25924
+**Brute-Forced**
+nn-Search time cost: 5.282 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     554ms	   1.375ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113070ms	   5.853ms 	   27742 	   27742
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1196ms 	   5.150ms 	   25517 	   25517
+**Brute-Forced**
+nn-Search time cost: 4.594 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     547ms	   1.413ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113530ms	   3.959ms 	   27467 	   27467
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1002ms 	   4.098ms 	   25733 	   25733
+**Brute-Forced**
+nn-Search time cost: 5.430 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     625ms	   1.559ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  112464ms	   5.483ms 	   26649 	   26649
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1081ms 	   5.002ms 	   25853 	   25853
+**Brute-Forced**
+nn-Search time cost: 4.599 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     541ms	   1.379ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113213ms	   4.051ms 	   27867 	   27867
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1087ms 	   4.135ms 	   25991 	   25991
+**Brute-Forced**
+nn-Search time cost: 5.239 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     648ms	   1.604ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113364ms	   4.648ms 	   27759 	   27759
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1122ms 	   5.267ms 	   25921 	   25921
+**Brute-Forced**
+nn-Search time cost: 4.592 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     537ms	   1.371ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113615ms	   4.020ms 	   27352 	   27352
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1077ms 	   3.748ms 	   25524 	   25524
+**Brute-Forced**
+nn-Search time cost: 4.641 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     587ms	   1.507ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113238ms	   3.822ms 	   27631 	   27631
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     993ms 	   4.583ms 	   25538 	   25538
+**Brute-Forced**
+nn-Search time cost: 5.289 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     666ms	   1.383ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  112169ms	   5.359ms 	   27613 	   27613
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1001ms 	   4.006ms 	   25809 	   25809
+**Brute-Forced**
+nn-Search time cost: 4.715 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     538ms	   1.408ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113627ms	   3.962ms 	   27536 	   27536
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1041ms 	   4.133ms 	   25435 	   25435
+**Brute-Forced**
+nn-Search time cost: 5.204 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     620ms	   1.606ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  112637ms	   4.769ms 	   27304 	   27304
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1209ms 	   4.864ms 	   25849 	   25849
+**Brute-Forced**
+nn-Search time cost: 4.446 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     555ms	   1.385ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113314ms	   3.815ms 	   27699 	   27699
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1112ms 	   3.900ms 	   26132 	   26132
+**Brute-Forced**
+nn-Search time cost: 4.570 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     599ms	   1.607ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113202ms	   3.817ms 	   27745 	   27745
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1122ms 	   4.703ms 	   26487 	   26487
+**Brute-Forced**
+nn-Search time cost: 5.108 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     540ms	   1.384ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  112272ms	   3.959ms 	   27988 	   27988
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1109ms 	   3.898ms 	   26159 	   26159
+**Brute-Forced**
+nn-Search time cost: 4.727 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     585ms	   1.626ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113405ms	   3.965ms 	   27705 	   27705
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1034ms 	   4.083ms 	   25557 	   25557
+**Brute-Forced**
+nn-Search time cost: 4.540 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     547ms	   1.399ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  113107ms	   3.869ms 	   27636 	   27636
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1061ms 	   3.965ms 	   25812 	   25812
+**Brute-Forced**
+nn-Search time cost: 4.502 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     555ms	   1.382ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  112375ms	   5.471ms 	   28200 	   28200
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1015ms 	   3.991ms 	   26129 	   26129
+**Brute-Forced**
+nn-Search time cost: 4.530 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     533ms	   1.396ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  112326ms	   3.984ms 	   27647 	   27647
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1053ms 	   5.226ms 	   25588 	   25588
+**Brute-Forced**
+nn-Search time cost: 4.770 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     663ms	   1.390ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  112327ms	   4.047ms 	   28125 	   28125
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1065ms 	   3.886ms 	   26451 	   26451
+
+VP-tree: minCTime/maxCTime/diff/minFTime/maxFTime/diff/minAccess/maxAccess/diff/minCalcNB/maxCalcNB/diff
+112169.000000 114439.000000    1.984    1.908    2.926   34.811 26649.000 28200.000    5.500 26649.000 28200.000    5.500
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 2000
+**Brute-Forced**
+nn-Search time cost: 5.063 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     617ms	   1.632ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245396ms	   4.437ms 	   27750 	   27750
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1094ms 	   5.260ms 	   26181 	   26181
+**Brute-Forced**
+nn-Search time cost: 4.590 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     527ms	   1.382ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245661ms	   4.146ms 	   27338 	   27338
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1084ms 	   3.735ms 	   25705 	   25705
+**Brute-Forced**
+nn-Search time cost: 4.529 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     528ms	   1.393ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245758ms	   3.971ms 	   27848 	   27848
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1069ms 	   4.165ms 	   26527 	   26527
+**Brute-Forced**
+nn-Search time cost: 4.576 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     548ms	   1.415ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245702ms	   3.993ms 	   27423 	   27423
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1048ms 	   3.838ms 	   25220 	   25220
+**Brute-Forced**
+nn-Search time cost: 4.609 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     584ms	   1.537ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245865ms	   3.904ms 	   27190 	   27190
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1152ms 	   4.500ms 	   25598 	   25598
+**Brute-Forced**
+nn-Search time cost: 5.157 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     538ms	   1.379ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  244007ms	   5.268ms 	   27325 	   27325
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1050ms 	   4.205ms 	   25561 	   25561
+**Brute-Forced**
+nn-Search time cost: 4.620 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     654ms	   1.434ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245411ms	   3.925ms 	   27486 	   27486
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1058ms 	   4.011ms 	   25994 	   25994
+**Brute-Forced**
+nn-Search time cost: 4.607 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     544ms	   1.427ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245777ms	   3.980ms 	   27755 	   27755
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1096ms 	   3.945ms 	   25558 	   25558
+**Brute-Forced**
+nn-Search time cost: 4.553 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     560ms	   1.387ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245607ms	   3.977ms 	   27476 	   27476
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1103ms 	   4.328ms 	   25347 	   25347
+**Brute-Forced**
+nn-Search time cost: 5.313 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     647ms	   1.572ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  243706ms	   5.305ms 	   27538 	   27538
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1064ms 	   4.656ms 	   25839 	   25839
+**Brute-Forced**
+nn-Search time cost: 4.616 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     669ms	   1.416ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  246250ms	   3.887ms 	   27707 	   27707
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1064ms 	   3.870ms 	   25567 	   25567
+**Brute-Forced**
+nn-Search time cost: 4.604 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     529ms	   1.400ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245888ms	   4.101ms 	   28190 	   28190
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1117ms 	   3.865ms 	   26503 	   26503
+**Brute-Forced**
+nn-Search time cost: 4.567 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     551ms	   1.385ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245370ms	   4.000ms 	   27641 	   27641
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1180ms 	   4.285ms 	   26404 	   26404
+**Brute-Forced**
+nn-Search time cost: 4.575 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     682ms	   1.451ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245431ms	   3.998ms 	   27910 	   27910
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1073ms 	   3.986ms 	   25806 	   25806
+**Brute-Forced**
+nn-Search time cost: 4.630 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     570ms	   1.398ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  244121ms	   3.981ms 	   27871 	   27871
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1070ms 	   4.630ms 	   25612 	   25612
+**Brute-Forced**
+nn-Search time cost: 5.157 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     555ms	   1.400ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  244298ms	   3.969ms 	   27615 	   27615
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1032ms 	   4.096ms 	   26422 	   26422
+**Brute-Forced**
+nn-Search time cost: 4.607 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     556ms	   1.437ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245441ms	   3.955ms 	   27586 	   27586
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1173ms 	   3.929ms 	   26266 	   26266
+**Brute-Forced**
+nn-Search time cost: 4.652 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     562ms	   1.471ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  245494ms	   4.289ms 	   27534 	   27534
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1078ms 	   3.933ms 	   26134 	   26134
+**Brute-Forced**
+nn-Search time cost: 4.700 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     572ms	   1.433ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  243807ms	   4.015ms 	   27623 	   27623
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1112ms 	   3.824ms 	   25884 	   25884
+**Brute-Forced**
+nn-Search time cost: 5.242 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     618ms	   1.631ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  244936ms	   4.037ms 	   27836 	   27836
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1180ms 	   3.757ms 	   25393 	   25393
+
+VP-tree: minCTime/maxCTime/diff/minFTime/maxFTime/diff/minAccess/maxAccess/diff/minCalcNB/maxCalcNB/diff
+243706.000000 246250.000000    1.033    1.943    2.653   26.743 27190.000 28190.000    3.547 27190.000 28190.000    3.547
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 3000
+**Brute-Forced**
+nn-Search time cost: 4.650 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     536ms	   1.381ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  455664ms	   3.971ms 	   27880 	   27880
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1068ms 	   4.096ms 	   26018 	   26018
+**Brute-Forced**
+nn-Search time cost: 4.603 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     551ms	   1.508ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  456106ms	   3.945ms 	   27541 	   27541
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1093ms 	   3.877ms 	   25913 	   25913
+**Brute-Forced**
+nn-Search time cost: 5.148 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     612ms	   1.621ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  456024ms	   4.482ms 	   27187 	   27187
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1270ms 	   5.105ms 	   26091 	   26091
+**Brute-Forced**
+nn-Search time cost: 4.686 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     544ms	   1.385ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  456100ms	   4.255ms 	   27428 	   27428
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1096ms 	   3.938ms 	   25264 	   25264
+**Brute-Forced**
+nn-Search time cost: 4.627 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     596ms	   1.495ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  455960ms	   4.054ms 	   27819 	   27819
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1100ms 	   4.142ms 	   25811 	   25811
+**Brute-Forced**
+nn-Search time cost: 4.671 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     574ms	   1.540ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  455095ms	   3.933ms 	   27242 	   27242
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1091ms 	   4.081ms 	   25874 	   25874
+**Brute-Forced**
+nn-Search time cost: 4.654 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     571ms	   1.357ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  453266ms	   3.647ms 	   27647 	   27647
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1059ms 	   3.869ms 	   26418 	   26418
+**Brute-Forced**
+nn-Search time cost: 4.616 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     536ms	   1.386ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452691ms	   3.635ms 	   27706 	   27706
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1031ms 	   3.839ms 	   27255 	   27255
+**Brute-Forced**
+nn-Search time cost: 4.297 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     549ms	   1.382ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452903ms	   3.747ms 	   27692 	   27692
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1033ms 	   3.863ms 	   26146 	   26146
+**Brute-Forced**
+nn-Search time cost: 4.295 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     541ms	   1.344ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452915ms	   3.659ms 	   27541 	   27541
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1056ms 	   3.567ms 	   26241 	   26241
+**Brute-Forced**
+nn-Search time cost: 4.317 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     517ms	   1.327ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452470ms	   3.694ms 	   27678 	   27678
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1073ms 	   3.744ms 	   25509 	   25509
+**Brute-Forced**
+nn-Search time cost: 4.369 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     527ms	   1.351ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  451773ms	   3.650ms 	   27433 	   27433
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1111ms 	   3.672ms 	   25773 	   25773
+**Brute-Forced**
+nn-Search time cost: 4.349 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     524ms	   1.340ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452313ms	   3.740ms 	   27620 	   27620
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1115ms 	   3.436ms 	   25419 	   25419
+**Brute-Forced**
+nn-Search time cost: 4.370 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     522ms	   1.343ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452773ms	   3.643ms 	   27283 	   27283
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1105ms 	   3.707ms 	   26088 	   26088
+**Brute-Forced**
+nn-Search time cost: 4.354 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     522ms	   1.331ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452153ms	   3.778ms 	   27396 	   27396
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1114ms 	   3.636ms 	   25893 	   25893
+**Brute-Forced**
+nn-Search time cost: 4.447 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     528ms	   1.378ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452761ms	   3.850ms 	   28481 	   28481
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1096ms 	   3.643ms 	   26008 	   26008
+**Brute-Forced**
+nn-Search time cost: 4.351 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     553ms	   1.373ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  451951ms	   3.629ms 	   27738 	   27738
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1035ms 	   3.605ms 	   25602 	   25602
+**Brute-Forced**
+nn-Search time cost: 4.324 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     522ms	   1.337ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  452478ms	   3.619ms 	   27518 	   27518
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1071ms 	   3.332ms 	   25386 	   25386
+**Brute-Forced**
+nn-Search time cost: 4.313 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     522ms	   1.337ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  453010ms	   3.621ms 	   27405 	   27405
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1097ms 	   3.517ms 	   25760 	   25760
+**Brute-Forced**
+nn-Search time cost: 4.384 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     528ms	   1.348ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  453625ms	   3.788ms 	   27859 	   27859
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1031ms 	   3.901ms 	   25708 	   25708
+
+VP-tree: minCTime/maxCTime/diff/minFTime/maxFTime/diff/minAccess/maxAccess/diff/minCalcNB/maxCalcNB/diff
+451773.000000 456106.000000    0.950    1.810    2.241   19.249 27187.000 28481.000    4.543 27187.000 28481.000    4.543
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 4000
+**Brute-Forced**
+nn-Search time cost: 4.432 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     650ms	   1.306ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526319ms	   3.587ms 	   27360 	   27360
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1090ms 	   3.475ms 	   26843 	   26843
+**Brute-Forced**
+nn-Search time cost: 4.330 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     521ms	   1.344ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526202ms	   3.673ms 	   27791 	   27791
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1114ms 	   3.639ms 	   26217 	   26217
+**Brute-Forced**
+nn-Search time cost: 4.340 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     568ms	   1.369ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526221ms	   3.675ms 	   27755 	   27755
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1082ms 	   3.626ms 	   25417 	   25417
+**Brute-Forced**
+nn-Search time cost: 4.367 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     654ms	   1.322ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526485ms	   3.676ms 	   27814 	   27814
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1125ms 	   3.504ms 	   25591 	   25591
+**Brute-Forced**
+nn-Search time cost: 4.396 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     655ms	   1.332ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526124ms	   3.724ms 	   27820 	   27820
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1171ms 	   3.461ms 	   26032 	   26032
+**Brute-Forced**
+nn-Search time cost: 4.326 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     519ms	   1.334ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526609ms	   3.683ms 	   27651 	   27651
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1259ms 	   3.468ms 	   25768 	   25768
+**Brute-Forced**
+nn-Search time cost: 4.389 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     525ms	   1.345ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526257ms	   3.742ms 	   28099 	   28099
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     993ms 	   4.655ms 	   25016 	   25016
+**Brute-Forced**
+nn-Search time cost: 4.324 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     517ms	   1.374ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  523805ms	   3.670ms 	   27447 	   27447
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     859ms 	   4.346ms 	   26157 	   26157
+**Brute-Forced**
+nn-Search time cost: 4.302 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     521ms	   1.356ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526476ms	   3.818ms 	   27539 	   27539
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     960ms 	   3.847ms 	   25408 	   25408
+**Brute-Forced**
+nn-Search time cost: 4.317 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     553ms	   1.343ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  525639ms	   3.633ms 	   27248 	   27248
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     887ms 	   4.071ms 	   25254 	   25254
+**Brute-Forced**
+nn-Search time cost: 4.291 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     528ms	   1.355ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  524370ms	   3.770ms 	   27865 	   27865
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1036ms 	   3.867ms 	   25232 	   25232
+**Brute-Forced**
+nn-Search time cost: 4.367 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     531ms	   1.356ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  525862ms	   3.678ms 	   27484 	   27484
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1048ms 	   3.610ms 	   25995 	   25995
+**Brute-Forced**
+nn-Search time cost: 4.309 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     520ms	   1.331ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526119ms	   3.726ms 	   27845 	   27845
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1092ms 	   3.758ms 	   26168 	   26168
+**Brute-Forced**
+nn-Search time cost: 4.320 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     565ms	   1.371ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  525373ms	   3.688ms 	   27726 	   27726
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1131ms 	   3.465ms 	   26234 	   26234
+**Brute-Forced**
+nn-Search time cost: 4.276 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     523ms	   1.336ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  525161ms	   3.639ms 	   27597 	   27597
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1178ms 	   3.607ms 	   25693 	   25693
+**Brute-Forced**
+nn-Search time cost: 4.304 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     516ms	   1.342ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  524232ms	   3.671ms 	   27582 	   27582
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1170ms 	   3.796ms 	   25671 	   25671
+**Brute-Forced**
+nn-Search time cost: 4.377 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     527ms	   1.366ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  525978ms	   3.734ms 	   27481 	   27481
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1157ms 	   3.702ms 	   25667 	   25667
+**Brute-Forced**
+nn-Search time cost: 4.334 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     522ms	   1.339ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526379ms	   3.689ms 	   27373 	   27373
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1025ms 	   3.719ms 	   25762 	   25762
+**Brute-Forced**
+nn-Search time cost: 4.321 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     523ms	   1.338ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526179ms	   3.597ms 	   27566 	   27566
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1165ms 	   3.401ms 	   26194 	   26194
+**Brute-Forced**
+nn-Search time cost: 4.329 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     536ms	   1.346ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  526519ms	   3.691ms 	   26999 	   26999
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1070ms 	   3.448ms 	   25331 	   25331
+
+VP-tree: minCTime/maxCTime/diff/minFTime/maxFTime/diff/minAccess/maxAccess/diff/minCalcNB/maxCalcNB/diff
+523805.000000 526609.000000    0.532    1.793    1.909    6.050 26999.000 28099.000    3.915 26999.000 28099.000    3.915
+
+Data: Deep1M 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 5000
+**Brute-Forced**
+nn-Search time cost: 4.341 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     524ms	   1.361ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  710089ms	   3.665ms 	   27491 	   27491
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1044ms 	   3.631ms 	   25549 	   25549
+**Brute-Forced**
+nn-Search time cost: 4.240 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     537ms	   1.326ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  709831ms	   3.663ms 	   27679 	   27679
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1129ms 	   3.616ms 	   25557 	   25557
+**Brute-Forced**
+nn-Search time cost: 4.280 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     524ms	   1.355ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  710404ms	   3.595ms 	   27389 	   27389
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1009ms 	   3.774ms 	   25777 	   25777
+**Brute-Forced**
+nn-Search time cost: 4.208 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     517ms	   1.332ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  712401ms	   3.755ms 	   27745 	   27745
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1093ms 	   3.558ms 	   25344 	   25344
+**Brute-Forced**
+nn-Search time cost: 4.297 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     525ms	   1.345ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  711681ms	   3.712ms 	   27586 	   27586
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1165ms 	   3.535ms 	   26300 	   26300
+**Brute-Forced**
+nn-Search time cost: 4.332 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     523ms	   1.336ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  711385ms	   3.655ms 	   27152 	   27152
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1086ms 	   3.426ms 	   25168 	   25168
+**Brute-Forced**
+nn-Search time cost: 4.357 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     532ms	   1.352ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  711494ms	   3.726ms 	   27873 	   27873
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1117ms 	   3.527ms 	   25963 	   25963
+**Brute-Forced**
+nn-Search time cost: 4.282 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     642ms	   1.314ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  711433ms	   3.591ms 	   27441 	   27441
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1145ms 	   3.506ms 	   25714 	   25714
+**Brute-Forced**
+nn-Search time cost: 4.268 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     519ms	   1.330ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  711155ms	   3.751ms 	   27808 	   27808
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1124ms 	   3.544ms 	   25577 	   25577
+**Brute-Forced**
+nn-Search time cost: 4.361 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     529ms	   1.353ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  710785ms	   3.697ms 	   27862 	   27862
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1150ms 	   3.530ms 	   26533 	   26533
+**Brute-Forced**
+nn-Search time cost: 4.289 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     520ms	   1.351ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  712639ms	   3.735ms 	   27756 	   27756
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1083ms 	   3.573ms 	   26336 	   26336
+**Brute-Forced**
+nn-Search time cost: 4.350 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     521ms	   1.355ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  711123ms	   3.619ms 	   27895 	   27895
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1073ms 	   3.441ms 	   25812 	   25812
+**Brute-Forced**
+nn-Search time cost: 4.263 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     543ms	   1.384ms 	   12429 	   39025
+**VPSampleTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+  711985ms	   3.682ms 	   28396 	   28396
+**VPFarTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1090ms 	   3.393ms 	   25683 	   25683
+**Brute-Forced**
+nn-Search time cost: 4.246 ms
+**BallTree**
+nn construct time / mean search time / nn mean node accesses / calc times:
+     523ms	   1.335ms 	   12429 	   39025

@@ -16,6 +16,9 @@ public class BJAlg {
     public int minLeafNB = 0;
     public String info = null;
 
+    public int calcCount = 0;
+    public int searchCount = 0;
+
     public BJAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, int minLeafNB) {
         this.qData = qData;
         this.dbData = dbData;
@@ -64,7 +67,9 @@ public class BJAlg {
         int n = qData.size();
         info = String.format(
                 "**BallTree**\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms\t%8.3fms \t%8d \t%8d",
-                cTime, fTime / n, bt.searchCount / n, bt.searchCount / n);
+                cTime, fTime / n, bt.searchCount / n, bt.calcCount / n);
+        calcCount = bt.calcCount;
+        searchCount = bt.searchCount;
         System.out.println(info);
         return res;
     }
