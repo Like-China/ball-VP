@@ -454,3 +454,87 @@ nn construct time / mean search time / nn mean node accesses / calc times:
 
 
   
+
+Data: random 	qSize: 20000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 3.784 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.349 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.346 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.357 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.345 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.345 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.268 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.268 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.304 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.303 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.315 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.302 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.266 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.264 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.265 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.264 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.264 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.262 ms
+
+Data: random 	qSize: 2000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 0.274 ms / query
+
+Data: random 	qSize: 20000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 3.131 ms / query
+
+Data: random 	qSize: 20000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 300
+**Brute-Forced**
+nn-Search time cost: 3.101 ms / query

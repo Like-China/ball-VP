@@ -87,25 +87,27 @@ public class Evaluate {
 
         // BF
         BFAlg bf = new BFAlg(query, db);
-        ArrayList<double[]> BFNNRes = bf.nnSearch();
-        writeFile(setInfo, bf.info);
+        // ArrayList<double[]> BFNNRes = bf.nnSearch();
+        // writeFile(setInfo, bf.info);
+        ArrayList<double[]> BFNNResPara = bf.nnSearchPara();
+        // _check(query, BFNNRes, BFNNResPara);
         setInfo = "";
         // Ball-Tree
-        BJAlg bj = new BJAlg(query, db, leafSize);
-        ArrayList<double[]> BJNNRes = bj.nnSearch();
-        writeFile(setInfo, bj.info);
+        // BJAlg bj = new BJAlg(query, db, leafSize);
+        // ArrayList<double[]> BJNNRes = bj.nnSearch();
+        // writeFile(setInfo, bj.info);
         // VP-Sample
-        VPSampleAlg svj = new VPSampleAlg(query, db, sample);
-        ArrayList<double[]> VPNNRes = svj.nnSearch();
-        writeFile(setInfo, svj.info);
+        // VPSampleAlg svj = new VPSampleAlg(query, db, sample);
+        // ArrayList<double[]> VPNNRes = svj.nnSearch();
+        // writeFile(setInfo, svj.info);
         // VP-Farest
-        VPFarAlg fVP = new VPFarAlg(query, db, sample);
-        ArrayList<double[]> VPNNRes1 = fVP.nnSearch();
-        writeFile(setInfo, fVP.info);
+        // VPFarAlg fVP = new VPFarAlg(query, db, sample);
+        // ArrayList<double[]> VPNNRes1 = fVP.nnSearch();
+        // writeFile(setInfo, fVP.info);
         // check
-        _check(query, BFNNRes, BJNNRes);
-        _check(query, BFNNRes, VPNNRes);
-        _check(query, BFNNRes, VPNNRes1);
+        // _check(query, BFNNRes, BJNNRes);
+        // _check(query, BFNNRes, VPNNRes);
+        // _check(query, BFNNRes, VPNNRes1);
     }
 
     public void evaluate_multi() {
@@ -278,9 +280,11 @@ public class Evaluate {
 
     public static void main(String[] args) {
         // new Main().evaluate_multi();
-        new Evaluate().evaluate_sample(Settings.data, Settings.qNB, Settings.dbNB, Settings.minLeafNB);
-        new Evaluate().evaluate_capacity(Settings.data, Settings.qNB, Settings.dbNB, Settings.sampleNB);
-        // new Main().evaluate_one(Settings.data, Settings.qNB, Settings.dbNB,
-        // Settings.dim, Settings.minLeafNB, Settings.sampleNB);
+        // new Evaluate().evaluate_sample(Settings.data, Settings.qNB, Settings.dbNB,
+        // Settings.minLeafNB);
+        // new Evaluate().evaluate_capacity(Settings.data, Settings.qNB, Settings.dbNB,
+        // Settings.sampleNB);
+        new Evaluate().evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.minLeafNB,
+                Settings.sampleNB);
     }
 }
