@@ -1,13 +1,15 @@
 package evaluation;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
+
 import VPTree.*;
 import Distance.*;
 
 public class VPSampleAlg {
     /// query, double[]base set at each timestamp, we update them at each timestampe
-    public ArrayList<double[]> qData = new ArrayList<>();
-    public ArrayList<double[]> dbData = new ArrayList<>();
+    public double[][] qData;
+    public double[][] dbData;
     l2Distance dist = new l2Distance();
     // index construction time / filtering time
     public long cTime = 0;
@@ -19,8 +21,8 @@ public class VPSampleAlg {
     public int sampleNB;
 
     public VPSampleAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, int sampleNB) {
-        this.qData = qData;
-        this.dbData = dbData;
+        this.qData = qData.toArray(new double[qData.size()][]);
+        this.dbData = dbData.toArray(new double[dbData.size()][]);
         this.sampleNB = sampleNB;
     }
 
@@ -35,20 +37,47 @@ public class VPSampleAlg {
         long t2 = System.currentTimeMillis();
         cTime = t2 - t1;
 
-        ArrayList<double[]> res = new ArrayList<>();
         t1 = System.currentTimeMillis();
+        ArrayList<double[]> res = new ArrayList<>();
         for (double[] q : qData) {
             res.add(vp.searchOneNN(q));
         }
         t2 = System.currentTimeMillis();
         fTime = t2 - t1;
-        int n = qData.size();
+        int n = qData.length;
         info = String.format(
-                "**VPSampleTree**\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms\t%8.3fms \t%8d \t%8d",
+                "**\tVPSampleTree\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms\t%8.3fms \t%8d \t%8d",
                 cTime, fTime / n, vp.searchCount / n, vp.searchCount / n);
         System.out.println(info);
         searchCount = vp.searchCount / n;
+        return res;
+    }
 
+    public ArrayList<double[]> nnSearchPara() {
+        long t1 = System.currentTimeMillis();
+        VPTreeBySample vp = new VPTreeBySample(dbData, dist, sampleNB);
+        long t2 = System.currentTimeMillis();
+        cTime = t2 - t1;
+        t1 = System.currentTimeMillis();
+        ArrayList<double[]> res = new ArrayList<>();
+
+        // Parallelizing the outer loop
+        IntStream.range(0, qData.length).parallel().forEach(i -> {
+            double[] q = qData[i];
+            double[] nn = vp.searchOneNN(q);
+            synchronized (res) {
+                res.add(nn);
+            }
+        });
+
+        t2 = System.currentTimeMillis();
+        fTime = (t2 - t1);
+        int n = qData.length;
+        info = String.format(
+                "**\tPara VPSampleTree\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms\t%8.3fms \t%8d \t%8d",
+                cTime, fTime / n, vp.searchCount / n, vp.searchCount / n);
+        System.out.println(info);
+        searchCount = vp.searchCount / n;
         return res;
     }
 
@@ -66,7 +95,7 @@ public class VPSampleAlg {
         t2 = System.currentTimeMillis();
         fTime = t2 - t1;
         System.out.println("VP range-Search result size: " + res.size());
-        searchCount = vp.searchCount / qData.size();
+        searchCount = vp.searchCount / qData.length;
         return res;
     }
 

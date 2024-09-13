@@ -26,7 +26,8 @@ public class Evaluate {
                     out.newLine();
                     out.write(setInfo);
                 }
-                out.write("\n" + otherInfo);
+                out.newLine();
+                out.write(otherInfo);
                 out.flush();
             }
         } catch (IOException e) {
@@ -88,37 +89,47 @@ public class Evaluate {
         // BF
         BFAlg bf = new BFAlg(query, db);
         // ArrayList<double[]> BFNNRes = bf.nnSearch();
-        // writeFile(setInfo, bf.info);
-        ArrayList<double[]> BFNNResPara = bf.nnSearchPara();
-        // _check(query, BFNNRes, BFNNResPara);
+        ArrayList<double[]> BFNNRes = bf.nnSearchPara();
+        writeFile(setInfo, bf.info);
         setInfo = "";
+
         // Ball-Tree
-        // BJAlg bj = new BJAlg(query, db, leafSize);
-        // ArrayList<double[]> BJNNRes = bj.nnSearch();
-        // writeFile(setInfo, bj.info);
+        BJAlg bj = new BJAlg(query, db, leafSize);
+        ArrayList<double[]> BJNNRes = bj.nnSearch();
+        // ArrayList<double[]> BJNNResPara = bj.nnSearchPara();
+        // _check(query, BJNNResPara, BJNNRes);
+        writeFile(setInfo, bj.info);
+
         // VP-Sample
-        // VPSampleAlg svj = new VPSampleAlg(query, db, sample);
-        // ArrayList<double[]> VPNNRes = svj.nnSearch();
-        // writeFile(setInfo, svj.info);
+        VPSampleAlg sVP = new VPSampleAlg(query, db, sample);
+        ArrayList<double[]> VPNNRes = sVP.nnSearch();
+        // ArrayList<double[]> VPNNRes1 = sVP.nnSearchPara();
+        // _check(query, VPNNRes, VPNNRes1);
+        writeFile(setInfo, sVP.info);
+
         // VP-Farest
-        // VPFarAlg fVP = new VPFarAlg(query, db, sample);
-        // ArrayList<double[]> VPNNRes1 = fVP.nnSearch();
-        // writeFile(setInfo, fVP.info);
-        // check
-        // _check(query, BFNNRes, BJNNRes);
-        // _check(query, BFNNRes, VPNNRes);
-        // _check(query, BFNNRes, VPNNRes1);
+        VPFarAlg fVP = new VPFarAlg(query, db, sample);
+        ArrayList<double[]> fVPNNRes = fVP.nnSearch();
+        // ArrayList<double[]> fVPNNRes1 = fVP.nnSearchPara();
+        // _check(query, fVPNNRes, fVPNNRes1);
+        writeFile(setInfo, fVP.info);
+
+        // result check
+        _check(query, BFNNRes, BJNNRes);
+        _check(query, BFNNRes, VPNNRes);
+        _check(query, BFNNRes, fVPNNRes);
     }
 
+    // the performance when varying various parameters
     public void evaluate_multi() {
-        int[] qSizes = new int[] { 1000, 2000, 2000, 4000, 5000 };
+        int[] qSizes = new int[] { 1000, 2000, 3000, 4000, 5000 };
         int[] dbSizes = new int[] { 100000, 200000, 200000, 400000, 500000 };
         int[] dims = new int[] { 10, 20, 40, 60, 80, 100 };
         int[] leafSizes = new int[] { 2, 4, 6, 8, 10, 20, 40 };
         int[] samples = new int[] { 100, 200, 300, 400, 500 };
         long t1 = System.currentTimeMillis();
 
-        writeFile("\n\n Neww Experiments \n\n", "  ");
+        writeFile("\n\n New Experiments \n\n", "  ");
 
         for (int qSize : qSizes) {
             writeFile("/Vary the size of queries", qSize + "/");
@@ -135,75 +146,40 @@ public class Evaluate {
             evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, dim, Settings.minLeafNB, Settings.sampleNB);
         }
         System.out.println("\nRound 3 time cost: " + (System.currentTimeMillis() - t1) + "\n");
-        for (int leafSize : leafSizes) {
-            writeFile("/Vary the leafSize", leafSize + "/");
-            evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, leafSize, Settings.sampleNB);
-        }
-        System.out.println("\nRound 4 time cost: " + (System.currentTimeMillis() - t1) + "\n");
-        for (int sample : samples) {
-            writeFile("/Vary the size of sample", sample + "/");
-            evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.minLeafNB, sample);
-        }
-        System.out.println("\nRound 5 time cost: " + (System.currentTimeMillis() - t1) + "\n");
 
     }
 
-    public void evaluate_capacity(String data, int qSize, int dbSize, int sample) {
+    // evaluate the Ball-tree with varied leaf-size under various dimensions for
+    // selecting best leafNB
+    public void evaluateLeafNB(int expNB, String data, int qSize, int dbSize) {
 
         int[] leafSizes = new int[] { 4, 8, 12, 20, 30, 100 };
-        writeFile("\n\n Neww Experiments \n\n", "  ");
-
+        writeFile("\nEvaluation Best LeafNB \n", "  ");
         for (int dim : new int[] { 10, 20, 40, 60, 80 }) {
             // load data
             loadData(qSize, dbSize, dim);
             System.out.println("\n");
             for (int leafSize : leafSizes) {
                 String setInfo = String.format(
-                        "Data: %s \tqSize: %d \tdbSize: %d \tdim: %d \tleafSize: %d \tsample: %d",
-                        data,
-                        query.size(), db.size(), dim, leafSize, sample);
+                        "Data: %s \tqSize: %d \tdbSize: %d \tdim: %d \tleafSize: %d",
+                        data, query.size(), db.size(), dim, leafSize);
                 System.out.println(setInfo);
-                double minCTime = Double.MAX_VALUE;
-                double maxCTime = 0;
-                double minFTime = Double.MAX_VALUE;
-                double maxFTime = 0;
-                double minAccess = Double.MAX_VALUE;
-                double maxAccess = 0;
-                double minCalcNB = Double.MAX_VALUE;
-                double maxCalcNB = 0;
-                for (int j = 0; j < 20; j++) {
-                    // BF
-                    BFAlg bf = new BFAlg(query, db);
-                    ArrayList<double[]> BFNNRes = bf.nnSearch();
-                    writeFile(setInfo, bf.info);
-                    setInfo = "";
+                double meanCTime = 0;
+                double meanFTime = 0;
+                double meanAccess = 0;
+                double meanCalcNB = 0;
+                for (int j = 0; j < expNB; j++) {
                     // Ball-Tree
                     BJAlg bj = new BJAlg(query, db, leafSize);
-                    ArrayList<double[]> BJNNRes = bj.nnSearch();
-                    writeFile(setInfo, bj.info);
-                    // VP-Sample
-                    VPSampleAlg svj = new VPSampleAlg(query, db, sample);
-                    ArrayList<double[]> VPNNRes = svj.nnSearch();
-                    minCTime = minCTime < bj.cTime ? minCTime : bj.cTime;
-                    maxCTime = maxCTime > bj.cTime ? maxCTime : bj.cTime;
-                    minFTime = minFTime < bj.fTime ? minFTime : bj.fTime;
-                    maxFTime = maxFTime > bj.fTime ? maxFTime : bj.fTime;
-                    minAccess = minAccess < bj.searchCount ? minAccess : bj.searchCount;
-                    maxAccess = maxAccess > bj.searchCount ? maxAccess : bj.searchCount;
-                    minCalcNB = minCalcNB < bj.calcCount ? minCalcNB : bj.calcCount;
-                    maxCalcNB = maxCalcNB > bj.calcCount ? maxCalcNB : bj.calcCount;
-                    writeFile(setInfo, svj.info);
-                    // VP-Farest
-                    VPFarAlg fVP = new VPFarAlg(query, db, sample);
-                    ArrayList<double[]> VPNNRes1 = fVP.nnSearch();
-                    writeFile(setInfo, fVP.info);
+                    bj.nnSearch();
+                    meanCTime += bj.cTime;
+                    meanFTime += bj.fTime;
+                    meanAccess += bj.searchCount;
+                    meanCalcNB += bj.calcCount;
                 }
-                String info = "\nBall-Tree: minCTime/maxCTime/diff/minFTime/maxFTime/diff/minAccess/maxAccess/diff/minCalcNB/maxCalcNB/diff\n";
-                String values = String.format("%8f %8f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f",
-                        minCTime, maxCTime, (maxCTime - minCTime) * 100 / maxCTime, minFTime / qSize, maxFTime / qSize,
-                        (maxFTime - minFTime) * 100 / maxFTime,
-                        minAccess, maxAccess, (maxAccess - minAccess) * 100 / maxAccess, minCalcNB, maxCalcNB,
-                        (maxCalcNB - minCalcNB) * 100 / maxCalcNB);
+                String info = "\nBall-Tree: CTime/FTime/Access/CalcNB\n";
+                String values = String.format("%8f %8f %8f %8f", meanCTime / expNB, meanFTime / expNB,
+                        meanAccess / expNB, meanCalcNB / expNB);
                 writeFile(setInfo, info + values);
                 System.out.println(info + values);
 
@@ -213,62 +189,38 @@ public class Evaluate {
 
     }
 
-    public void evaluate_sample(String data, int qSize, int dbSize, int leafSize) {
+    // evaluate the VP-tree with varied number of sampled points
+    public void evaluateSampleNB(int expNB, String data, int qSize, int dbSize) {
 
-        int[] samples = new int[] { 1000, 2000, 3000, 4000, 5000 };
-        writeFile("\n\n Neww Experiments \n\n", "  ");
-
+        int[] samples = new int[] { 100, 200, 300, 400, 500 };
+        writeFile("\nEvaluation Best SampleNB \n", "  ");
         for (int dim : new int[] { 10, 20, 40, 60, 80 }) {
             // load data
             loadData(qSize, dbSize, dim);
             System.out.println("\n");
             for (int sample : samples) {
                 String setInfo = String.format(
-                        "Data: %s \tqSize: %d \tdbSize: %d \tdim: %d \tleafSize: %d \tsample: %d",
+                        "\nData: %s \tqSize: %d \tdbSize: %d \tdim: %d \tsample: %d",
                         data,
-                        query.size(), db.size(), dim, leafSize, sample);
+                        query.size(), db.size(), dim, sample);
                 System.out.println(setInfo);
-                double minCTime = Double.MAX_VALUE;
-                double maxCTime = 0;
-                double minFTime = Double.MAX_VALUE;
-                double maxFTime = 0;
-                double minAccess = Double.MAX_VALUE;
-                double maxAccess = 0;
-                double minCalcNB = Double.MAX_VALUE;
-                double maxCalcNB = 0;
-                for (int j = 0; j < 20; j++) {
-                    // BF
-                    BFAlg bf = new BFAlg(query, db);
-                    ArrayList<double[]> BFNNRes = bf.nnSearch();
-                    writeFile(setInfo, bf.info);
-                    setInfo = "";
-                    // Ball-Tree
-                    BJAlg bj = new BJAlg(query, db, leafSize);
-                    ArrayList<double[]> BJNNRes = bj.nnSearch();
-                    writeFile(setInfo, bj.info);
+                double meanCTime = 0;
+                double meanFTime = 0;
+                double meanAccess = 0;
+                for (int j = 0; j < expNB; j++) {
                     // VP-Sample
-                    VPSampleAlg svj = new VPSampleAlg(query, db, sample);
-                    ArrayList<double[]> VPNNRes = svj.nnSearch();
-                    minCTime = minCTime < svj.cTime ? minCTime : svj.cTime;
-                    maxCTime = maxCTime > svj.cTime ? maxCTime : svj.cTime;
-                    minFTime = minFTime < svj.fTime ? minFTime : svj.fTime;
-                    maxFTime = maxFTime > svj.fTime ? maxFTime : svj.fTime;
-                    minAccess = minAccess < svj.searchCount ? minAccess : svj.searchCount;
-                    maxAccess = maxAccess > svj.searchCount ? maxAccess : svj.searchCount;
-                    minCalcNB = minAccess;
-                    maxCalcNB = maxAccess;
-                    writeFile(setInfo, svj.info);
+                    VPSampleAlg sVP = new VPSampleAlg(query, db, sample);
+                    ArrayList<double[]> VPNNRes = sVP.nnSearch();
+                    meanCTime += sVP.cTime;
+                    meanFTime += sVP.fTime / query.size();
+                    meanAccess += sVP.searchCount;
                     // VP-Farest
                     VPFarAlg fVP = new VPFarAlg(query, db, sample);
                     ArrayList<double[]> VPNNRes1 = fVP.nnSearch();
-                    writeFile(setInfo, fVP.info);
                 }
-                String info = "\nVP-tree: minCTime/maxCTime/diff/minFTime/maxFTime/diff/minAccess/maxAccess/diff/minCalcNB/maxCalcNB/diff\n";
-                String values = String.format("%8f %8f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f %8.3f",
-                        minCTime, maxCTime, (maxCTime - minCTime) * 100 / maxCTime, minFTime / qSize, maxFTime / qSize,
-                        (maxFTime - minFTime) * 100 / maxFTime,
-                        minAccess, maxAccess, (maxAccess - minAccess) * 100 / maxAccess, minCalcNB, maxCalcNB,
-                        (maxCalcNB - minCalcNB) * 100 / maxCalcNB);
+                String info = "Ball-Tree: CTime/FTime/Access/CalcNB\n";
+                String values = String.format("%8f %8f %8f %8f", meanCTime / expNB, meanFTime / expNB,
+                        meanAccess / expNB, meanAccess / expNB);
                 writeFile(setInfo, info + values);
                 System.out.println(info + values);
 
@@ -279,12 +231,12 @@ public class Evaluate {
     }
 
     public static void main(String[] args) {
-        // new Main().evaluate_multi();
-        // new Evaluate().evaluate_sample(Settings.data, Settings.qNB, Settings.dbNB,
-        // Settings.minLeafNB);
-        // new Evaluate().evaluate_capacity(Settings.data, Settings.qNB, Settings.dbNB,
-        // Settings.sampleNB);
-        new Evaluate().evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.minLeafNB,
-                Settings.sampleNB);
+        Evaluate e = new Evaluate();
+        int expNB = 10;
+        // e.evaluateLeafNB(expNB, Settings.data, Settings.qNB, Settings.dbNB);
+        // e.evaluateSampleNB(expNB, Settings.data, Settings.qNB, Settings.dbNB);
+        e.evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, Settings.dim,
+                Settings.minLeafNB, Settings.sampleNB);
+        // e.evaluate_multi();
     }
 }

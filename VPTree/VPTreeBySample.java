@@ -6,7 +6,6 @@ package VPTree;
 
 import Distance.*;
 import java.util.Collections;
-import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashSet;
@@ -25,25 +24,28 @@ public class VPTreeBySample {
 	private ArrayList<double[]> rangeRes;
 	// the number of node access when conduct queries
 	public int searchCount = 0;
+	// the size of sampling vectors to select VP points
+	public int sampleNB;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param the train dataset of double[]s, Distance metric d to be used
 	 */
-	public VPTreeBySample(Collection<double[]> collection, DistanceFunction d, int sampleNB) {
+	public VPTreeBySample(double[][] collection, DistanceFunction d, int sampleNB) {
 
 		dFunc = d;
 		tau = java.lang.Double.MAX_VALUE;
 		best = null;
 
 		ArrayList<Item> list = new ArrayList<Item>();
-		for (double[] pixels : collection) {
-			Item itm = new Item(pixels);
+		for (double[] vector : collection) {
+			Item itm = new Item(vector);
 			list.add(itm);
 		}
+		this.sampleNB = sampleNB;
+		root = recurse(list);
 
-		root = recurse(list, sampleNB);
 	}
 
 	/**
@@ -53,10 +55,10 @@ public class VPTreeBySample {
 	 * @param ArrayList of Item objects
 	 * @return Node object which is the root of the VP Tree
 	 */
-	private VPNode recurse(ArrayList<Item> list, int sampleNB) {
+	private VPNode recurse(ArrayList<Item> list) {
 		if (list.size() == 0)
 			return null;
-		VPNode n = new VPNode(getVP(list, sampleNB));
+		VPNode n = new VPNode(getVP(list));
 		deleteItem(list, n.getItem());
 
 		for (Item itm : list) {
@@ -77,8 +79,8 @@ public class VPTreeBySample {
 				R.add(itm);
 		}
 
-		n.setLeft(recurse(L, sampleNB));
-		n.setRight(recurse(R, sampleNB));
+		n.setLeft(recurse(L));
+		n.setRight(recurse(R));
 		return n;
 	}
 
@@ -88,37 +90,21 @@ public class VPTreeBySample {
 	 * @param ArrayList of Item objects
 	 * @return Item object containing the Vantage Point
 	 */
-	public Item getVP(ArrayList<Item> list, int sampleNB) {
-		if (list.size() == 1)
+	public Item getVP(ArrayList<Item> list) {
+		if (list.size() == 1) {
 			return list.get(0);
-
-		int size = sampleNB;
-		if (list.size() < sampleNB)
-			size = list.size();
-		ArrayList<Item> p;
-		if (size != list.size()) {
-			p = getSample(list, size);
-		} else {
-			p = list;
 		}
+		ArrayList<Item> p = getSample(list);
 		double best_spread = 0.0;
 		Item best = list.get(0);
 		for (Item i : p) {
-			ArrayList<Item> d;
-			if (size != list.size()) {
-				d = getSample(list, size);
-			} else {
-				d = list;
-			}
-
+			ArrayList<Item> d = getSample(list);
 			ArrayList<Double> arr = new ArrayList<Double>();
 			for (Item j : d) {
 				arr.add(dFunc.distance(j.getPixels(), i.getPixels()));
 			}
-
 			Collections.sort(arr);
-
-			size = arr.size();
+			int size = arr.size();
 			double mu = 0.0;
 			if ((size % 2) == 1)
 				mu = arr.get(size / 2);
@@ -146,15 +132,13 @@ public class VPTreeBySample {
 	 * @param ArrayList of Item objects and size of sample
 	 * @return ArrayList of Item objects representing the sample
 	 */
-	public ArrayList<Item> getSample(ArrayList<Item> list, int size) {
-		if (list.size() <= size)
+	public ArrayList<Item> getSample(ArrayList<Item> list) {
+		if (list.size() <= sampleNB)
 			return list;
-
 		Random rand = new Random();
 		ArrayList<Item> ans = new ArrayList<Item>();
 		HashSet<Integer> set = new HashSet<Integer>();
-
-		while (ans.size() < size) {
+		while (ans.size() < sampleNB) {
 			int i = rand.nextInt(list.size());
 			if (set.contains(i))
 				continue;

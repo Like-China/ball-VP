@@ -63,7 +63,7 @@ public class BFAlg {
         }
         double t2 = System.currentTimeMillis();
         fTime = t2 - t1;
-        info = String.format("**Brute-Forced**\nnn-Search time cost: %.3f ms / query", fTime / qData.length);
+        info = String.format("**\tBrute-Forced\nnn-Search time cost: %.3f ms / query", fTime / qData.length);
         System.out.println(info);
         return res;
     }
@@ -91,10 +91,11 @@ public class BFAlg {
                 res.add(candidate);
             }
         });
+
         long t2 = System.currentTimeMillis();
         fTime = (t2 - t1);
         int n = qData.length;
-        info = String.format("**Brute-force**\nNearest-neighbor search time cost: %.3f ms / query", fTime / n);
+        info = String.format("**\tPara Brute-force\nNearest-neighbor search time cost: %.3f ms / query", fTime / n);
         System.out.println(info);
         return res;
     }

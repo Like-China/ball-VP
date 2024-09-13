@@ -32,7 +32,7 @@ public class VPTreeByFarest {
 	 * 
 	 * @param the train dataset of double[]s, Distance metric d to be used
 	 */
-	public VPTreeByFarest(Collection<double[]> collection, DistanceFunction d) {
+	public VPTreeByFarest(double[][] collection, DistanceFunction d) {
 
 		dFunc = d;
 		tau = java.lang.Double.MAX_VALUE;

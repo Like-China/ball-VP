@@ -1,17 +1,19 @@
 package evaluation;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
+
 import balltree.*;
 import Distance.*;
 
 public class BJAlg {
     /// query, double[]base set at each timestamp, we update them at each timestampe
-    public ArrayList<double[]> qData = new ArrayList<>();
-    public ArrayList<double[]> dbData = new ArrayList<>();
-    l2Distance dist = new l2Distance();
+    public double[][] qData;
+    public double[][] dbData;
     // index construction time / filtering time
     public long cTime = 0;
     public double fTime = 0;
+    l2Distance dist = new l2Distance();
     // the repartition threshold
     public int minLeafNB = 0;
     public String info = null;
@@ -20,8 +22,9 @@ public class BJAlg {
     public int searchCount = 0;
 
     public BJAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, int minLeafNB) {
-        this.qData = qData;
-        this.dbData = dbData;
+        // Converting ArrayList to array for better performance
+        this.qData = qData.toArray(new double[qData.size()][]);
+        this.dbData = dbData.toArray(new double[dbData.size()][]);
         this.minLeafNB = minLeafNB;
     }
 
@@ -64,9 +67,39 @@ public class BJAlg {
         }
         t2 = System.currentTimeMillis();
         fTime = t2 - t1;
-        int n = qData.size();
+        int n = qData.length;
         info = String.format(
-                "**BallTree**\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms\t%8.3fms \t%8d \t%8d",
+                "**\tBallTree\nnn construct time / mean search time / nn mean node accesses / calc count:\n%8dms\t%8.3fms \t%8d \t%8d",
+                cTime, fTime / n, bt.searchCount / n, bt.calcCount / n);
+        calcCount = bt.calcCount;
+        searchCount = bt.searchCount;
+        System.out.println(info);
+        return res;
+    }
+
+    public ArrayList<double[]> nnSearchPara() {
+        long t1 = System.currentTimeMillis();
+        BallTree bt = new BallTree(minLeafNB, dbData);
+        BallNode root = bt.buildBallTree();
+        long t2 = System.currentTimeMillis();
+        cTime = t2 - t1;
+        t1 = System.currentTimeMillis();
+        ArrayList<double[]> res = new ArrayList<>();
+
+        // Parallelizing the outer loop
+        IntStream.range(0, qData.length).parallel().forEach(i -> {
+            double[] q = qData[i];
+            double[] nn = bt.searchNN(root, q);
+            synchronized (res) {
+                res.add(nn);
+            }
+        });
+
+        t2 = System.currentTimeMillis();
+        fTime = (t2 - t1);
+        int n = qData.length;
+        info = String.format(
+                "**\tParallel BallTree\nnn construct time / mean search time / nn mean node accesses / calc count:\n%8dms\t%8.3fms \t%8d \t%8d",
                 cTime, fTime / n, bt.searchCount / n, bt.calcCount / n);
         calcCount = bt.calcCount;
         searchCount = bt.searchCount;
