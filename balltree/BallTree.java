@@ -3,10 +3,10 @@ package balltree;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import Distance.l2Distance;
+import Distance.DistanceFunction;
 
 public class BallTree {
-    public int minLeafNB;
+    public int leafBucketSize;
     public int pointNB;
     public double[][] db;
     public int[] indexes = null;
@@ -15,7 +15,7 @@ public class BallTree {
     // the number of node access when conduct queries
     public int searchCount = 0;
     public int calcCount = 0;
-    l2Distance dist = new l2Distance();
+    DistanceFunction distFunction;
 
     // for NN search
     private double tau;
@@ -23,12 +23,13 @@ public class BallTree {
     private ArrayList<double[]> RangeRes;
     private int dim = 2;
 
-    public BallTree(int minLeafNB, double[][] db) {
-        this.minLeafNB = minLeafNB;
+    public BallTree(int leafBucketSize, double[][] db, DistanceFunction distFunction) {
+        this.leafBucketSize = leafBucketSize;
         this.pointNB = db.length;
         this.indexes = new int[pointNB];
         this.db = db;
         this.dim = db[0].length;
+        this.distFunction = distFunction;
     }
 
     public double[] getPivot(int[] indexes, int idxStart, int idxEnd) {
@@ -52,7 +53,7 @@ public class BallTree {
         double radius = 0;
         for (int i = idxStart; i < idxEnd + 1; i++) {
             // the distance between the center of ellipse and pivot+the radius of ellipse
-            double temp = this.dist.distance(pivot, db[indexes[i]]);
+            double temp = distFunction.distance(pivot, db[indexes[i]]);
             if (temp > radius) {
                 radius = temp;
             }
@@ -61,7 +62,7 @@ public class BallTree {
     }
 
     public BallNode buildBallTree() {
-        // assert this.minLeafNB >= 10;
+        // assert this.leafBucketSize >= 10;
         for (int i = 0; i < pointNB; i++) {
             this.indexes[i] = i;
         }
@@ -77,7 +78,7 @@ public class BallTree {
     }
 
     public void localBuildBallTree(BallNode node, int depth) {
-        if (node.idxEnd - node.idxStart + 1 <= this.minLeafNB) {
+        if (node.idxEnd - node.idxStart + 1 <= this.leafBucketSize) {
             return;
         } else {
             constructCount++;
@@ -93,7 +94,7 @@ public class BallTree {
         double tempDist = 0.0;
         int idx = node.idxStart;
         for (int i = node.idxStart; i < node.idxEnd + 1; i++) {
-            tempDist = dist.distance(db[indexes[i]], node.pivot);
+            tempDist = distFunction.distance(db[indexes[i]], node.pivot);
             if (tempDist > maxDist) {
                 maxDist = tempDist;
                 idx = i;
@@ -104,7 +105,7 @@ public class BallTree {
         idx = node.idxStart;
         maxDist = 0;
         for (int i = node.idxStart; i < node.idxEnd + 1; i++) {
-            tempDist = dist.distance(db[indexes[i]], furthest1);
+            tempDist = distFunction.distance(db[indexes[i]], furthest1);
             if (tempDist > maxDist) {
                 maxDist = tempDist;
                 idx = i;
@@ -115,8 +116,8 @@ public class BallTree {
         int split = node.idxEnd;
         idx = node.idxStart;
         while (idx <= split) {
-            maxDist = dist.distance(db[this.indexes[idx]], furthest1);
-            tempDist = dist.distance(db[this.indexes[idx]], furthest2);
+            maxDist = distFunction.distance(db[this.indexes[idx]], furthest1);
+            tempDist = distFunction.distance(db[this.indexes[idx]], furthest2);
             if (maxDist >= tempDist) {
                 int temp = this.indexes[idx];
                 this.indexes[idx] = this.indexes[split];
@@ -158,13 +159,13 @@ public class BallTree {
             return;
         searchCount++;
         calcCount++;
-        double nodeDist = this.dist.distance(q, node.pivot) - node.radius;
+        double nodeDist = this.distFunction.distance(q, node.pivot) - node.radius;
         if (nodeDist > range) {
             return;
         }
         if (node.leftNode != null && node.rightNode != null) {
-            double leftPivotDist = this.dist.distance(q, node.leftNode.pivot);
-            double rightPivotDist = this.dist.distance(q, node.rightNode.pivot);
+            double leftPivotDist = this.distFunction.distance(q, node.leftNode.pivot);
+            double rightPivotDist = this.distFunction.distance(q, node.rightNode.pivot);
             calcCount += 2;
             double leftBallDist = leftPivotDist - node.leftNode.radius;
             double rightBallDist = rightPivotDist - node.rightNode.radius;
@@ -179,9 +180,9 @@ public class BallTree {
         } else if (node.leftNode == null && node.rightNode == null) { // reach leaf node
             for (int i = node.idxStart; i < node.idxEnd + 1; i++) {
                 double[] candidate = db[indexes[i]];
-                double dist = this.dist.distance(q, candidate);
+                double dist = this.distFunction.distance(q, candidate);
                 calcCount++;
-                if (dist < range) {
+                if (dist <= range) {
                     RangeRes.add(candidate);
                 }
             }
@@ -193,14 +194,14 @@ public class BallTree {
     public void _searchNN(BallNode node, double[] q) {
         searchCount++;
         calcCount++;
-        double nodeDist = this.dist.distance(q, node.pivot) - node.radius;
+        double nodeDist = this.distFunction.distance(q, node.pivot) - node.radius;
         if (nodeDist > tau) {
             return;
         }
         if (node.leftNode != null && node.rightNode != null) {
             calcCount += 2;
-            double leftPivotDist = this.dist.distance(q, node.leftNode.pivot);
-            double rightPivotDist = this.dist.distance(q, node.rightNode.pivot);
+            double leftPivotDist = this.distFunction.distance(q, node.leftNode.pivot);
+            double rightPivotDist = this.distFunction.distance(q, node.rightNode.pivot);
             double leftBallDist = leftPivotDist - node.leftNode.radius;
             double rightBallDist = rightPivotDist - node.rightNode.radius;
             if (leftBallDist < tau) {
@@ -214,7 +215,7 @@ public class BallTree {
         } else if (node.leftNode == null && node.rightNode == null) { // reach leaf node
             for (int i = node.idxStart; i < node.idxEnd + 1; i++) {
                 double[] candidate = db[indexes[i]];
-                double dist = this.dist.distance(q, candidate);
+                double dist = this.distFunction.distance(q, candidate);
                 calcCount++;
                 if (dist < tau) {
                     best = candidate;

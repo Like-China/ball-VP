@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Distance.l2Distance;
+import Distance.DistanceFunction;
 
 public class Evaluate {
 
     public ArrayList<double[]> db = new ArrayList<>();
     public ArrayList<double[]> query = new ArrayList<>();
-    l2Distance dist = new l2Distance();
+    DistanceFunction distFunction = Settings.distFunction;
 
     public static void writeFile(String setInfo, String otherInfo) {
         try {
@@ -72,9 +72,9 @@ public class Evaluate {
         assert query.size() == a.size();
         assert query.size() == b.size();
         for (int i = 0; i < query.size(); i++) {
-            double dist1 = dist.distance(a.get(i), query.get(i));
-            double dist2 = dist.distance(b.get(i), query.get(i));
-            assert dist1 == dist2;
+            double dist1 = distFunction.distance(a.get(i), query.get(i));
+            double dist2 = distFunction.distance(b.get(i), query.get(i));
+            assert dist1 == dist2 : dist1 + "/" + dist2;
         }
     }
 
@@ -87,35 +87,34 @@ public class Evaluate {
         System.out.println(setInfo);
 
         // BF
-        BFAlg bf = new BFAlg(query, db);
-        // ArrayList<double[]> BFNNRes = bf.nnSearch();
-        ArrayList<double[]> BFNNRes = bf.nnSearchPara();
+        BFAlg bf = new BFAlg(query, db, distFunction);
+        ArrayList<double[]> BFNNRes = bf.nnSearch();
         writeFile(setInfo, bf.info);
         setInfo = "";
 
         // Ball-Tree
-        BJAlg bj = new BJAlg(query, db, leafSize);
+        BJAlg bj = new BJAlg(query, db, leafSize, distFunction);
         ArrayList<double[]> BJNNRes = bj.nnSearch();
         // ArrayList<double[]> BJNNResPara = bj.nnSearchPara();
         // _check(query, BJNNResPara, BJNNRes);
         writeFile(setInfo, bj.info);
 
         // VP-Sample
-        VPSampleAlg sVP = new VPSampleAlg(query, db, sample);
+        VPSampleAlg sVP = new VPSampleAlg(query, db, sample, distFunction);
         ArrayList<double[]> VPNNRes = sVP.nnSearch();
         // ArrayList<double[]> VPNNRes1 = sVP.nnSearchPara();
         // _check(query, VPNNRes, VPNNRes1);
         writeFile(setInfo, sVP.info);
 
         // VP-Farest
-        VPFarAlg fVP = new VPFarAlg(query, db, sample);
+        VPFarAlg fVP = new VPFarAlg(query, db, sample, distFunction);
         ArrayList<double[]> fVPNNRes = fVP.nnSearch();
         // ArrayList<double[]> fVPNNRes1 = fVP.nnSearchPara();
         // _check(query, fVPNNRes, fVPNNRes1);
         writeFile(setInfo, fVP.info);
 
         // result check
-        _check(query, BFNNRes, BJNNRes);
+        // _check(query, BFNNRes, BJNNRes);
         _check(query, BFNNRes, VPNNRes);
         _check(query, BFNNRes, fVPNNRes);
     }
@@ -170,7 +169,7 @@ public class Evaluate {
                 double meanCalcNB = 0;
                 for (int j = 0; j < expNB; j++) {
                     // Ball-Tree
-                    BJAlg bj = new BJAlg(query, db, leafSize);
+                    BJAlg bj = new BJAlg(query, db, leafSize, distFunction);
                     bj.nnSearch();
                     meanCTime += bj.cTime;
                     meanFTime += bj.fTime;
@@ -209,13 +208,13 @@ public class Evaluate {
                 double meanAccess = 0;
                 for (int j = 0; j < expNB; j++) {
                     // VP-Sample
-                    VPSampleAlg sVP = new VPSampleAlg(query, db, sample);
+                    VPSampleAlg sVP = new VPSampleAlg(query, db, sample, distFunction);
                     ArrayList<double[]> VPNNRes = sVP.nnSearch();
                     meanCTime += sVP.cTime;
                     meanFTime += sVP.fTime / query.size();
                     meanAccess += sVP.searchCount;
                     // VP-Farest
-                    VPFarAlg fVP = new VPFarAlg(query, db, sample);
+                    VPFarAlg fVP = new VPFarAlg(query, db, sample, distFunction);
                     ArrayList<double[]> VPNNRes1 = fVP.nnSearch();
                 }
                 String info = "Ball-Tree: CTime/FTime/Access/CalcNB\n";

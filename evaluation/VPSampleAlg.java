@@ -1,6 +1,7 @@
 package evaluation;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.stream.IntStream;
 
 import VPTree.*;
@@ -10,7 +11,7 @@ public class VPSampleAlg {
     /// query, double[]base set at each timestamp, we update them at each timestampe
     public double[][] qData;
     public double[][] dbData;
-    l2Distance dist = new l2Distance();
+    public DistanceFunction distFunction;
     // index construction time / filtering time
     public long cTime = 0;
     public double fTime = 0;
@@ -20,10 +21,12 @@ public class VPSampleAlg {
     public String info = null;
     public int sampleNB;
 
-    public VPSampleAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, int sampleNB) {
+    public VPSampleAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, int sampleNB,
+            DistanceFunction distFunction) {
         this.qData = qData.toArray(new double[qData.size()][]);
         this.dbData = dbData.toArray(new double[dbData.size()][]);
         this.sampleNB = sampleNB;
+        this.distFunction = distFunction;
     }
 
     /**
@@ -33,7 +36,7 @@ public class VPSampleAlg {
      */
     public ArrayList<double[]> nnSearch() {
         long t1 = System.currentTimeMillis();
-        VPTreeBySample vp = new VPTreeBySample(dbData, dist, sampleNB);
+        VPTreeBySample vp = new VPTreeBySample(dbData, distFunction, sampleNB);
         long t2 = System.currentTimeMillis();
         cTime = t2 - t1;
 
@@ -55,7 +58,7 @@ public class VPSampleAlg {
 
     public ArrayList<double[]> nnSearchPara() {
         long t1 = System.currentTimeMillis();
-        VPTreeBySample vp = new VPTreeBySample(dbData, dist, sampleNB);
+        VPTreeBySample vp = new VPTreeBySample(dbData, distFunction, sampleNB);
         long t2 = System.currentTimeMillis();
         cTime = t2 - t1;
         t1 = System.currentTimeMillis();
@@ -81,9 +84,37 @@ public class VPSampleAlg {
         return res;
     }
 
+    /**
+     * conduct BJ-Alg method to obtain all candidate pairs
+     * 
+     * @return all candidate pairs
+     */
+    public ArrayList<PriorityQueue<NN>> kNNSearch(int k) {
+        long t1 = System.currentTimeMillis();
+        VPTreeBySample vp = new VPTreeBySample(dbData, distFunction, sampleNB);
+        long t2 = System.currentTimeMillis();
+        cTime = t2 - t1;
+
+        t1 = System.currentTimeMillis();
+        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
+        for (double[] q : qData) {
+            res.add(vp.searchkNN(q, k));
+        }
+        t2 = System.currentTimeMillis();
+        fTime = t2 - t1;
+        int n = qData.length;
+        info = String.format(
+                "**\tVPSampleTree\nkNN construct time / mean search time / nn mean node accesses / calc times:\n%8dms \t%8.3fms \t%8d \t%8d",
+                cTime, fTime / n, vp.searchCount / n, vp.searchCount / n);
+        System.out.println(info);
+        searchCount = vp.searchCount / n;
+
+        return res;
+    }
+
     public ArrayList<double[]> rangeSearch(double range) {
         long t1 = System.currentTimeMillis();
-        VPTreeBySample vp = new VPTreeBySample(dbData, dist, sampleNB);
+        VPTreeBySample vp = new VPTreeBySample(dbData, distFunction, sampleNB);
         long t2 = System.currentTimeMillis();
         cTime = t2 - t1;
 

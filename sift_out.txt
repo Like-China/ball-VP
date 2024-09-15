@@ -1,0 +1,330 @@
+
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Para Brute-force
+Nearest-neighbor search time cost: 0.211 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      50ms	   0.028ms 	     378 	    1161
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     836ms	   0.012ms 	     181 	     181
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     126ms 	   0.010ms 	     185 	     185
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Para Brute-force
+Nearest-neighbor search time cost: 0.211 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      52ms	   0.026ms 	     375 	    1155
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     849ms	   0.013ms 	     193 	     193
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+      88ms 	   0.010ms 	     182 	     182
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Para Brute-force
+Nearest-neighbor search time cost: 0.187 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      51ms	   0.029ms 	     380 	    1167
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     842ms	   0.014ms 	     199 	     199
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+      89ms 	   0.009ms 	     178 	     178
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Para Brute-force
+Nearest-neighbor search time cost: 0.181 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      47ms	   0.025ms 	     368 	    1132
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     754ms	   0.014ms 	     187 	     187
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+      82ms 	   0.008ms 	     165 	     165
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Para Brute-force
+Nearest-neighbor search time cost: 0.202 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      56ms	   0.095ms 	    1257 	    4000
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     766ms	   0.113ms 	    2239 	    2239
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     119ms 	   0.104ms 	    1979 	    1979
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Para Brute-force
+Nearest-neighbor search time cost: 0.233 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      69ms	   0.091ms 	    1227 	    3894
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     765ms	   0.125ms 	    2531 	    2531
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     117ms 	   0.112ms 	    2098 	    2098
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Para Brute-force
+Nearest-neighbor search time cost: 0.267 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      52ms	   0.086ms 	    1163 	    3687
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     767ms	   0.129ms 	    2566 	    2566
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     130ms 	   0.124ms 	    2482 	    2482
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Para Brute-force
+Nearest-neighbor search time cost: 0.216 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      53ms	   0.093ms 	    1221 	    3886
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     767ms	   0.112ms 	    2172 	    2172
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     129ms 	   0.110ms 	    2246 	    2246
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.378 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      58ms	   0.092ms 	    1197 	    3799
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     743ms	   0.110ms 	    2373 	    2373
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     119ms 	   0.113ms 	    2014 	    2014
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.344 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      57ms	   0.028ms 	     379 	    1163
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     745ms	   0.013ms 	     194 	     194
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+      78ms 	   0.009ms 	     168 	     168
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.369 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      56ms	   0.028ms 	     375 	    1149
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     746ms	   0.012ms 	     195 	     195
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     119ms 	   0.010ms 	     168 	     168
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.348 ms / query
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.356 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      54ms	   0.026ms 	     372 	    1143
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     811ms	   0.016ms 	     239 	     239
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     118ms 	   0.009ms 	     168 	     168
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.383 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      56ms	   0.092ms 	    1207 	    3837
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     758ms	   0.114ms 	    2465 	    2465
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     119ms 	   0.123ms 	    2210 	    2210
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.351 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      57ms	   0.107ms 	    1444 	    4595
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     760ms	   0.114ms 	    2274 	    2274
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     118ms 	   0.101ms 	    1760 	    1760
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.365 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      58ms	   0.094ms 	    1215 	    3854
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     786ms	   0.115ms 	    2465 	    2465
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     120ms 	   0.125ms 	    2244 	    2244
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.895 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+     141ms	   0.261ms 	    1440 	    4567
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     960ms	   0.209ms 	    1995 	    1995
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     128ms 	   0.227ms 	    1799 	    1799
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.373 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      58ms	   0.101ms 	    1219 	    3870
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     749ms	   0.109ms 	    2342 	    2342
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+      78ms 	   0.111ms 	    2001 	    2001
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.335 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      63ms	   0.029ms 	     384 	    1181
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     812ms	   0.015ms 	     267 	     267
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     119ms 	   0.009ms 	     191 	     191
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.344 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      68ms	   0.029ms 	     376 	    1156
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     742ms	   0.011ms 	     170 	     170
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     123ms 	   0.009ms 	     168 	     168
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.357 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      56ms	   0.028ms 	     378 	    1163
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     804ms	   0.014ms 	     199 	     199
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+      80ms 	   0.009ms 	     168 	     168
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.364 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      71ms	   0.027ms 	     372 	    1147
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     737ms	   0.014ms 	     194 	     194
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+      76ms 	   0.010ms 	     170 	     170
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.347 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      55ms	   0.028ms 	     377 	    1158
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     733ms	   0.015ms 	     256 	     256
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+      72ms 	   0.009ms 	     182 	     182
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.345 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      58ms	   0.028ms 	     378 	    1164
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     772ms	   0.013ms 	     207 	     207
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     118ms 	   0.009ms 	     176 	     176
+
+Data: sift 	qSize: 1000 	dbSize: 20000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 0.384 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+      58ms	   0.094ms 	    1232 	    3921
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     804ms	   0.118ms 	    2537 	    2537
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+     120ms 	   0.125ms 	    2210 	    2210
+
+Data: sift 	qSize: 10000 	dbSize: 200000 	dim: 10 	leafSize: 4 	sample: 100
+**	Brute-Forced
+nn-Search time cost: 5.368 ms / query
+**	BallTree
+nn construct time / mean search time / nn mean node accesses / calc count:
+     674ms	   0.441ms 	    4408 	   13870
+**	VPSampleTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+    7271ms	   0.655ms 	    7994 	    7994
+**	VPFarTree
+nn construct time / mean search time / nn mean node accesses / calc times:
+    1268ms 	   0.887ms 	    7880 	    7880

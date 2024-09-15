@@ -18,7 +18,7 @@ public class VPNode {
     public double leftMax = 0;
     public double rightMax = 0;
     // the elements in this node
-    public ArrayList<Item> items;
+    public ArrayList<Item> items = null;
 
     /**
      * Contructor

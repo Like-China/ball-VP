@@ -36,7 +36,8 @@ public class l2Distance implements DistanceFunction {
             dist += (diff * diff);
         }
 
-        // dist = Math.sqrt(dist);
+        // ignore this may incur inaccurate indexing results of trees
+        dist = Math.sqrt(dist);
 
         return dist;
     }

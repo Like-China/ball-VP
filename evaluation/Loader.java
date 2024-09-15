@@ -1,19 +1,14 @@
 package evaluation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class Loader {
-    // store all double[] LOCATION in a ArryLiat<double[]> (real values)
-    ArrayList<double[]> locations = new ArrayList<>();
-    // query, database set at each timestamp, we update them at each timestampe
-    public ArrayList<double[]> queries = new ArrayList<>();
-    public ArrayList<double[]> db = new ArrayList<>();
 
     public ArrayList<double[]> loadRealData(String path, double readNB, int dim) {
-        // obtain all locations
         BufferedReader reader;
         Random r = new Random();
         ArrayList<double[]> data = new ArrayList<>();
@@ -41,6 +36,9 @@ public class Loader {
             e.printStackTrace();
         }
         // System.out.printf("data size: %d\n", data.size());
+        if (Settings.isShuffle) {
+            Collections.shuffle(data);
+        }
         return data;
     }
 

@@ -10,13 +10,14 @@ public class BFAlg {
     public double[][] qData;
     public double[][] dbData;
     public double fTime = 0;
-    l2Distance dist = new l2Distance();
+    public DistanceFunction distFunction;
     public String info = null;
 
-    public BFAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData) {
+    public BFAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, DistanceFunction distFunction) {
         // Converting ArrayList to array for better performance
         this.qData = qData.toArray(new double[qData.size()][]);
         this.dbData = dbData.toArray(new double[dbData.size()][]);
+        this.distFunction = distFunction;
     }
 
     /**
@@ -31,8 +32,8 @@ public class BFAlg {
         // Avoiding sqrt operations
         for (double[] qdata : qData) {
             for (double[] dbdata : dbData) {
-                double centerDist = dist.distance(dbdata, qdata);
-                if (centerDist <= range * range) {
+                double centerDist = distFunction.distance(dbdata, qdata);
+                if (centerDist <= range) {
                     res.add(dbdata);
                 }
             }
@@ -48,16 +49,17 @@ public class BFAlg {
         // brute-based solution
         double t1 = System.currentTimeMillis();
         ArrayList<double[]> res = new ArrayList<double[]>();
-        for (int i = 0; i < qData.length; ++i) {
-            double[] candidate = dbData[0];
+        for (int i = 0; i < qData.length; i++) {
+            double[] candidate = null;
             double minDist = Double.MAX_VALUE;
             for (int j = 0; j < dbData.length; j++) {
-                double d = dist.distance(qData[i], dbData[j]);
+                double d = distFunction.distance(qData[i], dbData[j]);
                 if (d < minDist) {
                     minDist = d;
                     candidate = dbData[j];
                 }
-                assert d != 0 : "Has at least one same value as the query!";
+                assert candidate != null;
+                assert d != 0 : "At least one same value as the query!";
             }
             res.add(candidate);
         }
@@ -79,7 +81,7 @@ public class BFAlg {
 
             // Unrolled loop and reduced condition checks
             for (double[] dbdata : dbData) {
-                double d = dist.distance(qData[i], dbdata);
+                double d = distFunction.distance(qData[i], dbdata);
                 if (d < minDist) {
                     minDist = d;
                     candidate = dbdata;
