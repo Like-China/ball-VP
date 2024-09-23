@@ -14,17 +14,17 @@ public class BJAlg {
     public long cTime = 0;
     public double fTime = 0;
     // the repartition threshold
-    public int minLeafNB = 0;
+    public int bucketSize = 0;
     public String info = null;
     public DistanceFunction distFunction;
     public int calcCount = 0;
     public int searchCount = 0;
 
-    public BJAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, int minLeafNB, DistanceFunction distFunction) {
+    public BJAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, int bucketSize, DistanceFunction distFunction) {
         // Converting ArrayList to array for better performance
         this.qData = qData.toArray(new double[qData.size()][]);
         this.dbData = dbData.toArray(new double[dbData.size()][]);
-        this.minLeafNB = minLeafNB;
+        this.bucketSize = bucketSize;
         this.distFunction = distFunction;
     }
 
@@ -35,7 +35,7 @@ public class BJAlg {
      */
     public ArrayList<double[]> rangeSearch(double range) {
         long t1 = System.currentTimeMillis();
-        BallTree bt = new BallTree(minLeafNB, dbData, distFunction);
+        BallTree bt = new BallTree(bucketSize, dbData, distFunction);
         BallNode root = bt.buildBallTree();
         long t2 = System.currentTimeMillis();
         cTime = t2 - t1;
@@ -55,7 +55,7 @@ public class BJAlg {
 
     public ArrayList<double[]> nnSearch() {
         long t1 = System.currentTimeMillis();
-        BallTree bt = new BallTree(minLeafNB, dbData, distFunction);
+        BallTree bt = new BallTree(bucketSize, dbData, distFunction);
         BallNode root = bt.buildBallTree();
         long t2 = System.currentTimeMillis();
         cTime = t2 - t1;
@@ -79,7 +79,7 @@ public class BJAlg {
 
     public ArrayList<double[]> nnSearchPara() {
         long t1 = System.currentTimeMillis();
-        BallTree bt = new BallTree(minLeafNB, dbData, distFunction);
+        BallTree bt = new BallTree(bucketSize, dbData, distFunction);
         BallNode root = bt.buildBallTree();
         long t2 = System.currentTimeMillis();
         cTime = t2 - t1;

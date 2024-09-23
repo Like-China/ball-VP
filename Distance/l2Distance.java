@@ -4,6 +4,8 @@
 
 package Distance;
 
+import java.util.Arrays;
+
 /**
  * Implements DistanceFunction interface for Euclidean distance metric
  */
@@ -28,16 +30,15 @@ public class l2Distance implements DistanceFunction {
             return dist;
         }
 
-        for (int i = 0; i < p1.length; ++i) {
+        for (int i = 0; i < p1.length; i++) {
             double x1 = p1[i];
             double x2 = p2[i];
-            double diff = x1 - x2;
-
-            dist += (diff * diff);
+            dist += Math.pow(x1 - x2, 2);
         }
 
         // ignore this may incur inaccurate indexing results of trees
         dist = Math.sqrt(dist);
+        // assert dist >= 0 : Arrays.toString(p1) + "\n" + Arrays.toString(p2);
 
         return dist;
     }

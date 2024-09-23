@@ -16,7 +16,8 @@ public class VPFarAlg {
     public long cTime = 0;
     public double fTime = 0;
     // the number of node accesses
-    public int searchCount = 0;
+    public int nodeAccess = 0;
+    public int calcCount = 0;
 
     public String info = null;
     public int sampleNB;
@@ -50,10 +51,10 @@ public class VPFarAlg {
         int n = qData.length;
         info = String.format(
                 "**\tVPFarTree\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms \t%8.3fms \t%8d \t%8d",
-                cTime, fTime / n, vp.searchCount / n, vp.searchCount / n);
+                cTime, fTime / n, vp.nodeAccess / n, vp.calcCount / n);
         System.out.println(info);
-        searchCount = vp.searchCount / n;
-
+        nodeAccess = vp.nodeAccess / n;
+        calcCount = vp.calcCount / n;
         return res;
     }
 
@@ -62,7 +63,7 @@ public class VPFarAlg {
      * 
      * @return all candidate pairs
      */
-    public ArrayList<PriorityQueue<NN>> kNNSearch(int k) {
+    public ArrayList<PriorityQueue<NN>> searchkNNDFS(int k) {
         long t1 = System.currentTimeMillis();
         VPTreeByFarest vp = new VPTreeByFarest(dbData, distFunction);
         long t2 = System.currentTimeMillis();
@@ -71,17 +72,40 @@ public class VPFarAlg {
         t1 = System.currentTimeMillis();
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         for (double[] q : qData) {
-            res.add(vp.searchkNN(q, k));
+            res.add(vp.searchkNNDFS(q, k, Double.MAX_VALUE));
         }
         t2 = System.currentTimeMillis();
         fTime = t2 - t1;
         int n = qData.length;
         info = String.format(
                 "**\tVPFarTree\nkNN construct time / mean search time / nn mean node accesses / calc times:\n%8dms \t%8.3fms \t%8d \t%8d",
-                cTime, fTime / n, vp.searchCount / n, vp.searchCount / n);
+                cTime, fTime / n, vp.nodeAccess / n, vp.calcCount / n);
         System.out.println(info);
-        searchCount = vp.searchCount / n;
+        nodeAccess = vp.nodeAccess / n;
+        calcCount = vp.calcCount / n;
+        return res;
+    }
 
+    public ArrayList<PriorityQueue<NN>> searchkNNBestFirst(int k) {
+        long t1 = System.currentTimeMillis();
+        VPTreeByFarest vp = new VPTreeByFarest(dbData, distFunction);
+        long t2 = System.currentTimeMillis();
+        cTime = t2 - t1;
+
+        t1 = System.currentTimeMillis();
+        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
+        for (double[] q : qData) {
+            res.add(vp.searchkNNBestFirst(q, k, Double.MAX_VALUE, true));
+        }
+        t2 = System.currentTimeMillis();
+        fTime = t2 - t1;
+        int n = qData.length;
+        info = String.format(
+                "**\tVPFarTree 1\nkNN construct time / mean search time / nn mean node accesses / calc times:\n%8dms \t%8.3fms \t%8d \t%8d",
+                cTime, fTime / n, vp.nodeAccess / n, vp.calcCount / n);
+        System.out.println(info);
+        nodeAccess = vp.nodeAccess / n;
+        calcCount = vp.calcCount / n;
         return res;
     }
 
@@ -107,7 +131,7 @@ public class VPFarAlg {
         int n = qData.length;
         info = String.format(
                 "**\tPara VPFarTree\nnn construct time / mean search time / nn mean node accesses / calc times:\n%8dms \t%8.3fms \t%8d \t%8d",
-                cTime, fTime / n, vp.searchCount / n, vp.searchCount / n);
+                cTime, fTime / n, vp.nodeAccess / n, vp.nodeAccess / n);
         System.out.println(info);
         return res;
     }
@@ -126,7 +150,7 @@ public class VPFarAlg {
         t2 = System.currentTimeMillis();
         fTime = t2 - t1;
         System.out.println("VP range-Search result size: " + res.size());
-        searchCount = vp.searchCount / qData.length;
+        nodeAccess = vp.nodeAccess / qData.length;
         return res;
     }
 

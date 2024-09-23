@@ -35,39 +35,6 @@ public class Evaluate {
         }
     }
 
-    public void generateRandomdata(int qNB, int dbNB, int dim) {
-        Random r = new Random();
-        db = new ArrayList<>();
-        query = new ArrayList<>();
-        for (int i = 0; i < qNB; i++) {
-            double[] point = new double[dim];
-            for (int j = 0; j < dim; j++) {
-                point[j] = r.nextDouble();
-            }
-            query.add(point);
-        }
-        for (int i = 0; i < dbNB; i++) {
-            double[] point = new double[dim];
-            for (int j = 0; j < dim; j++) {
-                point[j] = r.nextDouble();
-            }
-            db.add(point);
-        }
-
-    }
-
-    public void loadData(int qNB, int dbNB, int dim) {
-        if (Settings.data == "random") {
-            generateRandomdata(qNB, dbNB, dim);
-            return;
-        }
-        Loader l = new Loader();
-        String dbPath = Settings.dirPath + Settings.data + "_db.txt";
-        db = l.loadRealData(dbPath, dbNB, dim);
-        String qPath = Settings.dirPath + Settings.data + "_query.txt";
-        query = l.loadRealData(qPath, qNB, dim);
-    }
-
     public void _check(ArrayList<double[]> query, ArrayList<double[]> a, ArrayList<double[]> b) {
         assert query.size() == a.size();
         assert query.size() == b.size();
@@ -80,7 +47,11 @@ public class Evaluate {
 
     public void evaluate_one(String data, int qSize, int dbSize, int dim, int leafSize, int sample) {
         // load data
-        loadData(qSize, dbSize, dim);
+        Loader l = new Loader();
+        l.loadData(qSize, dbSize, dim);
+        this.db = l.db;
+        this.query = l.query;
+
         System.out.println("\n");
         String setInfo = String.format("Data: %s \tqSize: %d \tdbSize: %d \tdim: %d \tleafSize: %d \tsample: %d", data,
                 query.size(), db.size(), dim, leafSize, sample);
@@ -132,17 +103,17 @@ public class Evaluate {
 
         for (int qSize : qSizes) {
             writeFile("/Vary the size of queries", qSize + "/");
-            evaluate_one(Settings.data, qSize, Settings.dbNB, Settings.dim, Settings.minLeafNB, Settings.sampleNB);
+            evaluate_one(Settings.data, qSize, Settings.dbNB, Settings.dim, Settings.bucketSize, Settings.sampleNB);
         }
         System.out.println("\nRound 1 time cost: " + (System.currentTimeMillis() - t1) + "\n");
         for (int dbSize : dbSizes) {
             writeFile("/Vary the size of database", dbSize + "/");
-            evaluate_one(Settings.data, Settings.qNB, dbSize, Settings.dim, Settings.minLeafNB, Settings.sampleNB);
+            evaluate_one(Settings.data, Settings.qNB, dbSize, Settings.dim, Settings.bucketSize, Settings.sampleNB);
         }
         System.out.println("\nRound 2 time cost: " + (System.currentTimeMillis() - t1) + "\n");
         for (int dim : dims) {
             writeFile("/Vary the size of dim", dim + "/");
-            evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, dim, Settings.minLeafNB, Settings.sampleNB);
+            evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, dim, Settings.bucketSize, Settings.sampleNB);
         }
         System.out.println("\nRound 3 time cost: " + (System.currentTimeMillis() - t1) + "\n");
 
@@ -156,7 +127,11 @@ public class Evaluate {
         writeFile("\nEvaluation Best LeafNB \n", "  ");
         for (int dim : new int[] { 10, 20, 40, 60, 80 }) {
             // load data
-            loadData(qSize, dbSize, dim);
+            Loader l = new Loader();
+            l.loadData(qSize, dbSize, dim);
+            this.db = l.db;
+            this.query = l.query;
+
             System.out.println("\n");
             for (int leafSize : leafSizes) {
                 String setInfo = String.format(
@@ -195,7 +170,11 @@ public class Evaluate {
         writeFile("\nEvaluation Best SampleNB \n", "  ");
         for (int dim : new int[] { 10, 20, 40, 60, 80 }) {
             // load data
-            loadData(qSize, dbSize, dim);
+            Loader l = new Loader();
+            l.loadData(qSize, dbSize, dim);
+            this.db = l.db;
+            this.query = l.query;
+
             System.out.println("\n");
             for (int sample : samples) {
                 String setInfo = String.format(
@@ -212,7 +191,7 @@ public class Evaluate {
                     ArrayList<double[]> VPNNRes = sVP.nnSearch();
                     meanCTime += sVP.cTime;
                     meanFTime += sVP.fTime / query.size();
-                    meanAccess += sVP.searchCount;
+                    meanAccess += sVP.nodeAccess;
                     // VP-Farest
                     VPFarAlg fVP = new VPFarAlg(query, db, sample, distFunction);
                     ArrayList<double[]> VPNNRes1 = fVP.nnSearch();
@@ -234,8 +213,8 @@ public class Evaluate {
         int expNB = 10;
         // e.evaluateLeafNB(expNB, Settings.data, Settings.qNB, Settings.dbNB);
         // e.evaluateSampleNB(expNB, Settings.data, Settings.qNB, Settings.dbNB);
-        e.evaluate_one(Settings.data, Settings.qNB, Settings.dbNB, Settings.dim,
-                Settings.minLeafNB, Settings.sampleNB);
+        e.evaluate_one("sift", 1000, 10000, Settings.dim,
+                Settings.bucketSize, Settings.sampleNB);
         // e.evaluate_multi();
     }
 }

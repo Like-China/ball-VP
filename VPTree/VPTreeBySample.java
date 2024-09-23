@@ -2,6 +2,8 @@
 package VPTree;
 
 import Distance.*;
+import evaluation.Settings;
+
 import java.util.ArrayList;
 
 /**
@@ -36,12 +38,12 @@ public class VPTreeBySample extends VPTree {
 		}
 
 		// Early stop condition
-		// if (list.size() <= 5) {
-		// // Create a leaf node
-		// VPNode leafNode = new VPNode(null); // or a node with some dummy item
-		// leafNode.items = new ArrayList<>(list);
-		// return leafNode;
-		// }
+		if (Settings.isEarlyStopConstruct && list.size() <= Settings.bucketSize) {
+			// Create a leaf node
+			VPNode leafNode = new VPNode(null); // or a node with some dummy item
+			leafNode.items = new ArrayList<>(list);
+			return leafNode;
+		}
 
 		Item vpItem = getVP(list);
 		VPNode n = new VPNode(vpItem);
@@ -67,6 +69,14 @@ public class VPTreeBySample extends VPTree {
 			else
 				R.add(itm);
 		}
+		// If either side is empty, stop recursion
+		if (L.isEmpty() || R.isEmpty()) {
+			VPNode leafNode = new VPNode(vpItem);
+			list.add(vpItem);
+			leafNode.items = new ArrayList<>(list);
+			return leafNode;
+		}
+
 		n.setLeft(recurse(L));
 		n.setRight(recurse(R));
 		return n;

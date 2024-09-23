@@ -19,6 +19,8 @@ public class VPNode {
     public double rightMax = 0;
     // the elements in this node
     public ArrayList<Item> items = null;
+    // the least possible distance of vectors in this node to the query
+    public double distLowerBound = 0;
 
     /**
      * Contructor

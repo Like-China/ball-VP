@@ -1,9 +1,14 @@
 package evaluation;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.stream.IntStream;
 
 import Distance.*;
+import VPTree.Comp;
+import VPTree.Item;
+import VPTree.NN;
+import VPTree.VPNode;
 
 public class BFAlg {
     // query, database set at each timestamp, we update them at each timestampe
@@ -59,7 +64,7 @@ public class BFAlg {
                     candidate = dbData[j];
                 }
                 assert candidate != null;
-                assert d != 0 : "At least one same value as the query!";
+                // assert d != 0 : "At least one same value as the query!";
             }
             res.add(candidate);
         }
@@ -68,6 +73,36 @@ public class BFAlg {
         info = String.format("**\tBrute-Forced\nnn-Search time cost: %.3f ms / query", fTime / qData.length);
         System.out.println(info);
         return res;
+    }
+
+    public ArrayList<PriorityQueue<NN>> kNNSearch(int k) {
+        double t1 = System.currentTimeMillis();
+        ArrayList<PriorityQueue<NN>> nnList = new ArrayList<>();
+        for (int i = 0; i < qData.length; i++) {
+            PriorityQueue<NN> res = new PriorityQueue<>(Comp.NNComparator2);
+            for (int j = 0; j < dbData.length; j++) {
+                double[] vec = dbData[j];
+                double dist = distFunction.distance(qData[i], vec);
+                if (res.size() < k) {
+                    res.add(new NN(vec, dist));
+                } else {
+                    // Check if current node is closer than the farthest neighbor in the result
+                    // queue
+                    double maxKdist = res.peek().dist2query;
+                    if (dist < maxKdist) {
+                        res.poll(); // Remove the farthest
+                        res.add(new NN(vec, dist));
+                    }
+                }
+                assert res != null;
+            }
+            nnList.add(res);
+        }
+        double t2 = System.currentTimeMillis();
+        fTime = t2 - t1;
+        info = String.format("**\tBrute-Forced\nkNN-Search time cost: %.3f ms / query", fTime / qData.length);
+        System.out.println(info);
+        return nnList;
     }
 
     public ArrayList<double[]> nnSearchPara() {

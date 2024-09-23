@@ -2,6 +2,7 @@
 package VPTree;
 
 import Distance.*;
+import evaluation.Settings;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -33,8 +34,17 @@ public class VPTreeByFarest extends VPTree {
 	 * @return Node object which is the root of the VP Tree
 	 */
 	private VPNode recurse(ArrayList<Item> list, Item itemVP) {
-		if (list.size() == 0)
+		if (list.isEmpty()) {
 			return null;
+		}
+		// Early stop condition
+		if (Settings.isEarlyStopConstruct && list.size() <= Settings.bucketSize) {
+			// Create a leaf node
+			VPNode leafNode = new VPNode(null); // or a node with some dummy item
+			leafNode.items = new ArrayList<>(list);
+			return leafNode;
+		}
+
 		VPNode n = new VPNode(itemVP);
 		deleteItem(list, n.getItem());
 
@@ -51,8 +61,8 @@ public class VPTreeByFarest extends VPTree {
 		ArrayList<Item> L = new ArrayList<Item>();
 		ArrayList<Item> R = new ArrayList<Item>();
 
-		double maxLeft = 0;
-		double maxRight = 0;
+		double maxLeft = -1;
+		double maxRight = -1;
 		Item leftVP = null;
 		Item rightVP = null;
 		for (Item itm : list) {
@@ -71,6 +81,7 @@ public class VPTreeByFarest extends VPTree {
 				}
 			}
 		}
+
 		n.leftMax = maxLeft;
 		n.rightMax = maxRight;
 		n.setLeft(recurse(L, leftVP));
