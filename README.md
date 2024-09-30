@@ -4,4 +4,10 @@
 best-of-the-best 评估， full the initial kNN, fix the dataset and query
 caching index to initial approxmate kNN, then refine kNN using fast vp-tree index
 how to dynamically maintain the caching index
- 
+
+alleviate the degrade trending as the dimension increases
+
+1. object-level
+2. why sift differs deep
+3. test LRU/FRU
+4. how to model frequently visited data?

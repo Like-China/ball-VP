@@ -71,7 +71,7 @@ public class Evaluate {
         writeFile(setInfo, bj.info);
 
         // VP-Sample
-        VPSampleAlg sVP = new VPSampleAlg(query, db, sample, distFunction);
+        VPSampleAlg sVP = new VPSampleAlg(query, db, sample, distFunction, 10);
         ArrayList<double[]> VPNNRes = sVP.nnSearch();
         // ArrayList<double[]> VPNNRes1 = sVP.nnSearchPara();
         // _check(query, VPNNRes, VPNNRes1);
@@ -187,7 +187,7 @@ public class Evaluate {
                 double meanAccess = 0;
                 for (int j = 0; j < expNB; j++) {
                     // VP-Sample
-                    VPSampleAlg sVP = new VPSampleAlg(query, db, sample, distFunction);
+                    VPSampleAlg sVP = new VPSampleAlg(query, db, sample, distFunction, 10);
                     ArrayList<double[]> VPNNRes = sVP.nnSearch();
                     meanCTime += sVP.cTime;
                     meanFTime += sVP.fTime / query.size();

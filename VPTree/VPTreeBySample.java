@@ -17,11 +17,11 @@ public class VPTreeBySample extends VPTree {
 	 * 
 	 * @param the train dataset of double[]s, Distance metric d to be used
 	 */
-	public VPTreeBySample(double[][] vectors, DistanceFunction d, int sampleNB) {
+	public VPTreeBySample(double[][] vectors, DistanceFunction d, int sampleNB, int bucketSize) {
 
 		super(vectors, d);
 		this.sampleNB = sampleNB;
-		root = recurse(list);
+		root = recurse(list, bucketSize);
 
 	}
 
@@ -32,13 +32,13 @@ public class VPTreeBySample extends VPTree {
 	 * @param ArrayList of Item objects
 	 * @return Node object which is the root of the VP Tree
 	 */
-	private VPNode recurse(ArrayList<Item> list) {
+	private VPNode recurse(ArrayList<Item> list, int bucketSize) {
 		if (list.isEmpty()) {
 			return null;
 		}
 
 		// Early stop condition
-		if (Settings.isEarlyStopConstruct && list.size() <= Settings.bucketSize) {
+		if (Settings.isEarlyStopConstruct && list.size() <= bucketSize) {
 			// Create a leaf node
 			VPNode leafNode = new VPNode(null); // or a node with some dummy item
 			leafNode.items = new ArrayList<>(list);
@@ -77,8 +77,8 @@ public class VPTreeBySample extends VPTree {
 			return leafNode;
 		}
 
-		n.setLeft(recurse(L));
-		n.setRight(recurse(R));
+		n.setLeft(recurse(L, bucketSize));
+		n.setRight(recurse(R, bucketSize));
 		return n;
 	}
 
