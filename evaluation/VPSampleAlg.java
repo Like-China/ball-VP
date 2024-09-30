@@ -106,34 +106,96 @@ public class VPSampleAlg {
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> searchkNNBestFirst(int k, boolean isHier) {
+    public ArrayList<PriorityQueue<NN>> searchkNNBestFirst(int k) {
         t1 = System.currentTimeMillis();
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         for (double[] q : qData) {
-            res.add(vp.searchkNNBestFirst(q, k, Double.MAX_VALUE, isHier));
+            res.add(vp.searchkNNBestFirst(q, k, Double.MAX_VALUE));
         }
         t2 = System.currentTimeMillis();
 
         int n = qData.length;
-        String mode = isHier ? "Hier" : "Recursion";
+        String mode = "Recursion";
         double ftime = t2 - t1;
         info = String.format(
                 "**\tVPSampleTree Best-First-kNN (%s)\nconstruct time / mean search time / mean node accesses / mean calc count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d",
                 mode, cTime, ftime / n, vp.nodeAccess / n, vp.calcCount / n);
         System.out.println(info);
-        if (isHier) {
-            BFHierTime = t2 - t1;
-            BFHierNodeAccess = vp.nodeAccess / n;
-            BFHierCalcCount = vp.calcCount / n;
-        } else {
-            BFRecuTime = t2 - t1;
-            BFRecuNodeAccess = vp.nodeAccess / n;
-            BFRecuCalcCount = vp.calcCount / n;
-        }
+        BFHierTime = t2 - t1;
+        BFHierNodeAccess = vp.nodeAccess / n;
+        BFHierCalcCount = vp.calcCount / n;
+
+        BFRecuTime = t2 - t1;
+        BFRecuNodeAccess = vp.nodeAccess / n;
+        BFRecuCalcCount = vp.calcCount / n;
+
         vp.nodeAccess = 0;
         vp.calcCount = 0;
         // System.out.println(vp.heapUpdatecost / 10e6);
         return res;
+    }
+
+    // cache test for a batch of queries
+    public ArrayList<PriorityQueue<NN>> cacheTest(int k) {
+
+        // VP-tree construction, obtain a set of vectors within the same bucket
+        int n = qData.length;
+        // VP-tree DFS with caching knowledge
+        vp.nodeAccess = 0;
+        vp.calcCount = 0;
+        ArrayList<PriorityQueue<NN>> DFSRes = new ArrayList<>();
+        t1 = System.currentTimeMillis();
+        for (int i = 0; i < qData.length; i++) {
+            double[] q = qData[i];
+            double maxKdist = 100;
+            // refine kNN with the initial kNN knowledge
+            DFSRes.add(vp.searchkNNDFS(q, k, maxKdist));
+        }
+        t2 = System.currentTimeMillis();
+        DFCacheTime = t2 - t1;
+        DFCacheNodeAccess = vp.nodeAccess / n;
+        DFCacheCalcCount = vp.calcCount / n;
+        info = String.format(
+                "**\tVPSampleTree DFS with Caching Knowledge-kNN\nconstruct time / mean search time / mean node accesses / mean calc count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d",
+                cTime, DFCacheTime / n, vp.nodeAccess / n, vp.calcCount / n);
+        System.out.println(info);
+
+        vp.nodeAccess = 0;
+        vp.calcCount = 0;
+        ArrayList<PriorityQueue<NN>> BFRecucacheRes = new ArrayList<>();
+        t1 = System.currentTimeMillis();
+        for (int i = 0; i < qData.length; i++) {
+            double[] q = qData[i];
+            double maxKdist = 100;
+            // refine kNN with the initial kNN knowledge
+            BFRecucacheRes.add(vp.searchkNNBestFirst(q, k, maxKdist));
+        }
+        t2 = System.currentTimeMillis();
+        BFRecuCacheTime = t2 - t1;
+        BFRecuCacheNodeAccess = vp.nodeAccess / n;
+        BFRecuCacheCalcCount = vp.calcCount / n;
+        info = String.format(
+                "**\tVPSampleTree Best-First with Caching Knowledge (Recursion)-kNN\nconstruct time / mean search time / mean node accesses / mean calc count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d",
+                cTime, BFRecuCacheTime / n, vp.nodeAccess / n, vp.calcCount / n);
+        System.out.println(info);
+
+        // check the results
+        assert BFRecucacheRes.size() == DFSRes.size();
+        for (int i = 0; i < BFRecucacheRes.size(); i++) {
+            PriorityQueue<NN> nns1 = DFSRes.get(i);
+            // PriorityQueue<NN> nns2 = BFHiercacheRes.get(i);
+            PriorityQueue<NN> nns3 = BFRecucacheRes.get(i);
+            // assert nns1.size() == nns2.size();
+            while (!nns1.isEmpty()) {
+                double d1 = nns1.poll().dist2query;
+                // double d2 = nns2.poll().dist2query;
+                double d3 = nns3.poll().dist2query;
+                // assert d1 == d2 : i + "/" + d1 + "/" + d2;
+                assert d1 == d3 : i + "/" + d1 + "/" + d3;
+                // assert d2 == d3 : i + "/" + d2 + "/" + d3;
+            }
+        }
+        return BFRecucacheRes;
     }
 
     // cache test for a batch of queries
@@ -179,28 +241,6 @@ public class VPSampleAlg {
                 cTime, DFCacheTime / n, vp.nodeAccess / n, vp.calcCount / n);
         System.out.println(info);
 
-        // VP-tree best-first with caching knowledge
-        // vp.nodeAccess = 0;
-        // vp.calcCount = 0;
-        // ArrayList<PriorityQueue<NN>> BFHiercacheRes = new ArrayList<>();
-        // t1 = System.currentTimeMillis();
-        // for (int i = 0; i < qData.length; i++) {
-        // double[] q = qData[i];
-        // double maxKdist = cache.get(i).peek().dist2query;
-        // // refine kNN with the initial kNN knowledge
-        // BFHiercacheRes.add(vp.searchkNNBestFirst(q, k, maxKdist, true));
-        // }
-        // t2 = System.currentTimeMillis();
-        // BFHierCacheTime = t2 - t1;
-        // BFHierCacheNodeAccess = vp.nodeAccess / n;
-        // BFHierCacheCalcCount = vp.calcCount / n;
-        // info = String.format(
-        // "**\tVPSampleTree Best-First with Caching Knowledge (Hier)-kNN\nconstruct
-        // time / mean search time / mean node accesses / mean calc count:\n%5dms
-        // \t\t%5.4fms \t%5d \t\t%5d",
-        // cTime, BFHierCacheTime / n, vp.nodeAccess / n, vp.calcCount / n);
-        // System.out.println(info);
-
         vp.nodeAccess = 0;
         vp.calcCount = 0;
         ArrayList<PriorityQueue<NN>> BFRecucacheRes = new ArrayList<>();
@@ -209,7 +249,7 @@ public class VPSampleAlg {
             double[] q = qData[i];
             double maxKdist = cache.get(i).peek().dist2query;
             // refine kNN with the initial kNN knowledge
-            BFRecucacheRes.add(vp.searchkNNBestFirst(q, k, maxKdist, false));
+            BFRecucacheRes.add(vp.searchkNNBestFirst(q, k, maxKdist));
         }
         t2 = System.currentTimeMillis();
         BFRecuCacheTime = t2 - t1;

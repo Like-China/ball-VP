@@ -77,17 +77,9 @@ public class Evaluate {
         // _check(query, VPNNRes, VPNNRes1);
         writeFile(setInfo, sVP.info);
 
-        // VP-Farest
-        VPFarAlg fVP = new VPFarAlg(query, db, sample, distFunction);
-        ArrayList<double[]> fVPNNRes = fVP.nnSearch();
-        // ArrayList<double[]> fVPNNRes1 = fVP.nnSearchPara();
-        // _check(query, fVPNNRes, fVPNNRes1);
-        writeFile(setInfo, fVP.info);
-
         // result check
         // _check(query, BFNNRes, BJNNRes);
         _check(query, BFNNRes, VPNNRes);
-        _check(query, BFNNRes, fVPNNRes);
     }
 
     // the performance when varying various parameters
@@ -192,9 +184,6 @@ public class Evaluate {
                     meanCTime += sVP.cTime;
                     meanFTime += sVP.fTime / query.size();
                     meanAccess += sVP.nodeAccess;
-                    // VP-Farest
-                    VPFarAlg fVP = new VPFarAlg(query, db, sample, distFunction);
-                    ArrayList<double[]> VPNNRes1 = fVP.nnSearch();
                 }
                 String info = "Ball-Tree: CTime/FTime/Access/CalcNB\n";
                 String values = String.format("%8f %8f %8f %8f", meanCTime / expNB, meanFTime / expNB,

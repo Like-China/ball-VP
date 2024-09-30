@@ -41,12 +41,10 @@ public class CacheTest {
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, bucketSize);
         // DFS
         sVP.searchkNNDFS(k);
-        // Hier Best-First
-        // sVP.searchkNNBestFirst(k, true);
         // Recu Best-First
-        sVP.searchkNNBestFirst(k, false);
+        sVP.searchkNNBestFirst(k);
         // cacheTest
-        sVP.cacheTest(factor, k);
+        sVP.cacheTest(k);
 
     }
 

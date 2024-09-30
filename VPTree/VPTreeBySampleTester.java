@@ -12,7 +12,6 @@ import evaluation.BFAlg;
 import evaluation.BJAlg;
 import evaluation.Loader;
 import evaluation.Settings;
-import evaluation.VPFarAlg;
 import evaluation.VPSampleAlg;
 
 public class VPTreeBySampleTester {
@@ -57,7 +56,6 @@ public class VPTreeBySampleTester {
         l.loadData(qSize, dbSize, dim);
         this.db = l.db;
         this.query = l.query;
-
         System.out.println("\n");
         String setInfo = String.format("Data: %s \tqSize: %d \tdbSize: %d \tdim: %d \tsample: %d", data,
                 query.size(), db.size(), dim, sampleNB);
@@ -68,14 +66,8 @@ public class VPTreeBySampleTester {
         // VP-sampleNB
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
         ArrayList<double[]> VPNNRes = sVP.nnSearch();
-        // VP-Farest
-        VPFarAlg fVP = new VPFarAlg(query, db, sampleNB, distFunction);
-        ArrayList<double[]> fVPNNRes = fVP.nnSearch();
-
         // result check
         _check(query, BJNNRes, VPNNRes);
-        _check(query, VPNNRes, fVPNNRes);
-
     }
 
     public void testkNN(String data, int qSize, int dbSize, int dim, int sampleNB, int k) {
@@ -96,22 +88,15 @@ public class VPTreeBySampleTester {
         // VP-sampleNB
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
         ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.searchkNNDFS(k);
-        // VP-Farest
-        VPFarAlg fVP = new VPFarAlg(query, db, sampleNB, distFunction);
-        ArrayList<PriorityQueue<NN>> fVPkNNRes = fVP.searchkNNDFS(k);
 
         for (int i = 0; i < qSize; i++) {
             PriorityQueue<NN> nn1 = VPkNNRes.get(i);
-            PriorityQueue<NN> nn2 = fVPkNNRes.get(i);
-            PriorityQueue<NN> nn3 = BFkNNRes.get(i);
+            PriorityQueue<NN> nn2 = BFkNNRes.get(i);
             assert nn1.size() == nn2.size();
-            assert nn1.size() == nn3.size();
             while (!nn1.isEmpty()) {
                 double d1 = nn1.poll().dist2query;
                 double d2 = nn2.poll().dist2query;
-                double d3 = nn3.poll().dist2query;
                 assert d1 == d2;
-                assert d1 == d3;
             }
         }
     }
@@ -132,24 +117,18 @@ public class VPTreeBySampleTester {
         // DFS
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
         ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.searchkNNDFS(k);
-        // Hier Best-First
-        VPSampleAlg sVP1 = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<PriorityQueue<NN>> VPkNNRes1 = sVP1.searchkNNBestFirst(k, true);
         // Recu Best-First
         VPSampleAlg sVP2 = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<PriorityQueue<NN>> VPkNNRes2 = sVP2.searchkNNBestFirst(k, false);
+        ArrayList<PriorityQueue<NN>> VPkNNRes2 = sVP2.searchkNNBestFirst(k);
 
         for (int i = 0; i < qSize; i++) {
             PriorityQueue<NN> nn1 = VPkNNRes.get(i);
-            PriorityQueue<NN> nn2 = VPkNNRes1.get(i);
-            PriorityQueue<NN> nn3 = VPkNNRes2.get(i);
+            PriorityQueue<NN> nn2 = VPkNNRes2.get(i);
             assert nn1.size() == nn2.size();
             while (!nn1.isEmpty()) {
                 double d1 = nn1.poll().dist2query;
                 double d2 = nn2.poll().dist2query;
-                double d3 = nn3.poll().dist2query;
                 assert d1 == d2;
-                assert d1 == d3;
             }
         }
     }
@@ -188,10 +167,8 @@ public class VPTreeBySampleTester {
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, bucketSize);
         // DFS
         sVP.searchkNNDFS(k);
-        // Hier Best-First
-        // sVP.searchkNNBestFirst(k, true);
         // Recu Best-First
-        sVP.searchkNNBestFirst(k, false);
+        sVP.searchkNNBestFirst(k);
         // cacheTest
         sVP.cacheTest(factor, k);
 

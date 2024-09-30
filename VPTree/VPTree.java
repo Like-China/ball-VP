@@ -197,15 +197,10 @@ public class VPTree {
 	}
 
 	// Helper function to initialize and start the recursive search
-	public PriorityQueue<NN> searchkNNBestFirst(double[] q, int k, double maxD, boolean isHier) {
+	public PriorityQueue<NN> searchkNNBestFirst(double[] q, int k, double maxD) {
 		PriorityQueue<NN> res = new PriorityQueue<>(k, Comp.NNComparator2);
-		if (isHier) {
-			// hirec serach
-			res = _searchkNNBestFirst(root, q, k, maxD);
-		} else {
-			// recursive search
-			_searchkNNBestFirst(root, q, k, res, maxD);
-		}
+		// recursive search
+		_searchkNNBestFirst(root, q, k, res, maxD);
 		return res; // Return the k-nearest neighbors
 	}
 
@@ -435,83 +430,6 @@ public class VPTree {
 			}
 		}
 
-	}
-
-	// search kNN hierly using best-first strategy
-	private PriorityQueue<NN> _searchkNNBestFirst(VPNode root, double[] q, int k, double maxD) {
-		if (root == null) {
-			return null;
-		}
-
-		// Priority queue to store VPNodes to visit
-		PriorityQueue<VPNode> nodeCandidate = new PriorityQueue<>(Comp.NNComparator1);
-		// Priority queue to store nearest neighbors
-		PriorityQueue<NN> res = new PriorityQueue<>(k, Comp.NNComparator2);
-
-		// Start by adding the root node to the candidate queue
-		root.distLowerBound = 0;
-		nodeCandidate.add(root);
-
-		while (!nodeCandidate.isEmpty()) {
-			VPNode currentNode = nodeCandidate.poll(); // Get the next candidate node
-
-			// Handle the case where the node is a leaf node
-			if (currentNode.items != null) {
-				for (Item i : currentNode.items) {
-					double[] vec = i.getVector();
-					double dist = dFunc.distance(q, vec);
-					calcCount++;
-					if (res.size() < k) {
-						res.add(new NN(vec, dist));
-					} else {
-						// Check if current node is closer than the farthest neighbor in the result
-						// queue
-						double maxKdist = Math.min(res.peek().dist2query, maxD);
-						if (dist <= maxKdist) {
-							res.poll(); // Remove the farthest
-							res.add(new NN(vec, dist));
-						}
-					}
-				}
-				continue;
-			}
-
-			// Handle the case where the node is a non-leaf node
-			double[] vpVector = currentNode.getItem().getVector();
-			double dist = dFunc.distance(q, vpVector); // Compute the distance to the query point
-			nodeAccess++;
-			calcCount++;
-			// Add to result queue if we haven't found k neighbors yet
-			if (res.size() < k) {
-				res.add(new NN(vpVector, dist));
-			} else {
-				// Check if current node is closer than the farthest neighbor in the result
-				// queue
-				double maxKdist = Math.min(res.peek().dist2query, maxD);
-				if (dist <= maxKdist) {
-					res.poll(); // Remove the farthest
-					res.add(new NN(vpVector, dist));
-				}
-			}
-
-			double mu = currentNode.getMu(); // Median distance (mu) of the current node's subtree
-			double maxKdist = Math.min(res.peek().dist2query, maxD); // Distance of the farthest k-th neighbor found
-
-			long t1 = System.nanoTime();
-			// Prune subtrees based on the current max distance
-			if (dist - mu <= maxKdist && currentNode.getLeft() != null) {
-				currentNode.getLeft().distLowerBound = dist - mu;
-				nodeCandidate.add(currentNode.getLeft());
-			}
-			if (mu - dist <= maxKdist && currentNode.getRight() != null) {
-				currentNode.getRight().distLowerBound = mu - dist;
-				nodeCandidate.add(currentNode.getRight());
-			}
-			heapUpdatecost += (System.nanoTime() - t1);
-
-		}
-
-		return res;
 	}
 
 	public ArrayList<double[]> searchRange(double[] q, double range) {
