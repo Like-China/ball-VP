@@ -14,4 +14,4 @@ alleviate the degrade trending as the dimension increases
 
 
 // 1. begin to delete Hier Best-First
-// 2. begin to delete VPTreeByFarest.java
+// 2. begin to delete delete Hier Best-First.java

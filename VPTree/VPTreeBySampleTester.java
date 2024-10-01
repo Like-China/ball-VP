@@ -6,8 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.PriorityQueue;
 import Distance.DistanceFunction;
+import cacheIndex.KMeans;
+import cacheIndex.Point;
 import evaluation.BFAlg;
 import evaluation.BJAlg;
 import evaluation.Loader;
@@ -40,23 +43,58 @@ public class VPTreeBySampleTester {
     public double[] BFHierCacheTime = new double[5];
     public double[] BFRecuCacheTime = new double[5];
 
-    public void _check(ArrayList<double[]> query, ArrayList<double[]> a, ArrayList<double[]> b) {
+    public void checkNN(ArrayList<double[]> query, ArrayList<double[]> a, ArrayList<double[]> b) {
         assert query.size() == a.size();
         assert query.size() == b.size();
         for (int i = 0; i < query.size(); i++) {
             double dist1 = distFunction.distance(a.get(i), query.get(i));
             double dist2 = distFunction.distance(b.get(i), query.get(i));
-            assert dist1 == dist2 : dist1 + "/" + dist2;
+            assert dist1 == dist2 : i + "/" + dist1 + "/" + dist2;
         }
+    }
+
+    // check the results
+    public boolean checkKNN(ArrayList<PriorityQueue<NN>> res1, ArrayList<PriorityQueue<NN>> res2) {
+        if (res1.size() != res2.size()) {
+            return false;
+        }
+        for (int i = 0; i < res1.size(); i++) {
+            PriorityQueue<NN> nns1 = new PriorityQueue<>(res1.get(i));
+            PriorityQueue<NN> nns2 = new PriorityQueue<>(res2.get(i));
+            while (!nns1.isEmpty()) {
+                double d1 = nns1.poll().dist2query;
+                double d2 = nns2.poll().dist2query;
+                assert d1 == d2 : i + "/" + d1 + "/" + d2;
+                if (d1 != d2) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void loadData(int qSize, int dbSize, int dim) {
+        Loader l = new Loader();
+        l.loadData(qSize, dbSize, dim);
+        // use KMeans to get clusters
+        List<Point> points = new ArrayList<>();
+        for (int i = 0; i < l.query.size(); i++) {
+            points.add(new Point(i, l.query.get(i)));
+        }
+        int maxIterations = 100;
+        List<List<Point>> clusters = KMeans.kMeansCluster(points, 5, maxIterations);
+        for (List<Point> ls : clusters) {
+            for (Point p : ls) {
+                this.query.add(p.coordinates);
+            }
+        }
+        this.db = l.db;
+        System.out.println("\n");
     }
 
     public void testNN(String data, int qSize, int dbSize, int dim, int sampleNB) {
         // load data
-        Loader l = new Loader();
-        l.loadData(qSize, dbSize, dim);
-        this.db = l.db;
-        this.query = l.query;
-        System.out.println("\n");
+        loadData(qSize, dbSize, dim);
         String setInfo = String.format("Data: %s \tqSize: %d \tdbSize: %d \tdim: %d \tsample: %d", data,
                 query.size(), db.size(), dim, sampleNB);
         System.out.println(setInfo);
@@ -67,17 +105,12 @@ public class VPTreeBySampleTester {
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
         ArrayList<double[]> VPNNRes = sVP.nnSearch();
         // result check
-        _check(query, BJNNRes, VPNNRes);
+        checkNN(query, BJNNRes, VPNNRes);
     }
 
     public void testkNN(String data, int qSize, int dbSize, int dim, int sampleNB, int k) {
         // load data
-        Loader l = new Loader();
-        l.loadData(qSize, dbSize, dim);
-        this.db = l.db;
-        this.query = l.query;
-
-        System.out.println("\n");
+        loadData(qSize, dbSize, dim);
         String setInfo = String.format(
                 "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d",
                 data, query.size(), db.size(), k, dim, sampleNB, Settings.bucketSize);
@@ -103,12 +136,7 @@ public class VPTreeBySampleTester {
 
     public void bestFirstTest(String data, int qSize, int dbSize, int dim, int sampleNB, int k) {
         // load data
-        Loader l = new Loader();
-        l.loadData(qSize, dbSize, dim);
-        this.db = l.db;
-        this.query = l.query;
-
-        System.out.println("\n");
+        loadData(qSize, dbSize, dim);
         String setInfo = String.format(
                 "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d",
                 data, query.size(), db.size(), k, dim, sampleNB, Settings.bucketSize);
@@ -133,32 +161,29 @@ public class VPTreeBySampleTester {
         }
     }
 
-    public void cacheTest(String data, int qSize, int dbSize, int dim, int sampleNB, int k, double factor) {
+    public void cacheTest() {
         // load data
-        Loader l = new Loader();
-        l.loadData(qSize, dbSize, dim);
-        this.db = l.db;
-        this.query = l.query;
-
-        System.out.println("\n");
+        loadData(Settings.qNB, Settings.dbNB, Settings.dim);
         String setInfo = String.format(
                 "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d",
-                data,
-                query.size(), db.size(), k, dim, sampleNB, Settings.bucketSize);
+                Settings.data,
+                query.size(), db.size(), Settings.k, Settings.dim, Settings.sampleNB, Settings.bucketSize);
         System.out.println(setInfo);
-        // VP-sampleNB
-        VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.cacheTest(factor, k);
+
+        VPSampleAlg sVP = new VPSampleAlg(query, db, Settings.sampleNB, distFunction, Settings.bucketSize);
+        ArrayList<PriorityQueue<NN>> DFSBestRes = sVP.bestCache(Settings.factor, Settings.k, false);
+        ArrayList<PriorityQueue<NN>> BFSBestRes = sVP.bestCache(Settings.factor, Settings.k, true);
+        checkKNN(DFSBestRes, BFSBestRes);
+        ArrayList<PriorityQueue<NN>> DFSLRURes = sVP.LRUCache(Settings.cacheSize, Settings.k, false);
+        checkKNN(DFSBestRes, DFSLRURes);
+        ArrayList<PriorityQueue<NN>> BFSLRURes = sVP.LRUCache(Settings.cacheSize, Settings.k, true);
+        checkKNN(DFSBestRes, BFSLRURes);
     }
 
     public void evaluate(int i, String data, int qSize, int dbSize, int dim, int sampleNB, int k, int bucketSize,
             double factor) {
         // load data
-        Loader l = new Loader();
-        l.loadData(qSize, dbSize, dim);
-        this.db = l.db;
-        this.query = l.query;
-        System.out.println("\n");
+        loadData(qSize, dbSize, dim);
         String setInfo = String.format(
                 "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d \tfactor: %f",
                 data, query.size(), db.size(), k, dim, sampleNB, bucketSize, factor);
@@ -170,7 +195,7 @@ public class VPTreeBySampleTester {
         // Recu Best-First
         sVP.searchkNNBestFirst(k);
         // cacheTest
-        sVP.cacheTest(factor, k);
+        sVP.LRUCache(k, 100, false);
 
         DFNodeAccess[i] = sVP.DFNodeAccess;
         BFHierNodeAccess[i] = sVP.BFHierNodeAccess;
@@ -260,8 +285,8 @@ public class VPTreeBySampleTester {
         // t.testNN("sift", 1000, 100000, 10, 50);
         // t.testkNN("sift", 1000, 100000, 10, 50, 10);
         // t.bestFirstTest("sift", 1000, 1000000, 10, 10, 10);
-        // t.cacheTest("sift", 1000, 1000000, 10, 10, 10, 2);
-        // System.exit(0);
+        t.cacheTest();
+        System.exit(0);
 
         long t1 = System.currentTimeMillis();
 

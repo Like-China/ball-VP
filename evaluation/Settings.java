@@ -25,13 +25,15 @@ public class Settings {
         public static int k = 10;
         public static int[] ks = new int[] { 10, 20, 30, 40, 50 };
         // the expand factor
-        public static double factor = 2;
+        public static double factor = 3;
         public static double[] factors = new double[] { 1, 1.5, 2, 2.5, 3 };
+        // the cache size
+        public static int cacheSize = 100;
 
         public static String dirPath = "/home/like/data/";
         // public static String data = "random";
-        // public static String data = "sift";
-        public static String data = "Deep1M";
+        public static String data = "sift";
+        // public static String data = "Deep1M";
         public static boolean isShuffle = false;
         // the number of processed moving objects
         public static DistanceFunction distFunction = new l2Distance();

@@ -32,7 +32,7 @@ public class KMeans {
 
     // Initialize k random centroids
     private static List<Point> initializeCentroids(List<Point> points, int k) {
-        Random random = new Random();
+        Random random = new Random(0);
         List<Point> centroids = new ArrayList<>();
         List<Point> copyPoints = new ArrayList<>(points);
 

@@ -4,8 +4,6 @@
 
 package Distance;
 
-import java.util.Arrays;
-
 /**
  * Implements DistanceFunction interface for Euclidean distance metric
  */
