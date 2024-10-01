@@ -43,16 +43,6 @@ public class VPTreeBySampleTester {
     public double[] BFHierCacheTime = new double[5];
     public double[] BFRecuCacheTime = new double[5];
 
-    public void checkNN(ArrayList<double[]> query, ArrayList<double[]> a, ArrayList<double[]> b) {
-        assert query.size() == a.size();
-        assert query.size() == b.size();
-        for (int i = 0; i < query.size(); i++) {
-            double dist1 = distFunction.distance(a.get(i), query.get(i));
-            double dist2 = distFunction.distance(b.get(i), query.get(i));
-            assert dist1 == dist2 : i + "/" + dist1 + "/" + dist2;
-        }
-    }
-
     // check the results
     public boolean checkKNN(ArrayList<PriorityQueue<NN>> res1, ArrayList<PriorityQueue<NN>> res2) {
         if (res1.size() != res2.size()) {
@@ -92,23 +82,7 @@ public class VPTreeBySampleTester {
         System.out.println("\n");
     }
 
-    public void testNN(String data, int qSize, int dbSize, int dim, int sampleNB) {
-        // load data
-        loadData(qSize, dbSize, dim);
-        String setInfo = String.format("Data: %s \tqSize: %d \tdbSize: %d \tdim: %d \tsample: %d", data,
-                query.size(), db.size(), dim, sampleNB);
-        System.out.println(setInfo);
-        // ball-tree
-        BJAlg bj = new BJAlg(query, db, 10, distFunction);
-        ArrayList<double[]> BJNNRes = bj.nnSearch();
-        // VP-sampleNB
-        VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<double[]> VPNNRes = sVP.nnSearch();
-        // result check
-        checkNN(query, BJNNRes, VPNNRes);
-    }
-
-    public void testkNN(String data, int qSize, int dbSize, int dim, int sampleNB, int k) {
+    public void kNNTest(String data, int qSize, int dbSize, int dim, int sampleNB, int k) {
         // load data
         loadData(qSize, dbSize, dim);
         String setInfo = String.format(
@@ -120,18 +94,8 @@ public class VPTreeBySampleTester {
         ArrayList<PriorityQueue<NN>> BFkNNRes = bf.kNNSearch(k);
         // VP-sampleNB
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.searchkNNDFS(k);
-
-        for (int i = 0; i < qSize; i++) {
-            PriorityQueue<NN> nn1 = VPkNNRes.get(i);
-            PriorityQueue<NN> nn2 = BFkNNRes.get(i);
-            assert nn1.size() == nn2.size();
-            while (!nn1.isEmpty()) {
-                double d1 = nn1.poll().dist2query;
-                double d2 = nn2.poll().dist2query;
-                assert d1 == d2;
-            }
-        }
+        ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.DFS(k);
+        checkKNN(BFkNNRes, VPkNNRes);
     }
 
     public void bestFirstTest(String data, int qSize, int dbSize, int dim, int sampleNB, int k) {
@@ -144,10 +108,10 @@ public class VPTreeBySampleTester {
         // VP-sampleNB
         // DFS
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.searchkNNDFS(k);
+        ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.DFS(k);
         // Recu Best-First
         VPSampleAlg sVP2 = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<PriorityQueue<NN>> VPkNNRes2 = sVP2.searchkNNBestFirst(k);
+        ArrayList<PriorityQueue<NN>> VPkNNRes2 = sVP2.BFS(k);
 
         for (int i = 0; i < qSize; i++) {
             PriorityQueue<NN> nn1 = VPkNNRes.get(i);
@@ -171,6 +135,9 @@ public class VPTreeBySampleTester {
         System.out.println(setInfo);
 
         VPSampleAlg sVP = new VPSampleAlg(query, db, Settings.sampleNB, distFunction, Settings.bucketSize);
+        ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(Settings.k);
+        ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(Settings.k);
+        checkKNN(DFSRes, BFSRes);
         ArrayList<PriorityQueue<NN>> DFSBestRes = sVP.bestCache(Settings.factor, Settings.k, false);
         ArrayList<PriorityQueue<NN>> BFSBestRes = sVP.bestCache(Settings.factor, Settings.k, true);
         checkKNN(DFSBestRes, BFSBestRes);
@@ -191,11 +158,11 @@ public class VPTreeBySampleTester {
         // construct VP-sampleNB
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, bucketSize);
         // DFS
-        sVP.searchkNNDFS(k);
+        sVP.DFS(k);
         // Recu Best-First
-        sVP.searchkNNBestFirst(k);
+        sVP.BFS(k);
         // cacheTest
-        sVP.LRUCache(k, 100, false);
+        sVP.LRUCache(100, k, false);
 
         DFNodeAccess[i] = sVP.DFNodeAccess;
         BFHierNodeAccess[i] = sVP.BFHierNodeAccess;

@@ -65,32 +65,11 @@ public class VPSampleAlg {
 
     /**
      * conduct BJ-Alg method to obtain all candidate pairs
-     * 
-     * @return all candidate pairs
-     */
-    public ArrayList<double[]> nnSearch() {
-        t1 = System.currentTimeMillis();
-        ArrayList<double[]> res = new ArrayList<>();
-        for (double[] q : qData) {
-            res.add(vp.searchOneNN(q));
-        }
-        t2 = System.currentTimeMillis();
-        fTime = t2 - t1;
-        int n = qData.length;
-        info = String.format(
-                "****VPTree\nconstruct time / mean search time / mean node accesses / mean calc count:\n%5dms \t\t%5.3fms \t%5d \t\t%5d",
-                cTime, fTime / n, vp.nodeAccess / n, vp.calcCount / n);
-        System.out.println(info);
-        return res;
-    }
-
-    /**
-     * conduct BJ-Alg method to obtain all candidate pairs
      * if cachekNN = Double.maxValue, then the cache knowledge is not employed.
      * 
      * @return all candidate pairs
      */
-    public ArrayList<PriorityQueue<NN>> searchkNNDFS(int k) {
+    public ArrayList<PriorityQueue<NN>> DFS(int k) {
         t1 = System.currentTimeMillis();
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         for (double[] q : qData) {
@@ -111,7 +90,7 @@ public class VPSampleAlg {
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> searchkNNBestFirst(int k) {
+    public ArrayList<PriorityQueue<NN>> BFS(int k) {
         t1 = System.currentTimeMillis();
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         for (double[] q : qData) {
@@ -120,11 +99,10 @@ public class VPSampleAlg {
         t2 = System.currentTimeMillis();
 
         int n = qData.length;
-        String mode = "Recursion";
         double ftime = t2 - t1;
         info = String.format(
-                "****VPTree Best-First-kNN (%s)\nconstruct time / mean search time / mean node accesses / mean calc count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d",
-                mode, cTime, ftime / n, vp.nodeAccess / n, vp.calcCount / n);
+                "****VPTree BFS-kNN\nconstruct time / mean search time / mean node accesses / mean calc count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d",
+                cTime, ftime / n, vp.nodeAccess / n, vp.calcCount / n);
         System.out.println(info);
         BFHierTime = t2 - t1;
         BFHierNodeAccess = vp.nodeAccess / n;

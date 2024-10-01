@@ -50,31 +50,6 @@ public class BFAlg {
         return res;
     }
 
-    public ArrayList<double[]> nnSearch() {
-        // brute-based solution
-        double t1 = System.currentTimeMillis();
-        ArrayList<double[]> res = new ArrayList<double[]>();
-        for (int i = 0; i < qData.length; i++) {
-            double[] candidate = null;
-            double minDist = Double.MAX_VALUE;
-            for (int j = 0; j < dbData.length; j++) {
-                double d = distFunction.distance(qData[i], dbData[j]);
-                if (d < minDist) {
-                    minDist = d;
-                    candidate = dbData[j];
-                }
-                assert candidate != null;
-                // assert d != 0 : "At least one same value as the query!";
-            }
-            res.add(candidate);
-        }
-        double t2 = System.currentTimeMillis();
-        fTime = t2 - t1;
-        info = String.format("**\tBrute-Forced\nnn-Search time cost: %.3f ms / query", fTime / qData.length);
-        System.out.println(info);
-        return res;
-    }
-
     public ArrayList<PriorityQueue<NN>> kNNSearch(int k) {
         double t1 = System.currentTimeMillis();
         ArrayList<PriorityQueue<NN>> nnList = new ArrayList<>();
