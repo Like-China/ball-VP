@@ -11,7 +11,5 @@ alleviate the degrade trending as the dimension increases
 2. why sift differs deep
 3. test LRU/FRU
 4. how to model frequently visited data?
+5. explore the data distributions od datasets
 
-
-// 1. begin to delete Hier Best-First
-// 2. begin to delete delete Hier Best-First.java

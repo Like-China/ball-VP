@@ -12,7 +12,6 @@ import Distance.DistanceFunction;
 import cacheIndex.KMeans;
 import cacheIndex.Point;
 import evaluation.BFAlg;
-import evaluation.BJAlg;
 import evaluation.Loader;
 import evaluation.Settings;
 import evaluation.VPSampleAlg;
@@ -22,28 +21,41 @@ public class VPTreeBySampleTester {
     public ArrayList<double[]> db = new ArrayList<>();
     public ArrayList<double[]> query = new ArrayList<>();
     DistanceFunction distFunction = Settings.distFunction;
-    public int[] DFNodeAccess = new int[5];
-    public int[] BFHierNodeAccess = new int[5];
-    public int[] BFRecuNodeAccess = new int[5];
-    public int[] DFCacheNodeAccess = new int[5];
-    public int[] BFHierCacheNodeAccess = new int[5];
-    public int[] BFRecuCacheNodeAccess = new int[5];
-    // the number of calculation time
-    public int[] DFCalcCount = new int[5];
-    public int[] BFHierCalcCount = new int[5];
-    public int[] BFRecuCalcCount = new int[5];
-    public int[] DFCacheCalcCount = new int[5];
-    public int[] BFHierCacheCalcCount = new int[5];
-    public int[] BFRecuCacheCalcCount = new int[5];
-    // the search time
-    public double[] DFTime = new double[5];
-    public double[] BFHierTime = new double[5];
-    public double[] BFRecuTime = new double[5];
-    public double[] DFCacheTime = new double[5];
-    public double[] BFHierCacheTime = new double[5];
-    public double[] BFRecuCacheTime = new double[5];
 
-    // check the results
+    int varyNB = 5;
+    public int[] DF_NodeAccess = new int[varyNB];
+    public int[] BF_NodeAccess = new int[varyNB];
+    public int[] DF_FIFO_NodeAccess = new int[varyNB];
+    public int[] BF_FIFO_NodeAccess = new int[varyNB];
+    public int[] DF_LRU_NodeAccess = new int[varyNB];
+    public int[] BF_LRU_NodeAccess = new int[varyNB];
+    public int[] DF_LFU_NodeAccess = new int[varyNB];
+    public int[] BF_LFU_NodeAccess = new int[varyNB];
+    public int[] DF_Best_NodeAccess = new int[varyNB];
+    public int[] BF_Best_NodeAccess = new int[varyNB];
+    // the number of calculation time
+    public int[] DF_CalcCount = new int[varyNB];
+    public int[] BF_CalcCount = new int[varyNB];
+    public int[] DF_FIFO_CalcCount = new int[varyNB];
+    public int[] BF_FIFO_CalcCount = new int[varyNB];
+    public int[] DF_LRU_CalcCount = new int[varyNB];
+    public int[] BF_LRU_CalcCount = new int[varyNB];
+    public int[] DF_LFU_CalcCount = new int[varyNB];
+    public int[] BF_LFU_CalcCount = new int[varyNB];
+    public int[] DF_Best_CalcCount = new int[varyNB];
+    public int[] BF_Best_CalcCount = new int[varyNB];
+    // the search time
+    public double[] DF_Time = new double[varyNB];
+    public double[] BF_Time = new double[varyNB];
+    public double[] DF_FIFO_Time = new double[varyNB];
+    public double[] BF_FIFO_Time = new double[varyNB];
+    public double[] DF_LRU_Time = new double[varyNB];
+    public double[] BF_LRU_Time = new double[varyNB];
+    public double[] DF_LFU_Time = new double[varyNB];
+    public double[] BF_LFU_Time = new double[varyNB];
+    public double[] DF_Best_Time = new double[varyNB];
+    public double[] BF_Best_Time = new double[varyNB];
+
     public boolean checkKNN(ArrayList<PriorityQueue<NN>> res1, ArrayList<PriorityQueue<NN>> res2) {
         if (res1.size() != res2.size()) {
             return false;
@@ -64,6 +76,8 @@ public class VPTreeBySampleTester {
     }
 
     public void loadData(int qSize, int dbSize, int dim) {
+        db = new ArrayList<>();
+        query = new ArrayList<>();
         Loader l = new Loader();
         l.loadData(qSize, dbSize, dim);
         // use KMeans to get clusters
@@ -92,44 +106,31 @@ public class VPTreeBySampleTester {
         // Brute-Force
         BFAlg bf = new BFAlg(query, db, distFunction);
         ArrayList<PriorityQueue<NN>> BFkNNRes = bf.kNNSearch(k);
-        // VP-sampleNB
+        // VP-DFS
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
         ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.DFS(k);
         checkKNN(BFkNNRes, VPkNNRes);
     }
 
-    public void bestFirstTest(String data, int qSize, int dbSize, int dim, int sampleNB, int k) {
+    public void BFSTest(String data, int qSize, int dbSize, int dim, int sampleNB, int k) {
         // load data
         loadData(qSize, dbSize, dim);
         String setInfo = String.format(
                 "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d",
                 data, query.size(), db.size(), k, dim, sampleNB, Settings.bucketSize);
         System.out.println(setInfo);
-        // VP-sampleNB
-        // DFS
         VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.DFS(k);
-        // Recu Best-First
-        VPSampleAlg sVP2 = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
-        ArrayList<PriorityQueue<NN>> VPkNNRes2 = sVP2.BFS(k);
-
-        for (int i = 0; i < qSize; i++) {
-            PriorityQueue<NN> nn1 = VPkNNRes.get(i);
-            PriorityQueue<NN> nn2 = VPkNNRes2.get(i);
-            assert nn1.size() == nn2.size();
-            while (!nn1.isEmpty()) {
-                double d1 = nn1.poll().dist2query;
-                double d2 = nn2.poll().dist2query;
-                assert d1 == d2;
-            }
-        }
+        ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(k);
+        ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(k);
+        checkKNN(DFSRes, BFSRes);
     }
 
-    public void cacheTest() {
+    public void cacheTest(double updateThreshold) {
         // load data
+
         loadData(Settings.qNB, Settings.dbNB, Settings.dim);
         String setInfo = String.format(
-                "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d",
+                "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size: %d",
                 Settings.data,
                 query.size(), db.size(), Settings.k, Settings.dim, Settings.sampleNB, Settings.bucketSize);
         System.out.println(setInfo);
@@ -138,52 +139,86 @@ public class VPTreeBySampleTester {
         ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(Settings.k);
         ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(Settings.k);
         checkKNN(DFSRes, BFSRes);
-        ArrayList<PriorityQueue<NN>> DFSBestRes = sVP.bestCache(Settings.factor, Settings.k, false);
-        ArrayList<PriorityQueue<NN>> BFSBestRes = sVP.bestCache(Settings.factor, Settings.k, true);
+        ArrayList<PriorityQueue<NN>> DFSBestRes = sVP.bestCache(Settings.factor,
+                updateThreshold, Settings.k, false);
+        ArrayList<PriorityQueue<NN>> BFSBestRes = sVP.bestCache(Settings.factor,
+                updateThreshold, Settings.k, true);
         checkKNN(DFSBestRes, BFSBestRes);
-        ArrayList<PriorityQueue<NN>> DFSLRURes = sVP.LRUCache(Settings.cacheSize, Settings.k, false);
+        ArrayList<PriorityQueue<NN>> DFSLRURes = sVP.LRUCache(Settings.cacheSize,
+                updateThreshold, Settings.k, false);
         checkKNN(DFSBestRes, DFSLRURes);
-        ArrayList<PriorityQueue<NN>> BFSLRURes = sVP.LRUCache(Settings.cacheSize, Settings.k, true);
+        ArrayList<PriorityQueue<NN>> BFSLRURes = sVP.LRUCache(Settings.cacheSize,
+                updateThreshold, Settings.k, true);
         checkKNN(DFSBestRes, BFSLRURes);
+        ArrayList<PriorityQueue<NN>> DFSHQFRes = sVP.LFUCache(Settings.cacheSize,
+                updateThreshold, Settings.k, false);
+        checkKNN(DFSRes, DFSHQFRes);
+        ArrayList<PriorityQueue<NN>> BFSHQFRes = sVP.LFUCache(Settings.cacheSize,
+                updateThreshold, Settings.k, true);
+        checkKNN(BFSLRURes, BFSHQFRes);
+        ArrayList<PriorityQueue<NN>> DFSFIFORes = sVP.FIFOCache(Settings.cacheSize, updateThreshold, Settings.k, false);
+        checkKNN(DFSLRURes, DFSFIFORes);
+        ArrayList<PriorityQueue<NN>> BFSFIFORes = sVP.FIFOCache(Settings.cacheSize, updateThreshold, Settings.k, true);
+        checkKNN(DFSBestRes, BFSFIFORes);
     }
 
     public void evaluate(int i, String data, int qSize, int dbSize, int dim, int sampleNB, int k, int bucketSize,
-            double factor) {
+            double factor, double updateThreshold) {
         // load data
         loadData(qSize, dbSize, dim);
         String setInfo = String.format(
-                "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d \tfactor: %f",
-                data, query.size(), db.size(), k, dim, sampleNB, bucketSize, factor);
+                "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d \tfactor: %f \tfactor: %f",
+                data, query.size(), db.size(), k, dim, sampleNB, bucketSize, factor, updateThreshold);
         System.out.println(setInfo);
         // construct VP-sampleNB
-        VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, bucketSize);
+        VPSampleAlg VPAlg = new VPSampleAlg(query, db, sampleNB, distFunction, bucketSize);
         // DFS
-        sVP.DFS(k);
+        VPAlg.DFS(k);
         // Recu Best-First
-        sVP.BFS(k);
+        VPAlg.BFS(k);
+        VPAlg.BFS(Settings.k);
+        // checkKNN(DFSRes, BFSRes);
+        VPAlg.bestCache(Settings.factor, updateThreshold, Settings.k, false);
+        VPAlg.bestCache(Settings.factor, updateThreshold, Settings.k, true);
+        VPAlg.LRUCache(Settings.cacheSize, updateThreshold, Settings.k, false);
+        VPAlg.LRUCache(Settings.cacheSize, updateThreshold, Settings.k, true);
+        VPAlg.LFUCache(Settings.cacheSize, updateThreshold, Settings.k, false);
+        VPAlg.LFUCache(Settings.cacheSize, updateThreshold, Settings.k, true);
+        VPAlg.FIFOCache(Settings.cacheSize, updateThreshold, Settings.k, false);
+        VPAlg.FIFOCache(Settings.cacheSize, updateThreshold, Settings.k, true);
         // cacheTest
-        sVP.LRUCache(100, k, false);
-
-        DFNodeAccess[i] = sVP.DFNodeAccess;
-        BFHierNodeAccess[i] = sVP.BFHierNodeAccess;
-        BFRecuNodeAccess[i] = sVP.BFRecuNodeAccess;
-        DFCacheNodeAccess[i] = sVP.DFCacheNodeAccess;
-        BFHierCacheNodeAccess[i] = sVP.BFHierCacheNodeAccess;
-        BFRecuCacheNodeAccess[i] = sVP.BFRecuCacheNodeAccess;
+        DF_NodeAccess[i] = VPAlg.DF_NodeAccess;
+        BF_NodeAccess[i] = VPAlg.BF_NodeAccess;
+        DF_FIFO_NodeAccess[i] = VPAlg.DF_FIFO_NodeAccess;
+        BF_FIFO_NodeAccess[i] = VPAlg.BF_FIFO_NodeAccess;
+        DF_LRU_NodeAccess[i] = VPAlg.DF_LRU_NodeAccess;
+        BF_LRU_NodeAccess[i] = VPAlg.BF_LRU_NodeAccess;
+        DF_LFU_NodeAccess[i] = VPAlg.DF_LFU_NodeAccess;
+        BF_LFU_NodeAccess[i] = VPAlg.BF_LFU_NodeAccess;
+        DF_Best_NodeAccess[i] = VPAlg.DF_Best_NodeAccess;
+        BF_Best_NodeAccess[i] = VPAlg.BF_Best_NodeAccess;
         // the number of calculation time
-        DFCalcCount[i] = sVP.DFCalcCount;
-        BFHierCalcCount[i] = sVP.BFHierCalcCount;
-        BFRecuCalcCount[i] = sVP.BFRecuCalcCount;
-        DFCacheCalcCount[i] = sVP.DFCacheCalcCount;
-        BFHierCacheCalcCount[i] = sVP.BFHierCacheCalcCount;
-        BFRecuCacheCalcCount[i] = sVP.BFRecuCacheCalcCount;
+        DF_CalcCount[i] = VPAlg.DF_CalcCount;
+        BF_CalcCount[i] = VPAlg.BF_CalcCount;
+        DF_FIFO_CalcCount[i] = VPAlg.DF_FIFO_CalcCount;
+        BF_FIFO_CalcCount[i] = VPAlg.BF_FIFO_CalcCount;
+        DF_LRU_CalcCount[i] = VPAlg.DF_LRU_CalcCount;
+        BF_LRU_CalcCount[i] = VPAlg.BF_LRU_CalcCount;
+        DF_LFU_CalcCount[i] = VPAlg.DF_LFU_CalcCount;
+        BF_LFU_CalcCount[i] = VPAlg.BF_LFU_CalcCount;
+        DF_Best_CalcCount[i] = VPAlg.DF_Best_CalcCount;
+        BF_Best_CalcCount[i] = VPAlg.BF_Best_CalcCount;
         // the search time
-        DFTime[i] = sVP.DFTime;
-        BFHierTime[i] = sVP.BFHierTime;
-        BFRecuTime[i] = sVP.BFRecuTime;
-        DFCacheTime[i] = sVP.DFCacheTime;
-        BFHierCacheTime[i] = sVP.BFHierCacheTime;
-        BFRecuCacheTime[i] = sVP.BFRecuCacheTime;
+        DF_Time[i] = VPAlg.DF_Time;
+        BF_Time[i] = VPAlg.BF_Time;
+        DF_FIFO_Time[i] = VPAlg.DF_FIFO_Time;
+        BF_FIFO_Time[i] = VPAlg.BF_FIFO_Time;
+        DF_LRU_Time[i] = VPAlg.DF_LRU_Time;
+        BF_LRU_Time[i] = VPAlg.BF_LRU_Time;
+        DF_LFU_Time[i] = VPAlg.DF_LFU_Time;
+        BF_LFU_Time[i] = VPAlg.BF_LFU_Time;
+        DF_Best_Time[i] = VPAlg.DF_Best_Time;
+        BF_Best_Time[i] = VPAlg.BF_Best_Time;
 
     }
 
@@ -199,46 +234,71 @@ public class VPTreeBySampleTester {
                     out.write(setInfo);
                 }
                 out.newLine();
-                out.write("DFNodeAccess=" + Arrays.toString(t.DFNodeAccess));
+                out.write("DF_NodeAccess=" + Arrays.toString(t.DF_NodeAccess));
                 out.newLine();
-                // out.write("BFHierNodeAccess\n" + Arrays.toString(t.BFHierNodeAccess));
-                // out.newLine();
-                out.write("BFRecuNodeAccess=" + Arrays.toString(t.BFRecuNodeAccess));
+                out.write("BF_NodeAccess=" + Arrays.toString(t.BF_NodeAccess));
                 out.newLine();
-                out.write("DFCacheNodeAccess=" + Arrays.toString(t.DFCacheNodeAccess));
+                out.write("DF_FIFO_NodeAccess=" + Arrays.toString(t.DF_FIFO_NodeAccess));
                 out.newLine();
-                // out.write("BFHierCacheNodeAccess\n" +
-                // Arrays.toString(t.BFHierCacheNodeAccess));
-                // out.newLine();
-                out.write("BFRecuCacheNodeAccess=" + Arrays.toString(t.BFRecuCacheNodeAccess));
+                out.write("BF_FIFO_NodeAccess=" + Arrays.toString(t.BF_FIFO_NodeAccess));
                 out.newLine();
+                out.write("DF_LRU_NodeAccess=" + Arrays.toString(t.DF_LRU_NodeAccess));
                 out.newLine();
-                out.write("DFCalcCount=" + Arrays.toString(t.DFCalcCount));
+                out.write("BF_LRU_NodeAccess=" + Arrays.toString(t.BF_LRU_NodeAccess));
                 out.newLine();
-                // out.write("BFHierCalcCount\n" + Arrays.toString(t.BFHierCalcCount));
-                // out.newLine();
-                out.write("BFRecuCalcCount=" + Arrays.toString(t.BFRecuCalcCount));
+                out.write("DF_LFU_NodeAccess=" + Arrays.toString(t.DF_LFU_NodeAccess));
                 out.newLine();
-                out.write("DFCacheCalcCount=" + Arrays.toString(t.DFCacheCalcCount));
+                out.write("BF_LFU_NodeAccess=" + Arrays.toString(t.BF_LFU_NodeAccess));
                 out.newLine();
-                // out.write("BFHierCacheCalcCount\n" +
-                // Arrays.toString(t.BFHierCacheCalcCount));
-                // out.newLine();
-                out.write("BFRecuCacheCalcCount=" + Arrays.toString(t.BFRecuCacheCalcCount));
+                out.write("DF_Best_NodeAccess=" + Arrays.toString(t.DF_Best_NodeAccess));
+                out.newLine();
+                out.write("BF_Best_NodeAccess=" + Arrays.toString(t.BF_Best_NodeAccess));
                 out.newLine();
                 out.newLine();
-                out.write("DFTime=" + Arrays.toString(t.DFTime));
+                // the number of calculation time
+                out.write("DF_CalcCount=" + Arrays.toString(t.DF_CalcCount));
                 out.newLine();
-                // out.write("BFHierTime\n" + Arrays.toString(t.BFHierTime));
-                // out.newLine();
-                out.write("BFRecuTime=" + Arrays.toString(t.BFRecuTime));
+                out.write("BF_CalcCount=" + Arrays.toString(t.BF_CalcCount));
                 out.newLine();
-                out.write("DFCacheTime=" + Arrays.toString(t.DFCacheTime));
+                out.write("DF_FIFO_CalcCount=" + Arrays.toString(t.DF_FIFO_CalcCount));
                 out.newLine();
-                // out.write("BFHierCacheTime\n" + Arrays.toString(t.BFHierCacheTime));
-                // out.newLine();
-                out.write("BFRecuCacheTime=" + Arrays.toString(t.BFRecuCacheTime));
+                out.write("BF_FIFO_CalcCount=" + Arrays.toString(t.BF_FIFO_CalcCount));
                 out.newLine();
+                out.write("DF_LRU_CalcCount=" + Arrays.toString(t.DF_LRU_CalcCount));
+                out.newLine();
+                out.write("BF_LRU_CalcCount=" + Arrays.toString(t.BF_LRU_CalcCount));
+                out.newLine();
+                out.write("DF_LFU_CalcCount=" + Arrays.toString(t.DF_LFU_CalcCount));
+                out.newLine();
+                out.write("BF_LFU_CalcCount=" + Arrays.toString(t.BF_LFU_CalcCount));
+                out.newLine();
+                out.write("DF_Best_CalcCount=" + Arrays.toString(t.DF_Best_CalcCount));
+                out.newLine();
+                out.write("BF_Best_CalcCount=" + Arrays.toString(t.BF_Best_CalcCount));
+                out.newLine();
+                // the search time
+                out.newLine();
+                out.write("DF_Time=" + Arrays.toString(t.DF_Time));
+                out.newLine();
+                out.write("BF_Time=" + Arrays.toString(t.BF_Time));
+                out.newLine();
+                out.write("DF_FIFO_Time=" + Arrays.toString(t.DF_FIFO_Time));
+                out.newLine();
+                out.write("BF_FIFO_Time=" + Arrays.toString(t.BF_FIFO_Time));
+                out.newLine();
+                out.write("DF_LRU_Time=" + Arrays.toString(t.DF_LRU_Time));
+                out.newLine();
+                out.write("BF_LRU_Time=" + Arrays.toString(t.BF_LRU_Time));
+                out.newLine();
+                out.write("DF_LFU_Time=" + Arrays.toString(t.DF_LFU_Time));
+                out.newLine();
+                out.write("BF_LFU_Time=" + Arrays.toString(t.BF_LFU_Time));
+                out.newLine();
+                out.write("DF_Best_Time=" + Arrays.toString(t.DF_Best_Time));
+                out.newLine();
+                out.write("BF_Best_Time=" + Arrays.toString(t.BF_Best_Time));
+                out.newLine();
+
                 out.newLine();
                 out.flush();
             }
@@ -249,11 +309,8 @@ public class VPTreeBySampleTester {
 
     public static void main(String[] args) {
         VPTreeBySampleTester t = new VPTreeBySampleTester();
-        // t.testNN("sift", 1000, 100000, 10, 50);
-        // t.testkNN("sift", 1000, 100000, 10, 50, 10);
-        // t.bestFirstTest("sift", 1000, 1000000, 10, 10, 10);
-        t.cacheTest();
-        System.exit(0);
+        // t.cacheTest(Settings.updateThreshold);
+        // System.exit(0);
 
         long t1 = System.currentTimeMillis();
 
@@ -262,7 +319,7 @@ public class VPTreeBySampleTester {
             double factor = Settings.factors[i];
             System.out.println(setInfo + ": " + factor);
             t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.sampleNB, Settings.k,
-                    Settings.bucketSize, factor);
+                    Settings.bucketSize, factor, Settings.updateThreshold);
         }
         writeFile(setInfo, t);
 
@@ -271,7 +328,7 @@ public class VPTreeBySampleTester {
             int bucketSize = Settings.bucketSizes[i];
             System.out.println(setInfo + ": " + bucketSize);
             t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.sampleNB, Settings.k,
-                    bucketSize, Settings.factor);
+                    bucketSize, Settings.factor, Settings.updateThreshold);
         }
         writeFile(setInfo, t);
 
@@ -280,7 +337,7 @@ public class VPTreeBySampleTester {
             int dim = Settings.dims[i];
             System.out.println(setInfo + ": " + dim);
             t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, dim, Settings.sampleNB, Settings.k,
-                    Settings.bucketSize, Settings.factor);
+                    Settings.bucketSize, Settings.factor, Settings.updateThreshold);
         }
         writeFile(setInfo, t);
 
@@ -289,7 +346,7 @@ public class VPTreeBySampleTester {
             int sampleNB = Settings.sampleNBs[i];
             System.out.println(setInfo + ": " + sampleNB);
             t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, sampleNB, Settings.k,
-                    Settings.bucketSize, Settings.factor);
+                    Settings.bucketSize, Settings.factor, Settings.updateThreshold);
         }
         writeFile(setInfo, t);
 
@@ -298,7 +355,7 @@ public class VPTreeBySampleTester {
             int k = Settings.ks[i];
             System.out.println(setInfo + ": " + k);
             t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.sampleNB, k,
-                    Settings.bucketSize, Settings.factor);
+                    Settings.bucketSize, Settings.factor, Settings.updateThreshold);
         }
         writeFile(setInfo, t);
 

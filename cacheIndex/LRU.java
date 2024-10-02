@@ -1,46 +1,39 @@
 package cacheIndex;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
+import java.util.ArrayList;
 import VPTree.NN;
 import evaluation.Settings;
 
 // Dynamic Caching— Least-Recently-Used (LRU)
-public class LRUCache {
+public class LRU {
 
     private final int capacity;
-    private final LinkedHashMap<Point, Integer> cachedPoints;
+    private final ArrayList<Point> cachedPoints;
+    public Point minPP = null;
 
-    public LRUCache(int capacity) {
+    public LRU(int capacity) {
         this.capacity = capacity;
-        this.cachedPoints = new LinkedHashMap<Point, Integer>(capacity, 0.75f, true) {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<Point, Integer> eldest) {
-                return size() > capacity;
-            }
-        };
-    }
-
-    // Remove a point from cache, success return true
-    public boolean remove(Point p) {
-        return cachedPoints.remove(p) != null;
+        cachedPoints = new ArrayList<>();
     }
 
     // Add a point to cache, success return true
-    public boolean add(Point p) {
-        if (cachedPoints.size() < capacity) {
-            cachedPoints.put(p, 0);
-            return true;
+    public void update(Point p) {
+        if (cachedPoints.contains(p)) {
+            cachedPoints.remove(p);
+            cachedPoints.add(p);
+        } else {
+            cachedPoints.add(p);
+            if (cachedPoints.size() > capacity) {
+                cachedPoints.remove(0);
+            }
         }
-        return false;
     }
 
     // Given a point and an integer k, find the maximum distance of the kNNs
     public double find(Point p) {
         double minDist = Double.MAX_VALUE;
-        Point minPP = null;
-        for (Point pp : cachedPoints.keySet()) {
+        minPP = null;
+        for (Point pp : cachedPoints) {
             double dist = pp.distance(p);
             if (dist < minDist) {
                 minDist = dist;
@@ -48,8 +41,6 @@ public class LRUCache {
             }
         }
         if (minPP != null) {
-            remove(minPP);
-            add(minPP);
             double maxdist = 0;
             for (NN nn : minPP.NNs) {
                 double dist = Settings.distFunction.distance(nn.vector, p.coordinates);
@@ -59,7 +50,7 @@ public class LRUCache {
             }
             return maxdist;
         }
-        return Double.MAX_VALUE; // No points found
+        return Double.MAX_VALUE;
     }
 
     public int size() {

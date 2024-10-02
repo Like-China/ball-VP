@@ -13,7 +13,7 @@ public class Point {
     int id; // Unique identifier for the point
 
     // the hit number if it is stored as a cached point
-    private int hitCount = 0;
+    public int hitCount = 0;
     // the NN neighbor of this point
     PriorityQueue<NN> NNs = new PriorityQueue<>();
 

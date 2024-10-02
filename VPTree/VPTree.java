@@ -30,8 +30,6 @@ public class VPTree {
 	public int calcCount = 0;
 	// the size of sampling vectors to select VP points
 	public int sampleNB = Settings.sampleNB;
-	// the time cost of updating Heap (PriorityQueue)
-	public long heapUpdatecost = 0;
 
 	ArrayList<Item> list = new ArrayList<Item>();
 
@@ -50,6 +48,11 @@ public class VPTree {
 			list.add(itm);
 		}
 
+	}
+
+	public void init() {
+		nodeAccess = 0;
+		calcCount = 0;
 	}
 
 	/**
@@ -204,7 +207,6 @@ public class VPTree {
 			double maxKdist = res.peek().dist2query; // Distance of the farthest k-th neighbor found so far
 			// Now, determine which subtrees to search:
 			// If the query is further than (mu + maxKdist), search the right subtree
-			long t1 = System.nanoTime();
 			// Prune subtrees based on the current max distance
 			if (dist - mu <= maxKdist && currentNode.getLeft() != null) {
 				nodeCandidate.offer(currentNode.getLeft());
@@ -212,7 +214,6 @@ public class VPTree {
 			if (mu - dist <= maxKdist && currentNode.getRight() != null) {
 				nodeCandidate.offer(currentNode.getRight());
 			}
-			heapUpdatecost += (System.nanoTime() - t1);
 		}
 
 		return res;
