@@ -1,6 +1,7 @@
 package cacheIndex;
 
 import java.util.ArrayList;
+
 import VPTree.NN;
 import evaluation.Settings;
 
@@ -21,6 +22,12 @@ public class FIFO {
         cachedPoints.add(p);
         if (cachedPoints.size() > capacity) {
             cachedPoints.remove(0);
+        }
+    }
+
+    public void print() {
+        for (Point p : cachedPoints) {
+            System.out.println(p.id + "/" + p.hitCount);
         }
     }
 

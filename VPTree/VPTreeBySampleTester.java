@@ -23,27 +23,27 @@ public class VPTreeBySampleTester {
     DistanceFunction distFunction = Settings.distFunction;
 
     int varyNB = 5;
-    public int[] DF_NodeAccess = new int[varyNB];
-    public int[] BF_NodeAccess = new int[varyNB];
-    public int[] DF_FIFO_NodeAccess = new int[varyNB];
-    public int[] BF_FIFO_NodeAccess = new int[varyNB];
-    public int[] DF_LRU_NodeAccess = new int[varyNB];
-    public int[] BF_LRU_NodeAccess = new int[varyNB];
-    public int[] DF_LFU_NodeAccess = new int[varyNB];
-    public int[] BF_LFU_NodeAccess = new int[varyNB];
-    public int[] DF_Best_NodeAccess = new int[varyNB];
-    public int[] BF_Best_NodeAccess = new int[varyNB];
+    public long[] DF_NodeAccess = new long[varyNB];
+    public long[] BF_NodeAccess = new long[varyNB];
+    public long[] DF_FIFO_NodeAccess = new long[varyNB];
+    public long[] BF_FIFO_NodeAccess = new long[varyNB];
+    public long[] DF_LRU_NodeAccess = new long[varyNB];
+    public long[] BF_LRU_NodeAccess = new long[varyNB];
+    public long[] DF_LFU_NodeAccess = new long[varyNB];
+    public long[] BF_LFU_NodeAccess = new long[varyNB];
+    public long[] DF_Best_NodeAccess = new long[varyNB];
+    public long[] BF_Best_NodeAccess = new long[varyNB];
     // the number of calculation time
-    public int[] DF_CalcCount = new int[varyNB];
-    public int[] BF_CalcCount = new int[varyNB];
-    public int[] DF_FIFO_CalcCount = new int[varyNB];
-    public int[] BF_FIFO_CalcCount = new int[varyNB];
-    public int[] DF_LRU_CalcCount = new int[varyNB];
-    public int[] BF_LRU_CalcCount = new int[varyNB];
-    public int[] DF_LFU_CalcCount = new int[varyNB];
-    public int[] BF_LFU_CalcCount = new int[varyNB];
-    public int[] DF_Best_CalcCount = new int[varyNB];
-    public int[] BF_Best_CalcCount = new int[varyNB];
+    public long[] DF_CalcCount = new long[varyNB];
+    public long[] BF_CalcCount = new long[varyNB];
+    public long[] DF_FIFO_CalcCount = new long[varyNB];
+    public long[] BF_FIFO_CalcCount = new long[varyNB];
+    public long[] DF_LRU_CalcCount = new long[varyNB];
+    public long[] BF_LRU_CalcCount = new long[varyNB];
+    public long[] DF_LFU_CalcCount = new long[varyNB];
+    public long[] BF_LFU_CalcCount = new long[varyNB];
+    public long[] DF_Best_CalcCount = new long[varyNB];
+    public long[] BF_Best_CalcCount = new long[varyNB];
     // the search time
     public double[] DF_Time = new double[varyNB];
     public double[] BF_Time = new double[varyNB];
@@ -127,7 +127,6 @@ public class VPTreeBySampleTester {
 
     public void cacheTest(double updateThreshold) {
         // load data
-
         loadData(Settings.qNB, Settings.dbNB, Settings.dim);
         String setInfo = String.format(
                 "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size: %d",
@@ -136,56 +135,63 @@ public class VPTreeBySampleTester {
         System.out.println(setInfo);
 
         VPSampleAlg sVP = new VPSampleAlg(query, db, Settings.sampleNB, distFunction, Settings.bucketSize);
-        ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(Settings.k);
-        ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(Settings.k);
-        checkKNN(DFSRes, BFSRes);
-        ArrayList<PriorityQueue<NN>> DFSBestRes = sVP.bestCache(Settings.factor,
+        // ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(Settings.k);
+        // ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(Settings.k);
+        // ArrayList<PriorityQueue<NN>> DFSBestRes = sVP.bestCache(Settings.factor,
+        // updateThreshold, Settings.k, false);
+        // ArrayList<PriorityQueue<NN>> BFSBestRes = sVP.bestCache(Settings.factor,
+        // updateThreshold, Settings.k, true);
+        ArrayList<PriorityQueue<NN>> DFSBDCRes = sVP.BDCCache(Settings.cacheSize,
                 updateThreshold, Settings.k, false);
-        ArrayList<PriorityQueue<NN>> BFSBestRes = sVP.bestCache(Settings.factor,
+        ArrayList<PriorityQueue<NN>> BFSBDCRes = sVP.BDCCache(Settings.cacheSize,
                 updateThreshold, Settings.k, true);
-        checkKNN(DFSBestRes, BFSBestRes);
-        ArrayList<PriorityQueue<NN>> DFSLRURes = sVP.LRUCache(Settings.cacheSize,
-                updateThreshold, Settings.k, false);
-        checkKNN(DFSBestRes, DFSLRURes);
-        ArrayList<PriorityQueue<NN>> BFSLRURes = sVP.LRUCache(Settings.cacheSize,
-                updateThreshold, Settings.k, true);
-        checkKNN(DFSBestRes, BFSLRURes);
-        ArrayList<PriorityQueue<NN>> DFSHQFRes = sVP.LFUCache(Settings.cacheSize,
-                updateThreshold, Settings.k, false);
-        checkKNN(DFSRes, DFSHQFRes);
-        ArrayList<PriorityQueue<NN>> BFSHQFRes = sVP.LFUCache(Settings.cacheSize,
-                updateThreshold, Settings.k, true);
-        checkKNN(BFSLRURes, BFSHQFRes);
-        ArrayList<PriorityQueue<NN>> DFSFIFORes = sVP.FIFOCache(Settings.cacheSize, updateThreshold, Settings.k, false);
-        checkKNN(DFSLRURes, DFSFIFORes);
-        ArrayList<PriorityQueue<NN>> BFSFIFORes = sVP.FIFOCache(Settings.cacheSize, updateThreshold, Settings.k, true);
-        checkKNN(DFSBestRes, BFSFIFORes);
+        // ArrayList<PriorityQueue<NN>> DFSLRURes = sVP.LRUCache(Settings.cacheSize,
+        // updateThreshold, Settings.k, false);
+        // ArrayList<PriorityQueue<NN>> BFSLRURes = sVP.LRUCache(Settings.cacheSize,
+        // updateThreshold, Settings.k, true);
+        // ArrayList<PriorityQueue<NN>> DFSHQFRes = sVP.LFUCache(Settings.cacheSize,
+        // updateThreshold, Settings.k, false);
+        // ArrayList<PriorityQueue<NN>> BFSHQFRes = sVP.LFUCache(Settings.cacheSize,
+        // updateThreshold, Settings.k, true);
+        // ArrayList<PriorityQueue<NN>> DFSFIFORes = sVP.FIFOCache(Settings.cacheSize,
+        // updateThreshold, Settings.k, false);
+        // ArrayList<PriorityQueue<NN>> BFSFIFORes = sVP.FIFOCache(Settings.cacheSize,
+        // updateThreshold, Settings.k, true);
+        // checkKNN(DFSFIFORes, DFSBDCRes);
+        // checkKNN(BFSFIFORes, BFSBDCRes);
+        // checkKNN(BFSLRURes, BFSHQFRes);
+        // checkKNN(DFSBestRes, BFSFIFORes);
+        // checkKNN(DFSLRURes, DFSFIFORes);
+        // checkKNN(DFSRes, DFSHQFRes);
+        // checkKNN(DFSBestRes, BFSLRURes);
+        // checkKNN(DFSRes, BFSRes);
+        // checkKNN(DFSBestRes, BFSBestRes);
+        // checkKNN(DFSBestRes, DFSLRURes);
+
     }
 
     public void evaluate(int i, String data, int qSize, int dbSize, int dim, int sampleNB, int k, int bucketSize,
-            double factor, double updateThreshold) {
+            double factor, double updateThreshold, int cacheSize) {
         // load data
         loadData(qSize, dbSize, dim);
         String setInfo = String.format(
                 "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d \tfactor: %f \tfactor: %f",
                 data, query.size(), db.size(), k, dim, sampleNB, bucketSize, factor, updateThreshold);
         System.out.println(setInfo);
-        // construct VP-sampleNB
         VPSampleAlg VPAlg = new VPSampleAlg(query, db, sampleNB, distFunction, bucketSize);
         // DFS
         VPAlg.DFS(k);
-        // Recu Best-First
+        // BFS
         VPAlg.BFS(k);
-        VPAlg.BFS(Settings.k);
         // checkKNN(DFSRes, BFSRes);
-        VPAlg.bestCache(Settings.factor, updateThreshold, Settings.k, false);
-        VPAlg.bestCache(Settings.factor, updateThreshold, Settings.k, true);
-        VPAlg.LRUCache(Settings.cacheSize, updateThreshold, Settings.k, false);
-        VPAlg.LRUCache(Settings.cacheSize, updateThreshold, Settings.k, true);
-        VPAlg.LFUCache(Settings.cacheSize, updateThreshold, Settings.k, false);
-        VPAlg.LFUCache(Settings.cacheSize, updateThreshold, Settings.k, true);
-        VPAlg.FIFOCache(Settings.cacheSize, updateThreshold, Settings.k, false);
-        VPAlg.FIFOCache(Settings.cacheSize, updateThreshold, Settings.k, true);
+        VPAlg.bestCache(factor, updateThreshold, k, false);
+        VPAlg.bestCache(factor, updateThreshold, k, true);
+        VPAlg.LRUCache(cacheSize, updateThreshold, k, false);
+        VPAlg.LRUCache(cacheSize, updateThreshold, k, true);
+        VPAlg.LFUCache(cacheSize, updateThreshold, k, false);
+        VPAlg.LFUCache(cacheSize, updateThreshold, k, true);
+        VPAlg.FIFOCache(cacheSize, updateThreshold, k, false);
+        VPAlg.FIFOCache(cacheSize, updateThreshold, k, true);
         // cacheTest
         DF_NodeAccess[i] = VPAlg.DF_NodeAccess;
         BF_NodeAccess[i] = VPAlg.BF_NodeAccess;
@@ -309,53 +315,85 @@ public class VPTreeBySampleTester {
 
     public static void main(String[] args) {
         VPTreeBySampleTester t = new VPTreeBySampleTester();
-        // t.cacheTest(Settings.updateThreshold);
-        // System.exit(0);
+        t.cacheTest(Settings.updateThreshold);
+        System.exit(0);
 
         long t1 = System.currentTimeMillis();
+        String setInfo = null;
 
-        String setInfo = String.format("\nVarying factor" + Arrays.toString(Settings.factors));
-        for (int i = 0; i < 5; i++) {
-            double factor = Settings.factors[i];
-            System.out.println(setInfo + ": " + factor);
-            t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.sampleNB, Settings.k,
-                    Settings.bucketSize, factor, Settings.updateThreshold);
-        }
-        writeFile(setInfo, t);
+        // setInfo = String.format("\nVarying factor" +
+        // Arrays.toString(Settings.factors));
+        // for (int i = 0; i < 5; i++) {
+        // double factor = Settings.factors[i];
+        // System.out.println(setInfo + ": " + factor);
+        // t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim,
+        // Settings.sampleNB, Settings.k,
+        // Settings.bucketSize, factor, Settings.updateThreshold, Settings.cacheSize);
+        // }
+        // writeFile(setInfo, t);
 
-        setInfo = String.format("\nVarying bucketSize" + Arrays.toString(Settings.bucketSizes));
-        for (int i = 0; i < 5; i++) {
-            int bucketSize = Settings.bucketSizes[i];
-            System.out.println(setInfo + ": " + bucketSize);
-            t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.sampleNB, Settings.k,
-                    bucketSize, Settings.factor, Settings.updateThreshold);
-        }
-        writeFile(setInfo, t);
+        // setInfo = String.format("\nVarying cacheSize" +
+        // Arrays.toString(Settings.cacheSizes));
+        // for (int i = 0; i < 5; i++) {
+        // int cacheSize = Settings.cacheSizes[i];
+        // System.out.println(setInfo + ": " + cacheSize);
+        // t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim,
+        // Settings.sampleNB, Settings.k,
+        // Settings.bucketSize, Settings.factor, Settings.updateThreshold, cacheSize);
+        // }
+        // writeFile(setInfo, t);
+
+        // setInfo = String.format("\nVarying cacheUpdateThreshold" +
+        // Arrays.toString(Settings.updateThresholds));
+        // for (int i = 0; i < 5; i++) {
+        // double updateThreshold = Settings.updateThresholds[i];
+        // System.out.println(setInfo + ": " + updateThreshold);
+        // t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim,
+        // Settings.sampleNB, Settings.k,
+        // Settings.bucketSize, Settings.factor, updateThreshold, Settings.cacheSize);
+        // }
+        // writeFile(setInfo, t);
+
+        // setInfo = String.format("\nVarying k" + Arrays.toString(Settings.ks));
+        // for (int i = 0; i < 5; i++) {
+        // int k = Settings.ks[i];
+        // System.out.println(setInfo + ": " + k);
+        // t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim,
+        // Settings.sampleNB, k,
+        // Settings.bucketSize, Settings.factor, Settings.updateThreshold,
+        // Settings.cacheSize);
+        // }
+        // writeFile(setInfo, t);
+
+        // setInfo = String.format("\nVarying bucketSize" +
+        // Arrays.toString(Settings.bucketSizes));
+        // for (int i = 0; i < 5; i++) {
+        // int bucketSize = Settings.bucketSizes[i];
+        // System.out.println(setInfo + ": " + bucketSize);
+        // t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim,
+        // Settings.sampleNB, Settings.k,
+        // bucketSize, Settings.factor, Settings.updateThreshold, Settings.cacheSize);
+        // }
+        // writeFile(setInfo, t);
+
+        // setInfo = String.format("\nVarying sampleNB" +
+        // Arrays.toString(Settings.sampleNBs));
+        // for (int i = 0; i < 5; i++) {
+        // int sampleNB = Settings.sampleNBs[i];
+        // System.out.println(setInfo + ": " + sampleNB);
+        // t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim,
+        // sampleNB, Settings.k,
+        // Settings.bucketSize, Settings.factor, Settings.updateThreshold,
+        // Settings.cacheSize);
+        // }
+        // writeFile(setInfo, t);
 
         setInfo = String.format("\nVarying dimension" + Arrays.toString(Settings.dims));
         for (int i = 0; i < 5; i++) {
             int dim = Settings.dims[i];
             System.out.println(setInfo + ": " + dim);
             t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, dim, Settings.sampleNB, Settings.k,
-                    Settings.bucketSize, Settings.factor, Settings.updateThreshold);
-        }
-        writeFile(setInfo, t);
-
-        setInfo = String.format("\nVarying sampleNB" + Arrays.toString(Settings.sampleNBs));
-        for (int i = 0; i < 5; i++) {
-            int sampleNB = Settings.sampleNBs[i];
-            System.out.println(setInfo + ": " + sampleNB);
-            t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, sampleNB, Settings.k,
-                    Settings.bucketSize, Settings.factor, Settings.updateThreshold);
-        }
-        writeFile(setInfo, t);
-
-        setInfo = String.format("\nVarying k" + Arrays.toString(Settings.ks));
-        for (int i = 0; i < 5; i++) {
-            int k = Settings.ks[i];
-            System.out.println(setInfo + ": " + k);
-            t.evaluate(i, Settings.data, Settings.qNB, Settings.dbNB, Settings.dim, Settings.sampleNB, k,
-                    Settings.bucketSize, Settings.factor, Settings.updateThreshold);
+                    Settings.bucketSize, Settings.factor, Settings.updateThreshold, Settings.cacheSize);
         }
         writeFile(setInfo, t);
 

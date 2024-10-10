@@ -18,16 +18,14 @@ import java.util.PriorityQueue;
 public class VPTree {
 	public VPNode root;
 	public DistanceFunction dFunc;
-	// the distance of the currently discovered NN or kNN
-	public double tau;
 	// the currently discovered NN
 	public double[] nn = null;
 	// the currently discovered NN
 	public double[][] kNN = null;
 	public ArrayList<double[]> rangeRes;
 	// the number of node access when conduct queries
-	public int nodeAccess = 0;
-	public int calcCount = 0;
+	public long nodeAccess = 0;
+	public long calcCount = 0;
 	// the size of sampling vectors to select VP points
 	public int sampleNB = Settings.sampleNB;
 
@@ -41,7 +39,6 @@ public class VPTree {
 	public VPTree(double[][] vectors, DistanceFunction d) {
 
 		dFunc = d;
-		tau = java.lang.Double.MAX_VALUE;
 		nn = null;
 		for (double[] vector : vectors) {
 			Item itm = new Item(vector);
@@ -125,7 +122,7 @@ public class VPTree {
 		return res;
 	}
 
-	public PriorityQueue<NN> searchkNNBFS(double[] q, int k, double maxD) {
+	public PriorityQueue<NN> searchkNNBFSHier(double[] q, int k, double maxD) {
 		// hirec serach using a linkedlist
 		PriorityQueue<NN> res = _searchkNNBFS(root, q, k);
 		assert res != null;
@@ -141,10 +138,7 @@ public class VPTree {
 	}
 
 	/**
-	 * Helper function to recursively _searchOneNN the VP Tree for the nearest
-	 * neighbor of
-	 * q
-	 * It sets "nn" to the nearest neighbor found so far
+	 * Hier Search
 	 * 
 	 * @param VPNode of VP Tree, query double[] object
 	 */
@@ -288,7 +282,7 @@ public class VPTree {
 
 	}
 
-	// search kNN recusively using best-first strategy
+	// search kNN recusively using Best-First
 	private void _searchkNNBestFirst(VPNode n, double[] q, int k, PriorityQueue<NN> res, double maxD) {
 		if (n == null) {
 			return;

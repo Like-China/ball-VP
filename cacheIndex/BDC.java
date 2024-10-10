@@ -5,34 +5,44 @@ import java.util.ArrayList;
 import VPTree.NN;
 import evaluation.Settings;
 
-// Dynamic Caching— Least-Recently-Used (LRU)
-public class LRU {
+// Dynamic Caching— Least-Recently-Used (BDC)
+public class BDC {
 
     private final int capacity;
-    private final ArrayList<Point> cachedPoints;
+    public ArrayList<Point> cachedPoints;
     public Point minPP = null;
 
-    public LRU(int capacity) {
+    public BDC(int capacity) {
         this.capacity = capacity;
         cachedPoints = new ArrayList<>();
     }
 
-    public void print() {
-        for (Point p : cachedPoints) {
-            System.out.println(p.id + "/" + p.hitCount);
+    public void update(Point p, int currentTs) {
+        if (cachedPoints.contains(p)) {
+            p.addHitCount();
+        } else {
+            if (cachedPoints.size() == capacity) {
+                double minExpense = Double.MAX_VALUE;
+                Point minP = cachedPoints.get(0);
+                for (Point pp : cachedPoints) {
+                    assert currentTs - pp.ts > 0;
+                    double e = pp.expense * pp.hitCount / Math.pow(currentTs - pp.ts, 2);
+                    if (e < minExpense) {
+                        minExpense = e;
+                        minP = pp;
+                    }
+                }
+                cachedPoints.remove(minP);
+            }
+            p.addHitCount();
+            p.ts = currentTs;
+            cachedPoints.add(p);
         }
     }
 
-    // Add a point to cache, success return true
-    public void update(Point p) {
-        if (cachedPoints.contains(p)) {
-            cachedPoints.remove(p);
-            cachedPoints.add(p);
-        } else {
-            cachedPoints.add(p);
-            if (cachedPoints.size() > capacity) {
-                cachedPoints.remove(0);
-            }
+    public void print() {
+        for (Point p : cachedPoints) {
+            System.out.println(p.id + "/" + p.hitCount + "/" + p.expense + "/" + p.ts);
         }
     }
 

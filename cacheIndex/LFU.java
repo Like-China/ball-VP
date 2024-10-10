@@ -17,7 +17,7 @@ public class LFU {
     };
 
     private final int capacity;
-    private final PriorityQueue<Point> cachedPoints;
+    private PriorityQueue<Point> cachedPoints;
     public Point minPP = null;
 
     public LFU(int capacity) {
@@ -33,7 +33,18 @@ public class LFU {
         // while (!cachedPoints.isEmpty()) {
         // System.out.println(cachedPoints.poll().getHitCount());
         // }
+    }
 
+    public void init() {
+        cachedPoints = new PriorityQueue<>(capacity, comp);
+    }
+
+    public void print() {
+        PriorityQueue<Point> cpy = new PriorityQueue<>(cachedPoints);
+        while (!cpy.isEmpty()) {
+            Point p = cpy.poll();
+            System.out.println(p.id + "/" + p.hitCount);
+        }
     }
 
     // Add a point to cache, success return true
@@ -45,10 +56,10 @@ public class LFU {
             p.addHitCount();
             cachedPoints.add(p);
         } else {
-            cachedPoints.add(p);
-            if (cachedPoints.size() > capacity) {
+            if (cachedPoints.size() == capacity) {
                 cachedPoints.poll();
             }
+            cachedPoints.add(p);
         }
     }
 

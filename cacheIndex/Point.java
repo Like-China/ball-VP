@@ -12,8 +12,12 @@ public class Point {
     public double[] coordinates;
     int id; // Unique identifier for the point
 
+    // the timestamp when this point is added into the cache
+    public int ts = 0;
     // the hit number if it is stored as a cached point
     public int hitCount = 0;
+    // the expense of get the kNN of this point
+    public double expense = 0;
     // the NN neighbor of this point
     PriorityQueue<NN> NNs = new PriorityQueue<>();
 
@@ -39,7 +43,8 @@ public class Point {
         return hitCount;
     }
 
-    public void setNNs(PriorityQueue<NN> NNs) {
+    public void setNNs(PriorityQueue<NN> NNs, double expense) {
+        this.expense = expense;
         this.NNs = NNs;
     }
 
