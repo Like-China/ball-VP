@@ -22,7 +22,7 @@ public class Loader {
     }
 
     public void generateRandomdata(int qNB, int dbNB, int dim) {
-        Random r = new Random();
+        Random r = new Random(0);
         db = new ArrayList<>();
         query = new ArrayList<>();
         for (int i = 0; i < qNB; i++) {
@@ -39,12 +39,10 @@ public class Loader {
             }
             db.add(point);
         }
-
     }
 
     public ArrayList<double[]> loadRealData(String path, double readNB, int dim) {
         BufferedReader reader;
-        Random r = new Random();
         ArrayList<double[]> data = new ArrayList<>();
         try {
             reader = new BufferedReader(new FileReader(path));
@@ -52,11 +50,10 @@ public class Loader {
             while ((lineString = reader.readLine()) != null) {
                 String[] line = lineString.split(",");
                 double[] vec = new double[dim];
-                int id = 0;
+                int idx = 0;
                 for (String l : line) {
-                    // vec[id++] = Double.parseDouble(l) + r.nextDouble();
-                    vec[id++] = Double.parseDouble(l);
-                    if (id >= dim) {
+                    vec[idx++] = Double.parseDouble(l);
+                    if (idx >= dim) {
                         break;
                     }
                 }

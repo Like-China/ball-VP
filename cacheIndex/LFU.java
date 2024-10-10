@@ -9,6 +9,7 @@ import java.util.Comparator;
 
 public class LFU {
 
+    // poll the element with the minimal hit count
     public static Comparator<Point> comp = new Comparator<Point>() {
         @Override
         public int compare(Point p1, Point p2) {
@@ -23,16 +24,6 @@ public class LFU {
     public LFU(int capacity) {
         this.capacity = capacity;
         cachedPoints = new PriorityQueue<>(capacity, comp);
-        // Random r = new Random();
-        // for (int i = 0; i < 20; i++) {
-        // Point p = new Point(i, new double[] { r.nextInt(30), 2 });
-        // p.setHitCount(r.nextInt(30));
-        // this.update(p);
-        // }
-        // System.out.println(cachedPoints.size());
-        // while (!cachedPoints.isEmpty()) {
-        // System.out.println(cachedPoints.poll().getHitCount());
-        // }
     }
 
     public void init() {
@@ -100,9 +91,5 @@ public class LFU {
             System.out.println(cachedPoints.poll().hitCount);
         }
     }
-
-    // public static void main(String[] args) {
-    // new HQF(10);
-    // }
 
 }
