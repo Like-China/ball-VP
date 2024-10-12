@@ -28,7 +28,7 @@ public class Settings {
         public static double factor = 1;
         public static double[] factors = new double[] { 1, 1.5, 2, 2.5, 3 };
         // the cache size
-        public static int cacheSize = 50;
+        public static int cacheSize = 100;
         public static int[] cacheSizes = new int[] { 50, 100, 150, 200, 250 };
         // the update thresold of caching
         public static double updateThreshold = 2f;

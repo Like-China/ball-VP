@@ -86,12 +86,13 @@ public class VPTreeBySampleTester {
             points.add(new Point(i, l.query.get(i)));
         }
         int maxIterations = 100;
-        List<List<Point>> clusters = KMeans.kMeansCluster(points, 5, maxIterations);
-        for (List<Point> ls : clusters) {
-            for (Point p : ls) {
-                this.query.add(p.coordinates);
-            }
-        }
+        // List<List<Point>> clusters = KMeans.kMeansCluster(points, 5, maxIterations);
+        // for (List<Point> ls : clusters) {
+        // for (Point p : ls) {
+        // this.query.add(p.coordinates);
+        // }
+        // }
+        this.query = l.query;
         this.db = l.db;
         System.out.println("\n");
     }
@@ -107,7 +108,7 @@ public class VPTreeBySampleTester {
         BFAlg bf = new BFAlg(query, db, distFunction);
         ArrayList<PriorityQueue<NN>> BFkNNRes = bf.kNNSearch(k);
         // VP-DFS
-        VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
+        VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, Settings.bucketSize);
         ArrayList<PriorityQueue<NN>> VPkNNRes = sVP.DFS(k);
         checkKNN(BFkNNRes, VPkNNRes);
     }
@@ -119,7 +120,7 @@ public class VPTreeBySampleTester {
                 "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d",
                 data, query.size(), db.size(), k, dim, sampleNB, Settings.bucketSize);
         System.out.println(setInfo);
-        VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, 10);
+        VPSampleAlg sVP = new VPSampleAlg(query, db, sampleNB, distFunction, Settings.bucketSize);
         ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(k);
         ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(k);
         checkKNN(DFSRes, BFSRes);
@@ -141,17 +142,21 @@ public class VPTreeBySampleTester {
         // updateThreshold, Settings.k, false);
         // ArrayList<PriorityQueue<NN>> BFSBestRes = sVP.bestCache(Settings.factor,
         // updateThreshold, Settings.k, true);
-        ArrayList<PriorityQueue<NN>> DFSBDCRes = sVP.BDCCache(Settings.cacheSize,
-                updateThreshold, Settings.k, false);
-        ArrayList<PriorityQueue<NN>> BFSBDCRes = sVP.BDCCache(Settings.cacheSize,
-                updateThreshold, Settings.k, true);
-        // ArrayList<PriorityQueue<NN>> DFSLRURes = sVP.LRUCache(Settings.cacheSize,
+        // ArrayList<PriorityQueue<NN>> DFSBDCRes = sVP.BDCCache(Settings.cacheSize,
         // updateThreshold, Settings.k, false);
-        // ArrayList<PriorityQueue<NN>> BFSLRURes = sVP.LRUCache(Settings.cacheSize,
+        // ArrayList<PriorityQueue<NN>> BFSBDCRes = sVP.BDCCache(Settings.cacheSize,
         // updateThreshold, Settings.k, true);
-        // ArrayList<PriorityQueue<NN>> DFSHQFRes = sVP.LFUCache(Settings.cacheSize,
+        // ArrayList<PriorityQueue<NN>> DFSGLORes = sVP.GLOCache(Settings.cacheSize,
         // updateThreshold, Settings.k, false);
-        // ArrayList<PriorityQueue<NN>> BFSHQFRes = sVP.LFUCache(Settings.cacheSize,
+        // ArrayList<PriorityQueue<NN>> BFSGLORes = sVP.GLOCache(Settings.cacheSize,
+        // updateThreshold, Settings.k, true);
+        ArrayList<PriorityQueue<NN>> DFSLRURes = sVP.LRUCache(Settings.cacheSize,
+                updateThreshold, Settings.k, false);
+        ArrayList<PriorityQueue<NN>> BFSLRURes = sVP.LRUCache(Settings.cacheSize,
+                updateThreshold, Settings.k, true);
+        // ArrayList<PriorityQueue<NN>> DFSLFURes = sVP.LFUCache(Settings.cacheSize,
+        // updateThreshold, Settings.k, false);
+        // ArrayList<PriorityQueue<NN>> BFSLFURes = sVP.LFUCache(Settings.cacheSize,
         // updateThreshold, Settings.k, true);
         // ArrayList<PriorityQueue<NN>> DFSFIFORes = sVP.FIFOCache(Settings.cacheSize,
         // updateThreshold, Settings.k, false);
@@ -159,10 +164,11 @@ public class VPTreeBySampleTester {
         // updateThreshold, Settings.k, true);
         // checkKNN(DFSFIFORes, DFSBDCRes);
         // checkKNN(BFSFIFORes, BFSBDCRes);
-        // checkKNN(BFSLRURes, BFSHQFRes);
+        // checkKNN(BFSFIFORes, BFSGLORes);
+        // checkKNN(BFSLRURes, BFSLFURes);
         // checkKNN(DFSBestRes, BFSFIFORes);
         // checkKNN(DFSLRURes, DFSFIFORes);
-        // checkKNN(DFSRes, DFSHQFRes);
+        // checkKNN(DFSRes, DFSLFURes);
         // checkKNN(DFSBestRes, BFSLRURes);
         // checkKNN(DFSRes, BFSRes);
         // checkKNN(DFSBestRes, BFSBestRes);

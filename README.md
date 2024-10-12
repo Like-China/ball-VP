@@ -13,9 +13,10 @@ alleviate the degrade trending as the dimension increases
 4. how to model frequently visited data?
 5. explore the data distributions od datasets
 
-1. global cache
+1. global cache, more cache size
 2. kNN Graph
 3. increase the dimension
 4. How to get such query-aware data?
 5. time-complexity analysis
+6. material cache
 

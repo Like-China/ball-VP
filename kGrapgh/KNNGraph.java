@@ -1,6 +1,8 @@
-package cacheIndex;
+package kGrapgh;
 
 import java.util.*;
+
+import cacheIndex.Point;
 
 // Class to represent the kNN graph
 public class KNNGraph {

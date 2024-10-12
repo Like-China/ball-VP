@@ -10,7 +10,7 @@ import evaluation.Settings;
 // Class to represent a point in space
 public class Point {
     public double[] coordinates;
-    int id; // Unique identifier for the point
+    public int id; // Unique identifier for the point
 
     // the timestamp when this point is added into the cache
     public int ts = 0;

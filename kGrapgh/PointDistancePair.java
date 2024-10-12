@@ -1,4 +1,6 @@
-package cacheIndex;
+package kGrapgh;
+
+import cacheIndex.Point;
 
 // Helper class to store a point and its distance for use in the priority queue
 public class PointDistancePair {
