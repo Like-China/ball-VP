@@ -360,38 +360,6 @@ public class VPTree {
 
 	}
 
-	public ArrayList<double[]> searchRange(double[] q, double range) {
-		rangeRes = new ArrayList<>();
-		_searchRange(root, q, range);
-		return rangeRes;
-	}
-
-	private void _searchRange(VPNode n, double[] q, double range) {
-		if (n == null)
-			return;
-		double dist = dFunc.distance(q, n.getItem().getVector());
-		double mu = n.getMu();
-
-		if (dist <= range) {
-			rangeRes.add(n.getItem().getVector());
-		}
-
-		// If tau circle lies completely outside mu circle
-		if (dist > range + mu) {
-			_searchRange(n.getRight(), q, range);
-		}
-		// If tau circle lies completely inside mu circle
-		// else if (dist < Math.max(range, mu) - Math.min(range, mu)) {
-		else if (dist < mu - range) {
-			_searchRange(n.getLeft(), q, range);
-		}
-		// If both circles overlap
-		else {
-			_searchRange(n.getLeft(), q, range);
-			_searchRange(n.getRight(), q, range);
-		}
-	}
-
 	/**
 	 * Helper function to select the Vantage Point using down-sampling
 	 * 

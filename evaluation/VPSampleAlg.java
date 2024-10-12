@@ -78,7 +78,6 @@ public class VPSampleAlg {
         this.dbData = dbData.toArray(new double[dbData.size()][]);
         this.sampleNB = sampleNB;
         this.distFunction = distFunction;
-
         // tree construction
         t1 = System.currentTimeMillis();
         vp = new VPTreeBySample(this.dbData, distFunction, sampleNB, bucketSize);
@@ -415,8 +414,6 @@ public class VPSampleAlg {
 
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         t1 = System.currentTimeMillis();
-        // If the actual maxKDist is 2x less than the cached maxDist, add
-        // hitCount by 1
         long hitCount = 0;
         for (int i = 0; i < qData.length; i++) {
             double[] q = qData[i];
@@ -450,18 +447,6 @@ public class VPSampleAlg {
                     cTime, DF_Best_Time / n, DF_Best_NodeAccess, DF_Best_CalcCount, hitCount);
         }
         System.out.println(info);
-        return res;
-    }
-
-    public ArrayList<double[]> rangeSearch(double range) {
-
-        ArrayList<double[]> res = new ArrayList<>();
-        t1 = System.currentTimeMillis();
-        for (double[] q : qData) {
-            res.addAll(vp.searchRange(q, range));
-        }
-        t2 = System.currentTimeMillis();
-        System.out.println("VP range-Search result size: " + res.size());
         return res;
     }
 
