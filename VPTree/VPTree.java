@@ -37,7 +37,6 @@ public class VPTree {
 	 * @param the train dataset of double[]s, Distance metric d to be used
 	 */
 	public VPTree(double[][] vectors, DistanceFunction d) {
-
 		dFunc = d;
 		nn = null;
 		for (double[] vector : vectors) {

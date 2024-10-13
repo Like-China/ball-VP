@@ -10,7 +10,7 @@ public class Settings {
         // early stop construction of VP-tree
         public static boolean isEarlyStopConstruct = true;
         // the bucket size (leafnode capacity) in the balltree and VP-tree
-        public static int dbNB = 100000;
+        public static int dbNB = 10000;
         public static int qNB = 10000;
         // the dimension size
         public static int dim = 10;
@@ -29,7 +29,7 @@ public class Settings {
         public static double[] factors = new double[] { 1, 1.5, 2, 2.5, 3 };
         // the cache size
         public static int cacheSize = 100;
-        public static int[] cacheSizes = new int[] { 50, 100, 150, 200, 250 };
+        public static int[] cacheSizes = new int[] { 500, 1000, 1500, 2000, 2500 };
         // the update thresold of caching
         public static double updateThreshold = 2f;
         public static double[] updateThresholds = new double[] { 2f, 2.5f, 3f, 3.5f, 4f };
