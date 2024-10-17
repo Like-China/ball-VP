@@ -1,16 +1,16 @@
-package linearcache;
+package utils;
 
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.PriorityQueue;
 
-import VPTree.NN;
 import evaluation.Settings;
 
 // Class to represent a point in space
 public class Point {
-    public double[] coordinates;
+    public double[] vector;
     public int id; // Unique identifier for the point
+    public boolean isQueryPoint = true;
 
     // the timestamp when this point is added into the cache
     public int ts = 0;
@@ -21,14 +21,16 @@ public class Point {
     // the NN neighbor of this point
     public PriorityQueue<NN> NNs = new PriorityQueue<>();
 
-    public Point(int id, double[] coordinates) {
+    public Point(int id, double[] vector, boolean isQueryPoint) {
         this.id = id;
-        this.coordinates = coordinates;
+        this.vector = vector;
+        this.isQueryPoint = isQueryPoint;
+
     }
 
     // Euclidean distance calculation between this point and another point
-    public double distance(Point other) {
-        return Settings.distFunction.distance(this.coordinates, other.coordinates);
+    public double distanceTo(Point other) {
+        return Settings.distFunction.distance(this.vector, other.vector);
     }
 
     public void addHitCount() {
@@ -57,7 +59,11 @@ public class Point {
         if (!(obj instanceof Point))
             return false;
         Point other = (Point) obj;
-        if (coordinates != other.coordinates) {
+        if (id != other.id)
+            {
+                return false;
+            }
+        if (vector != other.vector) {
             return false;
         }
         return true;
@@ -65,12 +71,12 @@ public class Point {
 
     @Override
     public int hashCode() {
-        return Objects.hash(coordinates);
+        return Objects.hash(vector);
     }
 
     @Override
     public String toString() {
         // TODO Auto-generated method stub
-        return String.format("Id: %d vector: %s, hit count: %d", id, Arrays.toString(coordinates), hitCount);
+        return String.format("Id: %d vector: %s, hit count: %d", id, Arrays.toString(vector), hitCount);
     }
 }

@@ -2,16 +2,17 @@ package graphcache;
 
 import java.util.*;
 
-import linearcache.Point;
+import utils.NN;
+import utils.Point;
 
 // Class to represent the kNN graph
 public class KGraph {
     public HashMap<Point, ArrayList<Point>> adjacencyList; // Graph stored as an adjacency list
-    public ArrayList<Point> points;
+    public HashSet<Point> points;
 
     public KGraph() {
         adjacencyList = new HashMap<>();
-        points = new ArrayList<>();
+        points = new HashSet<>();
     }
 
     // Add a connection between two points
@@ -52,6 +53,10 @@ public class KGraph {
 
     // use a set of points to initial a Kgraph
     public void initGraph(ArrayList<Point> initPoints, int k) {
+        // initial all records
+        adjacencyList = new HashMap<>();
+        points = new HashSet<>();
+
         points.addAll(initPoints);
         for (Point p : initPoints) {
             this.updateGraph(p, k);
@@ -62,14 +67,16 @@ public class KGraph {
     // Given a new point, update the kNN graph by adding this point and its
     // k-connection
     public void updateGraph(Point p, int k) {
-
+        if (adjacencyList.containsKey(p)) {
+            return;
+        }
         // For each point, find the k-nearest neighbors
-        PriorityQueue<PointDistancePair> pq = new PriorityQueue<>((a, b) -> Double.compare(b.distance, a.distance));
+        PriorityQueue<NN> pq = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
         // Calculate the distance from point p to all other points
         for (Point q : points) {
             if (!p.equals(q)) {
-                double dist = p.distance(q);
-                pq.add(new PointDistancePair(q, dist));
+                double dist = p.distanceTo(q);
+                pq.add(new NN(q, dist));
                 // Keep only the closest k neighbors in the priority queue
                 if (pq.size() > k) {
                     pq.poll(); // Remove the farthest point in the queue
@@ -82,51 +89,58 @@ public class KGraph {
         }
     }
 
+    // Given an inital point
     // Method to find the k-nearest neighbors of a given point using a greedy search
-    // from a random initial point
-    public PriorityQueue<PointDistancePair> findKNN(Point targetPoint, int k) {
-        PriorityQueue<PointDistancePair> pq = new PriorityQueue<>((a, b) -> Double.compare(b.distance, a.distance));
+    // from a given inital point
+    public PriorityQueue<NN> findKNN(Point currentPoint, Point targetPoint, int k) {
+        PriorityQueue<NN> pq = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
         Set<Point> visited = new HashSet<>(); // To avoid visiting the same point twice
 
         // Step 1: Start from a random point in the graph
-        Random r = new Random();
-        Point currentPoint = points.get(r.nextInt(points.size()));
-        // Point currentPoint = points.get(points.size() - 1);
-        double currentDistance = currentPoint.distance(targetPoint);
-        pq.add(new PointDistancePair(currentPoint, currentDistance));
+        Random r = new Random(10);
+        double currentDistance = currentPoint.distanceTo(targetPoint);
+        pq.add(new NN(currentPoint, currentDistance));
         visited.add(currentPoint);
 
+        if (this.getNeighbors(currentPoint).isEmpty()) {
+            return pq;
+        }
+
+        // assert this.getNeighbors(currentPoint).size() == k :
+        // this.getNeighbors(currentPoint).size() + "/" + k;
         // Step 2: Greedily search neighbors for closer points
         boolean foundCloserNeighbor;
         do {
             foundCloserNeighbor = false;
-            System.out.println("\n****** current point: " + currentPoint.id + " distance:" + currentDistance);
+            // System.out.println("\n* cur point: " + currentPoint.id + " dis:" +
+            // currentDistance);
             // Get neighbors of the current point
             double minDist = Double.MAX_VALUE;
             Point minP = null;
             for (Point neighbor : this.getNeighbors(currentPoint)) {
 
                 if (!visited.contains(neighbor)) {
-                    double neighborDistance = neighbor.distance(targetPoint);
+                    double neighborDistance = neighbor.distanceTo(targetPoint);
                     visited.add(neighbor);
                     // Add to priority queue if we find a closer neighbor
-                    System.out.println("check point: " + neighbor.id + " distance: " +
-                            neighborDistance);
-                    if (pq.size() < k || pq.peek().distance > neighborDistance) {
-                        pq.add(new PointDistancePair(neighbor, neighborDistance));
+                    // System.out.println("check point: " + neighbor.id + " distance: " +
+                    // neighborDistance);
+                    if (pq.size() < k || pq.peek().dist2query > neighborDistance) {
+                        pq.add(new NN(neighbor, neighborDistance));
                         if (pq.size() > k) {
                             pq.poll(); // Remove the farthest neighbor if we have more than k
                         }
                         // get the nearest next neigbor to the target point
                         if (minDist > neighborDistance) {
-                            System.out.println(minDist + "/" + neighborDistance);
+                            // System.out.println(minDist + "/" + neighborDistance);
                             minP = neighbor;
                             minDist = neighborDistance;
                         }
                     }
-                } else {
-                    System.out.println("checked point: " + neighbor.id);
                 }
+                // else {
+                // System.out.println("checked point: " + neighbor.id);
+                // }
             }
             // If next neigbor to the target point has closer distance than current neigbor,
             // Update the current point to explore from the closest neighbor
@@ -139,67 +153,9 @@ public class KGraph {
                 foundCloserNeighbor = false;
             }
         } while (foundCloserNeighbor);
-        assert pq.size() == k : pq.size() + "/" + k;
-        return pq;
-    }
-
-    // Method to find the k-nearest neighbors of a given point using a greedy search
-    // from a random initial point
-    public PriorityQueue<PointDistancePair> findKNN(Point currentPoint, initPoint targetPoint, int k) {
-        PriorityQueue<PointDistancePair> pq = new PriorityQueue<>((a, b) -> Double.compare(b.distance, a.distance));
-        Set<Point> visited = new HashSet<>(); // To avoid visiting the same point twice
-
-        // Step 1: Start from a random point in the graph
-        Random r = new Random();
-        // Point currentPoint = points.get(points.size() - 1);
-        double currentDistance = currentPoint.distance(targetPoint);
-        pq.add(new PointDistancePair(currentPoint, currentDistance));
-        visited.add(currentPoint);
-
-        // Step 2: Greedily search neighbors for closer points
-        boolean foundCloserNeighbor;
-        do {
-            foundCloserNeighbor = false;
-            System.out.println("\n****** current point: " + currentPoint.id + " distance:" + currentDistance);
-            // Get neighbors of the current point
-            double minDist = Double.MAX_VALUE;
-            Point minP = null;
-            for (Point neighbor : this.getNeighbors(currentPoint)) {
-
-                if (!visited.contains(neighbor)) {
-                    double neighborDistance = neighbor.distance(targetPoint);
-                    visited.add(neighbor);
-                    // Add to priority queue if we find a closer neighbor
-                    System.out.println("check point: " + neighbor.id + " distance: " +
-                            neighborDistance);
-                    if (pq.size() < k || pq.peek().distance > neighborDistance) {
-                        pq.add(new PointDistancePair(neighbor, neighborDistance));
-                        if (pq.size() > k) {
-                            pq.poll(); // Remove the farthest neighbor if we have more than k
-                        }
-                        // get the nearest next neigbor to the target point
-                        if (minDist > neighborDistance) {
-                            System.out.println(minDist + "/" + neighborDistance);
-                            minP = neighbor;
-                            minDist = neighborDistance;
-                        }
-                    }
-                } else {
-                    System.out.println("checked point: " + neighbor.id);
-                }
-            }
-            // If next neigbor to the target point has closer distance than current neigbor,
-            // Update the current point to explore from the closest neighbor
-            if (minDist < currentDistance || r.nextDouble() < 0.8) {
-                currentPoint = minP;
-                currentDistance = minDist;
-                foundCloserNeighbor = true;
-            }
-            if (minP == null) {
-                foundCloserNeighbor = false;
-            }
-        } while (foundCloserNeighbor);
-        assert pq.size() == k : pq.size() + "/" + k;
+        // if(pq.size() != k) {
+        // System.out.println(pq.size() + "/" + k);
+        // }
         return pq;
     }
 
@@ -207,55 +163,58 @@ public class KGraph {
         return points.size();
     }
 
-    public static void main(String[] args) {
-        // Example input
-        Random r = new Random(10);
-        int k = 10; // Find k nearest neighbors
-        ArrayList<Point> points = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            points.add(new Point(i, new double[] { r.nextDouble(), r.nextDouble() }));
-        }
-        // Build the kNN graph
-        KGraph knnGraph = new KGraph();
-        knnGraph.initGraph(points, k);
-        for (int i = 50; i < 1000; i++) {
-            Point p = new Point(i, new double[] { r.nextDouble(), r.nextDouble() });
-            points.add(p);
-            knnGraph.points.add(p);
-            knnGraph.updateGraph(p, k);
-        }
+    // public static void main(String[] args) {
+    // // Example input
+    // Random r = new Random(10);
+    // int k = 10; // Find k nearest neighbors
+    // ArrayList<Point> points = new ArrayList<>();
+    // for (int i = 0; i < 50; i++) {
+    // points.add(new Point(i, new double[] { r.nextDouble(), r.nextDouble() }));
+    // }
+    // // Build the kNN graph
+    // KGraph knnGraph = new KGraph();
+    // knnGraph.initGraph(points, k);
+    // for (int i = 50; i < 1000; i++) {
+    // Point p = new Point(i, new double[] { r.nextDouble(), r.nextDouble() });
+    // points.add(p);
+    // knnGraph.points.add(p);
+    // knnGraph.updateGraph(p, k);
+    // }
 
-        // Print the kNN graph
-        // System.out.println("KNN Graph:");
-        // knnGraph.printGraph();
-        // knnGraph.removePoint(points.get(44));
-        // System.out.println("KNN Graph:");
-        // knnGraph.printGraph();
+    // // Print the kNN graph
+    // // System.out.println("KNN Graph:");
+    // // knnGraph.printGraph();
+    // // knnGraph.removePoint(points.get(44));
+    // // System.out.println("KNN Graph:");
+    // // knnGraph.printGraph();
 
-        // Find k-NN of a specific point (e.g., point with id 1)
-        Point targetPoint = new Point(8, new double[] { r.nextDouble(), r.nextDouble() });
-        PriorityQueue<PointDistancePair> neighbors = knnGraph.findKNN(targetPoint, k);
-        // Print the k-NN results
-        System.out.println("k-NN (Graph) of Point " + targetPoint.id + ":");
-        while (!neighbors.isEmpty()) {
-            PointDistancePair pair = neighbors.poll();
-            System.out.println(pair.point.id + "/" + pair.distance);
-        }
+    // // Find k-NN of a specific point (e.g., point with id 1)
+    // Point targetPoint = new Point(8, new double[] { r.nextDouble(),
+    // r.nextDouble() });
+    // PriorityQueue<NN> neighbors = knnGraph.findKNN(targetPoint,
+    // targetPoint, k);
+    // // Print the k-NN results
+    // System.out.println("k-NN (Graph) of Point " + targetPoint.id + ":");
+    // while (!neighbors.isEmpty()) {
+    // NN pair = neighbors.poll();
+    // System.out.println(pair.point.id + "/" + pair.distance);
+    // }
 
-        // brute-force
-        PriorityQueue<PointDistancePair> pq = new PriorityQueue<>((a, b) -> Double.compare(b.distance, a.distance));
-        for (Point neighbor : points) {
-            double dist = targetPoint.distance(neighbor);
-            pq.add(new PointDistancePair(neighbor, dist));
-            if (pq.size() > k) {
-                pq.poll();
-            }
-        }
-        System.out.println("k-NN (Exact) of Point " + targetPoint.id + ":");
-        while (!pq.isEmpty()) {
-            PointDistancePair pair = pq.poll();
-            System.out.println(pair.point.id + "/" + pair.distance);
-        }
+    // // brute-force
+    // PriorityQueue<NN> pq = new PriorityQueue<>((a, b) ->
+    // Double.compare(b.distance, a.distance));
+    // for (Point neighbor : points) {
+    // double dist = targetPoint.distance(neighbor);
+    // pq.add(new NN(neighbor, dist));
+    // if (pq.size() > k) {
+    // pq.poll();
+    // }
+    // }
+    // System.out.println("k-NN (Exact) of Point " + targetPoint.id + ":");
+    // while (!pq.isEmpty()) {
+    // NN pair = pq.poll();
+    // System.out.println(pair.point.id + "/" + pair.distance);
+    // }
 
-    }
+    // }
 }

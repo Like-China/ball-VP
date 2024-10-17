@@ -1,52 +1,59 @@
-package evaluation;
+package utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+
+import evaluation.Settings;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class Loader {
-    public ArrayList<double[]> db = new ArrayList<>();
-    public ArrayList<double[]> query = new ArrayList<>();
+    public ArrayList<Point> db = new ArrayList<>();
+    public ArrayList<Point> query = new ArrayList<>();
 
     public void loadData(int qNB, int dbNB, int dim) {
         if (Settings.data == "random") {
             generateRandomdata(qNB, dbNB, dim);
             return;
         }
-        String dbPath = Settings.dirPath + Settings.data + "_db.txt";
-        db = loadRealData(dbPath, dbNB, dim);
+        // ArrayList<Point> allPoints = new ArrayList<>();
+
         String qPath = Settings.dirPath + Settings.data + "_query.txt";
-        query = loadRealData(qPath, qNB, dim);
+        query = loadRealData(qPath, qNB, dim, true);
+        String dbPath = Settings.dirPath + Settings.data + "_db.txt";
+        // allPoints.addAll(allPoints)
+        db = loadRealData(dbPath, dbNB, dim, false);
     }
 
     public void generateRandomdata(int qNB, int dbNB, int dim) {
         Random r = new Random(0);
         db = new ArrayList<>();
         query = new ArrayList<>();
-        for (int i = 0; i < qNB; i++) {
+        for (int id = 0; id < qNB; id++) {
             double[] point = new double[dim];
             for (int j = 0; j < dim; j++) {
                 point[j] = r.nextDouble();
             }
-            query.add(point);
+            query.add(new Point(id, point, true));
         }
-        for (int i = 0; i < dbNB; i++) {
+        for (int id = 0; id < dbNB; id++) {
             double[] point = new double[dim];
             for (int j = 0; j < dim; j++) {
                 point[j] = r.nextDouble();
             }
-            db.add(point);
+            db.add(new Point(id, point, false));
         }
     }
 
-    public ArrayList<double[]> loadRealData(String path, double readNB, int dim) {
+    public ArrayList<Point> loadRealData(String path, double readNB, int dim, boolean isQueryPoint) {
         BufferedReader reader;
-        ArrayList<double[]> data = new ArrayList<>();
+        ArrayList<Point> data = new ArrayList<>();
         try {
             reader = new BufferedReader(new FileReader(path));
             String lineString;
+            int id = 0;
             while ((lineString = reader.readLine()) != null) {
                 String[] line = lineString.split(",");
                 double[] vec = new double[dim];
@@ -57,7 +64,7 @@ public class Loader {
                         break;
                     }
                 }
-                data.add(vec);
+                data.add(new Point(id++, vec, isQueryPoint));
                 if (data.size() >= readNB) {
                     break;
                 }

@@ -1,5 +1,7 @@
 package linearcache;
 
+import utils.Point;
+
 // Dynamic Caching— Least-Recently-Used (FIFO)
 public class FIFO extends Linercache {
 

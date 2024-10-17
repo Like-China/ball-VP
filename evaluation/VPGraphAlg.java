@@ -5,20 +5,14 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 import VPTree.*;
 import graphcache.KGraph;
-import graphcache.PointDistancePair;
-import linearcache.BDC;
-import linearcache.FIFO;
-import linearcache.LFU;
 import linearcache.LRU;
-import linearcache.Linercache;
-import linearcache.Point;
-import Distance.*;
+import utils.NN;
+import utils.Point;
 
 public class VPGraphAlg {
     /// query, database vectors
-    public double[][] qData;
-    public double[][] dbData;
-    public DistanceFunction distFunction;
+    public Point[] qData;
+    public Point[] dbData;
     // index construction time
     public long cTime = 0;
     // the number of node accesses (Deep-First/Best-first + Hier/recursion + Cache)
@@ -73,382 +67,153 @@ public class VPGraphAlg {
     public VPTreeBySample vp = null;
     long t1, t2;
 
-    public VPGraphAlg(ArrayList<double[]> qData, ArrayList<double[]> dbData, int sampleNB,
-            DistanceFunction distFunction, int bucketSize) {
-        this.qData = qData.toArray(new double[qData.size()][]);
-        this.dbData = dbData.toArray(new double[dbData.size()][]);
+    public VPGraphAlg(Point[] qData, Point[] dbData, int sampleNB, int bucketSize) {
+        this.qData = qData;
+        this.dbData = dbData;
         this.sampleNB = sampleNB;
-        this.distFunction = distFunction;
         // tree construction
         t1 = System.currentTimeMillis();
-        vp = new VPTreeBySample(this.dbData, distFunction, sampleNB, bucketSize);
+        vp = new VPTreeBySample(dbData, sampleNB, bucketSize);
         t2 = System.currentTimeMillis();
         cTime = t2 - t1;
     }
 
     public ArrayList<PriorityQueue<NN>> LRUCache(int cacheSize, double updateThreshold, int k, boolean useBFS) {
         vp.init();
+
+        double updateTime = 0;
+        double graphSearchTime = 0;
+
         long n = qData.length;
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         HashSet<Point> cachedPoints = new HashSet<>();
-
         // initial a LRUCache
         KGraph kGraph = new KGraph();
+        // initial a LRUCache
+        LRU lru = new LRU(cacheSize);
         int hitCount = 0;
-        int idx = 0;
+        t1 = System.currentTimeMillis();
         for (int i = 0; i < cacheSize; i++) {
-            double[] q = qData[i];
-            double maxKdist = Double.MAX_VALUE;
+            Point query = qData[i];
+            double maxKdist = lru.find(query);
             PriorityQueue<NN> nns = new PriorityQueue<>();
             long nodeAccessBefore = vp.nodeAccess;
             if (useBFS) {
-                nns = vp.searchkNNBestFirst(q, k, maxKdist);
+                nns = vp.searchkNNBFSRecu(query, k, maxKdist);
             } else {
-                nns = vp.searchkNNDFS(q, k, maxKdist);
+                nns = vp.searchkNNDFS(query, k, maxKdist);
             }
             long nodeAccessAfter = vp.nodeAccess;
             // update res
             res.add(nns);
             // update cachedPoint
             for (NN nn : nns) {
-                cachedPoints.add(new Point(idx++, nn.vector));
+                cachedPoints.add(nn.point);
             }
+            // for (NN nn : nns) {
+            // kGraph.points.add(nn.point);
+            // }
+            // for (NN nn : nns) {
+            // kGraph.updateGraph(nn.point, k);
+            // }
+            // update cache
+            query.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
+            lru.cachedPoints.add(query);
         }
-        System.out.println(cachedPoints.size());
+        assert lru.size() == cacheSize : lru.size() + "/" + cacheSize;
+        long t3 = System.currentTimeMillis();
         kGraph.initGraph(new ArrayList<>(cachedPoints), k);
-        t1 = System.currentTimeMillis();
+        System.out.println("\nInitial time cost: " + (System.currentTimeMillis() - t3));
+        System.out.println("initial KGraph size:" + kGraph.size());
+
+        int count = 0;
+
         for (int i = cacheSize; i < n; i++) {
-            double[] q = qData[i];
-            Point p = new Point(i, q);
-            PriorityQueue<PointDistancePair> pairs = kGraph.findKNN(p, k);
-            double maxKdist = pairs.peek().distance;
+            Point query = qData[i];
+            double maxKdist = lru.find(query);
+            Point minPP = lru.minPP;
+            Point currentPoint = lru.minNN.point;
+            // System.out.println(i);
+            // System.out.println("Linear cache init distacne: " + maxKdist);
+            // System.out.println("Initial Point: " + minPP.id + "->" + currentPoint.id);
+            long startSearch = System.currentTimeMillis();
+            PriorityQueue<NN> pairs = kGraph.findKNN(currentPoint, query, k);
+            long endSearch = System.currentTimeMillis();
+            graphSearchTime += (endSearch - startSearch);
+            double maxKdist1 = pairs.peek().dist2query;
+            if (maxKdist1 <= maxKdist) {
+                count++;
+            }
+            maxKdist = Math.min(maxKdist, maxKdist1);
+            // System.out.println("Graph cache init distacne: " + maxKdist);
+            // System.out.println();
             PriorityQueue<NN> nns = new PriorityQueue<>();
             long nodeAccessBefore = vp.nodeAccess;
             if (useBFS) {
-                nns = vp.searchkNNBestFirst(q, k, maxKdist);
+                nns = vp.searchkNNBFSRecu(query, k, maxKdist);
             } else {
-                nns = vp.searchkNNDFS(q, k, maxKdist);
+                nns = vp.searchkNNDFS(query, k, maxKdist);
             }
             long nodeAccessAfter = vp.nodeAccess;
             // update res
             res.add(nns);
+
             // update cachedPoint
-            // for (NN nn : nns) {
-            // kGraph.updateGraph(new Point(idx++, nn.vector), k);
-            // }
             if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                 hitCount += 1;
+                query = lru.minPP;
+                lru.update(query);
+            } else {
+                query.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
+                long start = System.currentTimeMillis();
+                // remove
+                Point deleteP = lru.update(query);
+                for (NN nn : deleteP.NNs) {
+                    kGraph.removePoint(nn.point);
+                }
+                // add
+                for (NN nn : nns) {
+                    kGraph.points.add(nn.point);
+                }
+                for (NN nn : nns) {
+                    kGraph.updateGraph(nn.point, k);
+                }
+                long end = System.currentTimeMillis();
+                updateTime += (end - start);
+                // cachedPoints = new HashSet<>();
+                // for (Point caheedP : lru.cachedPoints) {
+                // for (NN nn : caheedP.NNs) {
+                // cachedPoints.add(nn.point);
+                // }
+                // }
+                // System.out.println("Initial...");
+                // kGraph.initGraph(new ArrayList<>(cachedPoints), k);
+                // System.out.println(cachedPoints.size() + "/" + kGraph.size());
             }
         }
+        System.out.println("Final kGraph.size:" + kGraph.size());
+        assert lru.size() == cacheSize : lru.size() + "/" + cacheSize;
         t2 = System.currentTimeMillis();
+        System.out.println("Effective count: " + count);
 
         if (useBFS) {
             BF_LRU_Time = t2 - t1;
             BF_LRU_NodeAccess = vp.nodeAccess / n;
             BF_LRU_CalcCount = vp.calcCount / n;
             info = String.format(
-                    "\n****	BFS--LRU Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
+                    "****	BFS--LRU-2 Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
                     cTime, BF_LRU_Time / n, BF_LRU_NodeAccess, BF_LRU_CalcCount, hitCount);
         } else {
             DF_LRU_Time = t2 - t1;
             DF_LRU_NodeAccess = vp.nodeAccess / n;
             DF_LRU_CalcCount = vp.calcCount / n;
             info = String.format(
-                    "\n****	DFS--LRU Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
+                    "****	DFS--LRU-2 Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
                     cTime, DF_LRU_Time / n, DF_LRU_NodeAccess, DF_LRU_CalcCount, hitCount);
         }
         System.out.println(info);
-
-        return res;
-    }
-
-    public ArrayList<PriorityQueue<NN>> FIFOCache(int cacheSize, double updateThreshold, int k, boolean useBFS) {
-        vp.init();
-        long n = qData.length;
-        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
-        t1 = System.currentTimeMillis();
-        // initial a FIFoCache
-        FIFO fifo = new FIFO(cacheSize);
-        long hitCount = 0;
-        for (int i = 0; i < n; i++) {
-            double[] q = qData[i];
-            Point p = new Point(i, q);
-            double maxKdist = fifo.find(p);
-            PriorityQueue<NN> nns = new PriorityQueue<>();
-            long nodeAccessBefore = vp.nodeAccess;
-            if (useBFS) {
-                nns = vp.searchkNNBestFirst(q, k, maxKdist);
-            } else {
-                nns = vp.searchkNNDFS(q, k, maxKdist);
-            }
-            long nodeAccessAfter = vp.nodeAccess;
-            // update res
-            res.add(nns);
-            // update cache
-            p.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-            if (fifo.size() < cacheSize) {
-                fifo.cachedPoints.add(p);
-                if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                    hitCount += 1;
-                }
-            } else {
-                if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                    hitCount += 1;
-                } else {
-                    fifo.update(p);
-                }
-            }
-
-        }
-        assert fifo.size() == cacheSize : fifo.size() + "/" + cacheSize;
-        t2 = System.currentTimeMillis();
-
-        if (useBFS) {
-            BF_FIFO_Time = t2 - t1;
-            BF_FIFO_NodeAccess = vp.nodeAccess / n;
-            BF_FIFO_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	BFS--FIFO Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, BF_FIFO_Time / n, BF_FIFO_NodeAccess, BF_FIFO_CalcCount, hitCount);
-        } else {
-            DF_FIFO_Time = t2 - t1;
-            DF_FIFO_NodeAccess = vp.nodeAccess / n;
-            DF_FIFO_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	DFS--FIFO Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, DF_FIFO_Time / n, DF_FIFO_NodeAccess, DF_FIFO_CalcCount, hitCount);
-        }
-        System.out.println(info);
-
-        return res;
-    }
-
-    public ArrayList<PriorityQueue<NN>> LFUCache(int cacheSize, double updateThreshold, int k, boolean useBFS) {
-        vp.init();
-        long n = qData.length;
-        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
-        t1 = System.currentTimeMillis();
-        // initial a HQFCache
-        LFU lfu = new LFU(cacheSize);
-        long hitCount = 0;
-        for (int i = 0; i < n; i++) {
-            double[] q = qData[i];
-            Point p = new Point(i, q);
-            double maxKdist = lfu.find(p);
-            // if (i % (cacheSize * 10) == 0) {
-            // lfu.cachedPoints = new ArrayList<>();
-            // }
-            PriorityQueue<NN> nns = new PriorityQueue<>();
-            long nodeAccessBefore = vp.nodeAccess;
-            if (useBFS) {
-                nns = vp.searchkNNBestFirst(q, k, maxKdist);
-            } else {
-                nns = vp.searchkNNDFS(q, k, maxKdist);
-            }
-            long nodeAccessAfter = vp.nodeAccess;
-            // update res
-            res.add(nns);
-            // when the size of LRU is not full, just fill it use P
-            p.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-            if (lfu.size() < cacheSize) {
-                lfu.cachedPoints.add(p);
-                if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                    hitCount += 1;
-                    p = lfu.minPP;
-                    lfu.update(p);
-                }
-            } else {
-                if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                    hitCount += 1;
-                    p = lfu.minPP;
-                }
-                lfu.update(p);
-            }
-        }
-        assert lfu.size() == cacheSize : lfu.size() + "/" + cacheSize;
-        t2 = System.currentTimeMillis();
-
-        if (useBFS) {
-            BF_LFU_Time = t2 - t1;
-            BF_LFU_NodeAccess = vp.nodeAccess / n;
-            BF_LFU_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	BFS--LFU Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, BF_LFU_Time / n, BF_LFU_NodeAccess, BF_LFU_CalcCount, hitCount);
-        } else {
-            DF_LFU_Time = t2 - t1;
-            DF_LFU_NodeAccess = vp.nodeAccess / n;
-            DF_LFU_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	DFS--LFU Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, DF_LFU_Time / n, DF_LFU_NodeAccess, DF_LFU_CalcCount, hitCount);
-        }
-        System.out.println(info);
-        return res;
-    }
-
-    public ArrayList<PriorityQueue<NN>> BDCCache(int cacheSize, double updateThreshold, int k, boolean useBFS) {
-        vp.init();
-        long n = qData.length;
-        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
-        t1 = System.currentTimeMillis();
-        // initial a HQFCache
-        BDC bdc = new BDC(cacheSize);
-        long hitCount = 0;
-        for (int i = 0; i < n; i++) {
-            double[] q = qData[i];
-            Point p = new Point(i, q);
-            double maxKdist = bdc.find(p);
-            PriorityQueue<NN> nns = new PriorityQueue<>();
-            long nodeAccessBefore = vp.nodeAccess;
-            if (useBFS) {
-                nns = vp.searchkNNBestFirst(q, k, maxKdist);
-            } else {
-                nns = vp.searchkNNDFS(q, k, maxKdist);
-            }
-            long nodeAccessAfter = vp.nodeAccess;
-            // update res
-            res.add(nns);
-
-            // update cache
-            p.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-            if (bdc.size() < cacheSize) {
-                bdc.cachedPoints.add(p);
-                if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                    hitCount += 1;
-                    p = bdc.minPP;
-                    bdc.update(p, i);
-                }
-            } else {
-                if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                    hitCount += 1;
-                    p = bdc.minPP;
-                }
-                bdc.update(p, i);
-            }
-        }
-        assert bdc.size() == cacheSize : bdc.size() + "/" + cacheSize;
-        t2 = System.currentTimeMillis();
-
-        if (useBFS) {
-            BF_BDC_Time = t2 - t1;
-            BF_BDC_NodeAccess = vp.nodeAccess / n;
-            BF_BDC_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	BFS--BDC Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, BF_BDC_Time / n, BF_BDC_NodeAccess, BF_BDC_CalcCount, hitCount);
-        } else {
-            DF_BDC_Time = t2 - t1;
-            DF_BDC_NodeAccess = vp.nodeAccess / n;
-            DF_BDC_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	DFS--BDC Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, DF_BDC_Time / n, DF_BDC_NodeAccess, DF_BDC_CalcCount, hitCount);
-        }
-        System.out.println(info);
-        return res;
-    }
-
-    public ArrayList<PriorityQueue<NN>> GLOCache(int cacheSize, double updateThreshold, int k, boolean useBFS) {
-        vp.init();
-        long n = qData.length;
-        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
-        t1 = System.currentTimeMillis();
-        // initial a HQFCache
-        Linercache global = new Linercache(cacheSize);
-        // begin to get NN using HQFCache
-        long hitCount = 0;
-        for (int i = 0; i < n; i++) {
-            double[] q = qData[i];
-            Point p = new Point(i, q);
-            double maxKdist = global.find(p);
-            PriorityQueue<NN> nns = new PriorityQueue<>();
-            long nodeAccessBefore = vp.nodeAccess;
-            if (useBFS) {
-                nns = vp.searchkNNBestFirst(q, k, maxKdist);
-            } else {
-                nns = vp.searchkNNDFS(q, k, maxKdist);
-            }
-            long nodeAccessAfter = vp.nodeAccess;
-            // update res
-            res.add(nns);
-            // always add current point to the cache
-            p.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-            global.cachedPoints.add(p);
-            if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                hitCount += 1;
-            }
-        }
-        System.out.println((global.size() + "/" + cacheSize));
-        t2 = System.currentTimeMillis();
-
-        if (useBFS) {
-            BF_GLO_Time = t2 - t1;
-            BF_GLO_NodeAccess = vp.nodeAccess / n;
-            BF_GLO_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	BFS--GLO Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, BF_GLO_Time / n, BF_GLO_NodeAccess, BF_GLO_CalcCount, hitCount);
-        } else {
-            DF_GLO_Time = t2 - t1;
-            DF_GLO_NodeAccess = vp.nodeAccess / n;
-            DF_GLO_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	DFS--GLO Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, DF_GLO_Time / n, DF_GLO_NodeAccess, DF_GLO_CalcCount, hitCount);
-        }
-        System.out.println(info);
-        return res;
-    }
-
-    public ArrayList<PriorityQueue<NN>> bestCache(double factor, double updateThreshold, int k, boolean useBFS) {
-        vp.init();
-        int n = qData.length;
-        // Initilize best caches for all queries
-        ArrayList<PriorityQueue<NN>> cache = new ArrayList<>();
-        t1 = System.currentTimeMillis();
-        int cacheK = (int) (k * factor);
-        for (double[] q : qData) {
-            cache.add(vp.searchkNNDFS(q, cacheK, Double.MAX_VALUE));
-        }
-        t2 = System.currentTimeMillis();
-        vp.init();
-
-        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
-        t1 = System.currentTimeMillis();
-        long hitCount = 0;
-        for (int i = 0; i < qData.length; i++) {
-            double[] q = qData[i];
-            double maxKdist = cache.get(i).peek().dist2query;
-            PriorityQueue<NN> nns = new PriorityQueue<>();
-            if (useBFS) {
-                nns = vp.searchkNNBestFirst(q, k, maxKdist);
-            } else {
-                nns = vp.searchkNNDFS(q, k, maxKdist);
-            }
-            res.add(nns);
-            if (maxKdist / nns.peek().dist2query < updateThreshold) {
-                hitCount += 1;
-            }
-        }
-        t2 = System.currentTimeMillis();
-
-        if (useBFS) {
-            BF_Best_Time = t2 - t1;
-            BF_Best_NodeAccess = vp.nodeAccess / n;
-            BF_Best_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	BFS--Best Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, BF_Best_Time / n, BF_Best_NodeAccess, BF_Best_CalcCount, hitCount);
-        } else {
-            DF_Best_Time = t2 - t1;
-            DF_Best_NodeAccess = vp.nodeAccess / n;
-            DF_Best_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	DFS--Best Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, DF_Best_Time / n, DF_Best_NodeAccess, DF_Best_CalcCount, hitCount);
-        }
-        System.out.println(info);
+        System.out.println("Update-time: " + (updateTime / n));
+        System.out.println("Search-time: " + (graphSearchTime / n));
         return res;
     }
 

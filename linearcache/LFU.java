@@ -1,5 +1,7 @@
 package linearcache;
 
+import utils.Point;
+
 public class LFU extends Linercache {
 
     public LFU(int capacity) {

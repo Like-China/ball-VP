@@ -1,5 +1,7 @@
 package linearcache;
 
+import utils.Point;
+
 // Dynamic Caching— Least-Recently-Used (LRU)
 public class LRU extends Linercache {
 
@@ -8,15 +10,18 @@ public class LRU extends Linercache {
     }
 
     // Add a point to cache, success return true
-    public void update(Point p) {
+    public Point update(Point p) {
         if (cachedPoints.contains(p)) {
             cachedPoints.remove(p);
             cachedPoints.add(p);
+            return p;
         } else {
+            Point p1 = null;
             if (cachedPoints.size() == capacity) {
-                cachedPoints.remove(0);
+                p1 = cachedPoints.remove(0);
             }
             cachedPoints.add(p);
+            return p1;
         }
     }
 

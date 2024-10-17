@@ -19,4 +19,14 @@ alleviate the degrade trending as the dimension increases
 4. How to get such query-aware data?
 5. time-complexity analysis
 6. material cache
+7. why has two same NN in the result -- When constructing recurse VP-tree, certain vp points are not successfully deleted from the list.
+(Resolved in 2024/10/17)
+Set cacheSize enough large, then local cache is global cache
 
+10/15 idea
+1. We are the first from approximation to the exact solution
+2. We provide a new solution (rather than high-dimension then approximate, we use low dimension then fet the exact solution)
+3. use PCA to get low-dimension vectors
+4. to increase the difference gap between local cache and global cache
+5. for our two-layer solution, to decrease the update time as much as possible
+Increase the size of queries

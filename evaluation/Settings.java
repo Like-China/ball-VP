@@ -1,19 +1,16 @@
 package evaluation;
 
-import Distance.DistanceFunction;
-import Distance.l1Distance;
-import Distance.l2Distance;
-import Distance.linfDistance;
+import Distance.*;
 
 public class Settings {
 
         // early stop construction of VP-tree
-        public static boolean isEarlyStopConstruct = true;
+        public static boolean isEarlyStopConstruct = false;
         // the bucket size (leafnode capacity) in the balltree and VP-tree
-        public static int dbNB = 10000;
+        public static int dbNB = 1000000;
         public static int qNB = 10000;
         // the dimension size
-        public static int dim = 10;
+        public static int dim = 20;
         public static int[] dims = new int[] { 10, 20, 30, 40, 50 };
         // the number of selected VP candidates
         public static int sampleNB = 100;
@@ -29,9 +26,9 @@ public class Settings {
         public static double[] factors = new double[] { 1, 1.5, 2, 2.5, 3 };
         // the cache size
         public static int cacheSize = 100;
-        public static int[] cacheSizes = new int[] { 500, 1000, 1500, 2000, 2500 };
+        public static int[] cacheSizes = new int[] { 1000, 2000, 3000, 4000, 5000 };
         // the update thresold of caching
-        public static double updateThreshold = 2f;
+        public static double updateThreshold = 3f;
         public static double[] updateThresholds = new double[] { 2f, 2.5f, 3f, 3.5f, 4f };
 
         public static String dirPath = "/home/like/data/";

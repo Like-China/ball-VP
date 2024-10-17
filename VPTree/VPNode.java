@@ -14,13 +14,8 @@ public class VPNode {
     private VPNode left;
     private VPNode right;
     private double mu;
-    // the maximam distance to the Node from the left partition and right partition
-    public double leftMax = 0;
-    public double rightMax = 0;
-    // the elements in this node
-    public ArrayList<Item> items = null;
-    // the least possible distance of vectors in this node to the query
-    public double distLowerBound = 0;
+    // the elements within this node, items == null iff this is a non-leaf VPNode
+    public ArrayList<Item> items;
 
     /**
      * Contructor
@@ -34,6 +29,7 @@ public class VPNode {
         left = null;
         right = null;
         mu = 0.0;
+        items = null;
     }
 
     /**

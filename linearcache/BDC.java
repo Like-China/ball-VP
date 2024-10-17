@@ -1,5 +1,7 @@
 package linearcache;
 
+import utils.Point;
+
 // Dynamic Caching— Least-Recently-Used (BDC)
 public class BDC extends Linercache {
 

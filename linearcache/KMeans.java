@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import utils.Point;
+
 public class KMeans {
 
     // Function to run k-means clustering
@@ -54,10 +56,10 @@ public class KMeans {
 
         for (Point point : points) {
             int nearestCentroidIdx = 0;
-            double minDistance = point.distance(centroids.get(0));
+            double minDistance = point.distanceTo(centroids.get(0));
 
             for (int i = 1; i < centroids.size(); i++) {
-                double distance = point.distance(centroids.get(i));
+                double distance = point.distanceTo(centroids.get(i));
                 if (distance < minDistance) {
                     nearestCentroidIdx = i;
                     minDistance = distance;
@@ -78,47 +80,24 @@ public class KMeans {
             if (cluster.isEmpty())
                 continue; // avoid empty clusters
 
-            int dimension = cluster.get(0).coordinates.length;
-            double[] newCoordinates = new double[dimension];
+            int dimension = cluster.get(0).vector.length;
+            double[] newvector = new double[dimension];
 
             for (Point point : cluster) {
                 for (int i = 0; i < dimension; i++) {
-                    newCoordinates[i] += point.coordinates[i];
+                    newvector[i] += point.vector[i];
                 }
             }
 
             for (int i = 0; i < dimension; i++) {
-                newCoordinates[i] /= cluster.size(); // calculate average
+                newvector[i] /= cluster.size(); // calculate average
             }
 
-            Point newCentroid = new Point(-1, newCoordinates); // -1 for id as it's a centroid, not an actual point
+            Point newCentroid = new Point(-1, newvector, true); // -1 for id as it's a centroid, not an actual point
             newCentroids.add(newCentroid);
         }
 
         return newCentroids;
     }
 
-    public static void main(String[] args) {
-        // Example usage
-        List<Point> points = new ArrayList<>();
-        points.add(new Point(1, new double[] { 1.0, 2.0 }));
-        points.add(new Point(2, new double[] { 2.0, 3.0 }));
-        points.add(new Point(3, new double[] { 3.0, 3.0 }));
-        points.add(new Point(4, new double[] { 5.0, 7.0 }));
-        points.add(new Point(5, new double[] { 6.0, 8.0 }));
-        points.add(new Point(6, new double[] { 8.0, 8.0 }));
-
-        int k = 2; // number of clusters
-        int maxIterations = 100;
-
-        List<List<Point>> clusters = kMeansCluster(points, k, maxIterations);
-
-        // Output the clusters
-        for (int i = 0; i < clusters.size(); i++) {
-            System.out.println("Cluster " + (i + 1) + ":");
-            for (Point p : clusters.get(i)) {
-                System.out.println("Point ID: " + p.id + ", Coordinates: " + java.util.Arrays.toString(p.coordinates));
-            }
-        }
-    }
 }
