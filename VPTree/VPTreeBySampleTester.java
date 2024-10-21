@@ -1,17 +1,8 @@
 package VPTree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
-import evaluation.BFAlg;
-import evaluation.Settings;
-import evaluation.VPGraphAlg;
-import evaluation.VPLinearAlg;
-import linearcache.KMeans;
-import utils.Loader;
-import utils.NN;
-import utils.Point;
+import java.util.*;
+import evaluation.*;
+import utils.*;
 
 public class VPTreeBySampleTester {
 
@@ -64,27 +55,9 @@ public class VPTreeBySampleTester {
         public double[] DF_Best_Time = new double[varyNB];
         public double[] BF_Best_Time = new double[varyNB];
 
-        public boolean checkKNN(ArrayList<PriorityQueue<NN>> res1, ArrayList<PriorityQueue<NN>> res2) {
-                assert !res1.isEmpty();
-                assert res1.size() == res2.size();
-
-                for (int i = 0; i < res1.size(); i++) {
-                        PriorityQueue<NN> nns1 = new PriorityQueue<>(res1.get(i));
-                        PriorityQueue<NN> nns2 = new PriorityQueue<>(res2.get(i));
-                        while (!nns1.isEmpty()) {
-                                double d1 = nns1.poll().dist2query;
-                                double d2 = nns2.poll().dist2query;
-                                assert d1 == d2 : i + "/" + d1 + "/" + d2;
-                                if (d1 != d2) {
-                                        return false;
-                                }
-                        }
-                }
-                return true;
-        }
-
         public void loadData(int qSize, int dbPointsSize, int dim) {
-                // load queryPoints/database points
+                long t1 = System.currentTimeMillis();
+                // load queryPoints / database points
                 Loader l = new Loader();
                 l.loadData(qSize, dbPointsSize, dim);
                 this.queryPoints = l.query.toArray(new Point[l.query.size()]);
@@ -102,7 +75,8 @@ public class VPTreeBySampleTester {
                         }
                         this.queryPoints = points.toArray(new Point[points.size()]);
                 }
-                System.out.println("Data Loaded\n");
+                long t2 = System.currentTimeMillis();
+                System.out.println("Data Loaded in " + (t2 - t1) + " ms");
         }
 
         public void test() {
@@ -113,6 +87,7 @@ public class VPTreeBySampleTester {
                 int dbNB = Settings.dbNB;
                 int dim = Settings.dim;
                 int bucketSize = Settings.bucketSize;
+                double updateThreshold = Settings.updateThreshold;
                 // load data
                 loadData(qNB, dbNB, dim);
                 String setInfo = String.format(
@@ -127,16 +102,16 @@ public class VPTreeBySampleTester {
                 BFAlg bf = new BFAlg(queryPoints, dbPoints);
                 ArrayList<PriorityQueue<NN>> BFRes = bf.kNNSearch(k);
                 // VP-DFS
-                VPLinearAlg sVP = new VPLinearAlg(queryPoints, dbPoints, sampleNB, Settings.bucketSize);
-                ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(k, false);
-                checkKNN(BFRes, DFSRes);
+                VPAlg sVP = new VPAlg(queryPoints, dbPoints, sampleNB, bucketSize);
+                ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(k, false, updateThreshold);
+                Util.checkKNN(BFRes, DFSRes);
 
                 /*
                  * 2. Best-First test (To test the VP-tree kNNs results of BFS and DFS based
                  * solutions)
                  */
-                ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(k, false);
-                checkKNN(DFSRes, BFSRes);
+                ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(k, false, updateThreshold);
+                Util.checkKNN(DFSRes, BFSRes);
 
         }
 
@@ -149,73 +124,82 @@ public class VPTreeBySampleTester {
                 int dbNB = Settings.dbNB;
                 int dim = Settings.dim;
                 int bucketSize = Settings.bucketSize;
-                double factor = Settings.factor;
+                // double factor = Settings.factor;
                 int cacheSize = Settings.cacheSize;
+                double factor = Settings.factor;
 
                 // load data
                 loadData(qNB, dbNB, dim);
                 String setInfo = String.format(
-                                "Data: %s \tqSize: %d \tdbPointsSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size: %d",
+                                "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size: %d",
                                 data, queryPoints.length, dbPoints.length, k, dim, sampleNB, bucketSize);
                 System.out.println(setInfo);
 
-                VPLinearAlg sVP = new VPLinearAlg(queryPoints, dbPoints, sampleNB, bucketSize);
+                VPAlg sVP = new VPAlg(queryPoints, dbPoints, sampleNB, bucketSize);
                 ArrayList<PriorityQueue<NN>> DFSRes, BFSRes, DFSBestRes, BFSBestRes, DFSBDCRes, BFSBDCRes, DFSGLORes,
                                 BFSGLORes;
                 ArrayList<PriorityQueue<NN>> DFSLRURes, BFSLRURes, DFSLFURes, BFSLFURes, DFSFIFORes, BFSFIFORes,
                                 BFSGlobalRes;
 
-                // DFSRes = sVP.DFS(k, false);
-                // ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS(k, true);
-                // checkKNN(DFSRes, DFSRes1);
-                // BFSRes = sVP.BFS(k, false);
-                // ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.BFS(k, true);
-                // checkKNN(BFSRes, BFSRes1);
+                DFSRes = sVP.DFS(k, false, updateThreshold);
+                ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS(k, true, updateThreshold);
+                // Util.checkKNN(DFSRes, DFSRes1);
+                BFSRes = sVP.BFS(k, false, updateThreshold);
+                ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.BFS(k, true, updateThreshold);
+                Util.checkKNN(BFSRes, BFSRes1);
 
-                // DFSBestRes = sVP.bestCache(factor, updateThreshold, k,
-                // false);
-                // BFSBestRes = sVP.bestCache(factor, updateThreshold, k,
+                BFSBDCRes = sVP.bestCache(factor, updateThreshold, k, true);
+
+                // DFSLRURes = sVP.queryCache("Global", cacheSize, updateThreshold, k, true);
+                // DFSLRURes = sVP.queryToObjectCache("Global", cacheSize, updateThreshold, k,
                 // true);
+                // Util.checkKNN(BFSGLORes, DFSLRURes);
 
-                // DFSGLORes = sVP.GLOCache(cacheSize, updateThreshold, k,
-                // false);
-                BFSGLORes = sVP.GLOCache(cacheSize, updateThreshold, k,
-                                true);
+                // BFSBDCRes = sVP.queryCache("BDC", cacheSize, updateThreshold, k, true);
+                System.out.println("---------------------------------------------------------------------------");
 
-                BFSGlobalRes = sVP.GlobalCache(cacheSize, updateThreshold, k, true);
+                DFSLRURes = sVP.queryCache("BDC", cacheSize, updateThreshold, k, true);
+                sVP.queryToObjectCache("BDC", cacheSize, updateThreshold, k, true);
+                sVP.ObjectLinearCache("BDC", cacheSize, updateThreshold, k, true);
+                // DFSLRURes = sVP.ObjectKGraphCache("BDC", cacheSize, updateThreshold, k,
+                // true);
+                System.out.println("---------------------------------------------------------------------------");
+                Util.checkKNN(BFSBDCRes, DFSLRURes);
 
-                // DFSBDCRes = sVP.BDCCache(cacheSize, updateThreshold, k,
-                // false);
-                BFSBDCRes = sVP.BDCCache(cacheSize, updateThreshold, k,
-                                true);
+                sVP.queryCache("LRU", cacheSize, updateThreshold, k, true);
+                BFSBDCRes = sVP.queryToObjectCache("LRU", cacheSize, updateThreshold, k, true);
+                DFSLRURes = sVP.ObjectLinearCache("LRU", cacheSize, updateThreshold, k, true);
+                // sVP.ObjectKGraphCache("LRU", cacheSize, updateThreshold, k, true);
+                Util.checkKNN(BFSBDCRes, DFSLRURes);
+                System.out.println("---------------------------------------------------------------------------");
 
-                // DFSLRURes = sVP.LRUCache(cacheSize, updateThreshold, k,
-                // false);
-                BFSLRURes = sVP.LRUCache(cacheSize, updateThreshold, k, true);
+                sVP.queryCache("FIFO", cacheSize, updateThreshold, k, true);
+                BFSFIFORes = sVP.queryToObjectCache("FIFO", cacheSize, updateThreshold, k, true);
+                DFSLRURes = sVP.ObjectLinearCache("FIFO", cacheSize, updateThreshold, k, true);
+                // sVP.ObjectKGraphCache("FIFO", cacheSize, updateThreshold, k, true);
+                // DFSLRURes = sVP.ObjectKGraphCache(cacheSize, updateThreshold, k, true);
+                System.out.println("---------------------------------------------------------------------------");
 
-                // DFSFIFORes = sVP.FIFOCache(cacheSize, updateThreshold, k,
-                // false);
-                BFSFIFORes = sVP.FIFOCache(cacheSize, updateThreshold, k,
-                                true);
+                sVP.queryCache("LFU", cacheSize, updateThreshold, k, true);
+                BFSBDCRes = sVP.queryToObjectCache("LFU", cacheSize, updateThreshold, k, true);
+                DFSLRURes = sVP.ObjectLinearCache("LFU", cacheSize, updateThreshold, k, true);
+                // sVP.ObjectKGraphCache("LFU", cacheSize, updateThreshold, k, true);
+                Util.checkKNN(BFSBDCRes, DFSLRURes);
+                System.out.println("---------------------------------------------------------------------------");
 
-                // DFSLFURes = sVP.LFUCache(cacheSize, updateThreshold, k,
-                // false);
-                BFSLFURes = sVP.LFUCache(cacheSize, updateThreshold, k,
-                                true);
+                // Util.checkKNN(DFSFIFORes, DFSBDCRes);
+                // Util.checkKNN(BFSFIFORes, BFSBDCRes);
+                // Util.checkKNN(BFSFIFORes, BFSGLORes);
+                // Util.checkKNN(BFSLRURes, BFSLFURes);
+                // Util.checkKNN(DFSBestRes, BFSFIFORes);
+                // Util.checkKNN(DFSLRURes, DFSFIFORes);
+                // Util.checkKNN(DFSRes, DFSLFURes);
+                // Util.checkKNN(DFSBestRes, BFSLRURes);
+                // Util.checkKNN(DFSRes, BFSRes);
+                // Util.checkKNN(DFSBestRes, BFSBestRes);
+                // Util.checkKNN(DFSBestRes, DFSLRURes);
 
-                // checkKNN(DFSFIFORes, DFSBDCRes);
-                // checkKNN(BFSFIFORes, BFSBDCRes);
-                // checkKNN(BFSFIFORes, BFSGLORes);
-                // checkKNN(BFSLRURes, BFSLFURes);
-                // checkKNN(DFSBestRes, BFSFIFORes);
-                // checkKNN(DFSLRURes, DFSFIFORes);
-                // checkKNN(DFSRes, DFSLFURes);
-                // checkKNN(DFSBestRes, BFSLRURes);
-                // checkKNN(DFSRes, BFSRes);
-                // checkKNN(DFSBestRes, BFSBestRes);
-                // checkKNN(DFSBestRes, DFSLRURes);
-
-                System.out.println("time cost: " + (System.currentTimeMillis() - t1));
+                System.out.println("cache test-time cost: " + (System.currentTimeMillis() - t1));
         }
 
         public void graphTest(double updateThreshold) {
@@ -227,6 +211,7 @@ public class VPTreeBySampleTester {
                 int dbNB = Settings.dbNB;
                 int dim = Settings.dim;
                 int bucketSize = Settings.bucketSize;
+                int cacheSize = Settings.cacheSize;
                 double factor = Settings.factor;
                 // load data
                 loadData(qNB, dbNB, dim);
@@ -235,76 +220,12 @@ public class VPTreeBySampleTester {
                                 data, queryPoints.length, dbPoints.length, k, dim, sampleNB, bucketSize);
                 System.out.println(setInfo);
 
-                VPLinearAlg sVP = new VPLinearAlg(queryPoints, dbPoints, Settings.sampleNB,
-                                Settings.bucketSize);
-                VPGraphAlg sVP1 = new VPGraphAlg(queryPoints, dbPoints, Settings.sampleNB,
-                                Settings.bucketSize);
+                VPAlg sVP = new VPAlg(queryPoints, dbPoints, sampleNB, bucketSize);
                 ArrayList<PriorityQueue<NN>> DFSRes, BFSRes, DFSBestRes, BFSBestRes, DFSBDCRes, BFSBDCRes, DFSGLORes,
                                 BFSGLORes;
                 ArrayList<PriorityQueue<NN>> DFSLRURes, BFSLRURes, DFSLFURes, BFSLFURes, DFSFIFORes, BFSFIFORes;
 
-                BFSFIFORes = sVP.FIFOCache(Settings.cacheSize, updateThreshold, k,
-                                true);
-                // BFSFIFORes = sVP.FIFOCacheInObjectLevel(Settings.cacheSize, updateThreshold,
-                // k,
-                // true);
-                // DFSRes = sVP.DFS(k, false);
-                // ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS(k, true);
-                // checkKNN(DFSRes, DFSRes1);
-                // BFSRes = sVP.BFS(k, false);
-                // ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.BFS(k, true);
-                // checkKNN(BFSRes, BFSRes1);
-
-                // DFSBestRes = sVP.bestCache(factor, updateThreshold, k,
-                // false);
-                BFSBestRes = sVP.bestCache(factor, updateThreshold, k,
-                                true);
-                checkKNN(BFSBestRes, BFSFIFORes);
-
-                // DFSGLORes = sVP.GLOCache(Settings.cacheSize, updateThreshold, k,
-                // false);
-                //
-
-                // DFSBDCRes = sVP.BDCCache(Settings.cacheSize, updateThreshold, k,
-                // false);
-                // BFSBDCRes = sVP.BDCCache(Settings.cacheSize, updateThreshold, k,
-                // true);
-
-                // DFSLRURes = sVP.LRUCache(Settings.cacheSize, updateThreshold, k,
-                // false);
-
-                // BFSLRURes = sVP.LRUCache(Settings.cacheSize, updateThreshold, k,
-                // true);
-                // DFSLRURes = sVP1.LRUCache(Settings.cacheSize, updateThreshold, k,
-                // true);
-                BFSGLORes = sVP.GLOCache(10000, updateThreshold, k,
-                                true);
-                ArrayList<PriorityQueue<NN>> BFSGlobalRes = sVP.GlobalCache(Settings.cacheSize, updateThreshold,
-                                k,
-                                true);
-
-                // DFSFIFORes = sVP.FIFOCache(Settings.cacheSize, updateThreshold, k,
-                // true);
-
-                // checkKNN(DFSFIFORes, BFSFIFORes);
-                // checkKNN(DFSFIFORes, BFSBestRes);
-
-                // DFSLFURes = sVP.LFUCache(Settings.cacheSize, updateThreshold, k,
-                // false);
-                // BFSLFURes = sVP.LFUCache(Settings.cacheSize, updateThreshold, k,
-                // true);
-
-                // checkKNN(DFSFIFORes, DFSBDCRes);
-                // checkKNN(BFSFIFORes, BFSBDCRes);
-                // checkKNN(BFSFIFORes, BFSGLORes);
-                // checkKNN(BFSLRURes, BFSLFURes);
-                // checkKNN(DFSBestRes, BFSFIFORes);
-                // checkKNN(DFSLRURes, DFSFIFORes);
-                // checkKNN(DFSRes, DFSLFURes);
-
-                // checkKNN(DFSRes, BFSRes);
-                // checkKNN(DFSBestRes, BFSBestRes);
-                // checkKNN(DFSBestRes, DFSLRURes);
+                BFSBestRes = sVP.bestCache(factor, updateThreshold, k, true);
 
                 System.out.println("time cost: " + (System.currentTimeMillis() - t1));
         }
@@ -319,25 +240,22 @@ public class VPTreeBySampleTester {
                                 data, queryPoints.length, dbPoints.length, k, dim, sampleNB, bucketSize, factor,
                                 updateThreshold);
                 System.out.println(setInfo);
-                VPLinearAlg VPAlg = new VPLinearAlg(queryPoints, dbPoints, sampleNB, bucketSize);
+                VPAlg VPAlg = new VPAlg(queryPoints, dbPoints, sampleNB, bucketSize);
                 // DFS
                 // VPAlg.DFS(k, true);
                 // BFS
-                VPAlg.BFS(k, false);
-                // checkKNN(DFSRes, BFSRes);
+                VPAlg.BFS(k, false, updateThreshold);
+                // Util.checkKNN(DFSRes, BFSRes);
                 // VPAlg.bestCache(factor, updateThreshold, k, false);
                 VPAlg.bestCache(factor, updateThreshold, k, true);
                 // VPAlg.LRUCache(cacheSize, updateThreshold, k, false);
-                VPAlg.LRUCache(cacheSize, updateThreshold, k, true);
+                VPAlg.queryCache("LRU", cacheSize, updateThreshold, k, true);
                 // VPAlg.LFUCache(cacheSize, updateThreshold, k, false);
-                VPAlg.LFUCache(cacheSize, updateThreshold, k, true);
+                VPAlg.queryCache("LFU", cacheSize, updateThreshold, k, true);
                 // VPAlg.FIFOCache(cacheSize, updateThreshold, k, false);
-                VPAlg.FIFOCache(cacheSize, updateThreshold, k, true);
-
+                VPAlg.queryCache("FIFO", cacheSize, updateThreshold, k, true);
                 // VPAlg.GLOCache(cacheSize, updateThreshold, k, false);
-                VPAlg.GLOCache(cacheSize, updateThreshold, k, true);
-                // VPAlg.GlobalCache(cacheSize, updateThreshold, k, false);
-                VPAlg.GlobalCache(cacheSize, updateThreshold, k, true);
+                VPAlg.queryCache("Global", cacheSize, updateThreshold, k, true);
                 // cacheTest
                 DF_NodeAccess[i] = VPAlg.DF_NodeAccess;
                 BF_NodeAccess[i] = VPAlg.BF_NodeAccess;
@@ -391,8 +309,8 @@ public class VPTreeBySampleTester {
 
         public static void main(String[] args) {
                 VPTreeBySampleTester t = new VPTreeBySampleTester();
-                t.test();
-                // t.cacheTest(Settings.updateThreshold);
+                // t.test();
+                t.cacheTest(Settings.updateThreshold);
                 // t.graphTest(Settings.updateThreshold);
                 System.exit(0);
 

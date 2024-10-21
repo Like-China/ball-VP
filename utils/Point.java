@@ -1,18 +1,15 @@
 package utils;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.PriorityQueue;
-
+import java.util.*;
 import evaluation.Settings;
 
 // Class to represent a point in space
 public class Point {
-    public double[] vector;
     public int id; // Unique identifier for the point
+    public double[] vector;
     public boolean isQueryPoint = true;
 
-    // the timestamp when this point is added into the cache
+    // the last timestamp when this point is added into the cache
     public int ts = 0;
     // the hit number if it is stored as a cached point
     public int hitCount = 0;
@@ -20,12 +17,27 @@ public class Point {
     public double expense = 0;
     // the NN neighbor of this point
     public PriorityQueue<NN> NNs = new PriorityQueue<>();
+    // if the point is an object point, record its reverse kNN query points
+    private ArrayList<Point> rKNNs = new ArrayList<>();
 
     public Point(int id, double[] vector, boolean isQueryPoint) {
         this.id = id;
         this.vector = vector;
         this.isQueryPoint = isQueryPoint;
+    }
 
+    public int rkNNSize() {
+        return rKNNs.size();
+    }
+
+    public void initrKNNs() {
+        this.rKNNs = new ArrayList<>();
+    }
+
+    public void addrKNNs(Point p) {
+        assert p.isQueryPoint == true;
+        assert this.isQueryPoint == false;
+        rKNNs.add(p);
     }
 
     // Euclidean distance calculation between this point and another point
@@ -59,10 +71,9 @@ public class Point {
         if (!(obj instanceof Point))
             return false;
         Point other = (Point) obj;
-        if (id != other.id)
-            {
-                return false;
-            }
+        if (id != other.id) {
+            return false;
+        }
         if (vector != other.vector) {
             return false;
         }
@@ -77,6 +88,6 @@ public class Point {
     @Override
     public String toString() {
         // TODO Auto-generated method stub
-        return String.format("Id: %d vector: %s, hit count: %d", id, Arrays.toString(vector), hitCount);
+        return id + " ";// String.format("Id: %d vector: %s", id, Arrays.toString(vector));
     }
 }

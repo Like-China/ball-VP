@@ -13,7 +13,7 @@ public class NN {
     @Override
     public String toString() {
         // TODO Auto-generated method stub
-        return point.id + "@" + dist2query;
+        return point.id + "@" + dist2query + "\t";
     }
 
 }

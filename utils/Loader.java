@@ -1,11 +1,7 @@
 package utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
+import java.util.*;
 import evaluation.Settings;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -18,13 +14,20 @@ public class Loader {
             generateRandomdata(qNB, dbNB, dim);
             return;
         }
-        // ArrayList<Point> allPoints = new ArrayList<>();
-
-        String qPath = Settings.dirPath + Settings.data + "_query.txt";
-        query = loadRealData(qPath, qNB, dim, true);
         String dbPath = Settings.dirPath + Settings.data + "_db.txt";
+        ArrayList<double[]> allVectors = loadRealData(dbPath, qNB + dbNB, dim, false);
+        for (int i = 0; i < qNB; i++) {
+            query.add(new Point(i, allVectors.get(i), true));
+        }
+        for (int i = qNB; i < qNB + dbNB; i++) {
+            db.add(new Point(i, allVectors.get(i), false));
+        }
+
+        // String qPath = Settings.dirPath + Settings.data + "_query.txt";
+        // query = loadRealData(qPath, qNB, dim, true);
+        // String dbPath = Settings.dirPath + Settings.data + "_db.txt";
         // allPoints.addAll(allPoints)
-        db = loadRealData(dbPath, dbNB, dim, false);
+        // db = loadRealData(dbPath, dbNB, dim, false);
     }
 
     public void generateRandomdata(int qNB, int dbNB, int dim) {
@@ -47,9 +50,9 @@ public class Loader {
         }
     }
 
-    public ArrayList<Point> loadRealData(String path, double readNB, int dim, boolean isQueryPoint) {
+    public ArrayList<double[]> loadRealData(String path, double readNB, int dim, boolean isQueryPoint) {
         BufferedReader reader;
-        ArrayList<Point> data = new ArrayList<>();
+        ArrayList<double[]> data = new ArrayList<>();
         try {
             reader = new BufferedReader(new FileReader(path));
             String lineString;
@@ -64,7 +67,7 @@ public class Loader {
                         break;
                     }
                 }
-                data.add(new Point(id++, vec, isQueryPoint));
+                data.add(vec);
                 if (data.size() >= readNB) {
                     break;
                 }

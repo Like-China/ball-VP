@@ -1,13 +1,9 @@
 
 package VPTree;
 
-import Distance.*;
 import evaluation.Settings;
 import utils.Point;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Class to represent a VP Tree

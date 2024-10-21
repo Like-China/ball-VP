@@ -16,6 +16,7 @@ public class VPTree {
 	public long calcCount = 0;
 	// the vector list
 	ArrayList<Item> list = new ArrayList<Item>();
+	public static int nodecount = 0;
 
 	/**
 	 * Constructor
@@ -299,6 +300,17 @@ public class VPTree {
 			if (dist - mu <= maxKdist) {
 				_searchkNNDFS(n.getLeft(), q, k, res, maxD);
 			}
+		}
+
+	}
+
+	public void firstOrderVisit(VPNode node) {
+		nodecount += 1;
+		if (node.getLeft() != null) {
+			firstOrderVisit(node.getLeft());
+		}
+		if (node.getRight() != null) {
+			firstOrderVisit(node.getRight());
 		}
 
 	}
