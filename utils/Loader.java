@@ -56,8 +56,7 @@ public class Loader {
         try {
             reader = new BufferedReader(new FileReader(path));
             String lineString;
-            int id = 0;
-            while ((lineString = reader.readLine()) != null) {
+            while ((lineString = reader.readLine()) != null && data.size() < readNB) {
                 String[] line = lineString.split(",");
                 double[] vec = new double[dim];
                 int idx = 0;
@@ -68,9 +67,6 @@ public class Loader {
                     }
                 }
                 data.add(vec);
-                if (data.size() >= readNB) {
-                    break;
-                }
             }
             reader.close();
         } catch (Exception e) {
@@ -82,6 +78,7 @@ public class Loader {
             Collections.shuffle(data);
         }
         return data;
+
     }
 
 }

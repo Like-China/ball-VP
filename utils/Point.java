@@ -1,7 +1,6 @@
 package utils;
 
 import java.util.*;
-import evaluation.Settings;
 
 // Class to represent a point in space
 public class Point {
@@ -42,7 +41,15 @@ public class Point {
 
     // Euclidean distance calculation between this point and another point
     public double distanceTo(Point other) {
-        return Settings.distFunction.distance(this.vector, other.vector);
+        double[] p1 = this.vector;
+        double[] p2 = other.vector;
+        double dist = 0.0;
+        for (int i = 0; i < p1.length; i++) {
+            double diff = p1[i] - p2[i];
+            dist += diff * diff;
+        }
+        // If true Euclidean distance is needed, uncomment the following line
+        return Math.sqrt(dist);
     }
 
     public void addHitCount() {

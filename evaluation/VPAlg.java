@@ -2,6 +2,7 @@ package evaluation;
 
 import java.util.*;
 import VPTree.*;
+import graphcache.HNSWKGraph;
 import graphcache.KGraph;
 import utils.NN;
 import utils.Point;
@@ -13,56 +14,11 @@ public class VPAlg {
     // index construction time
     public long cTime = 0;
     // the number of node accesses (Deep-First/Best-first + Hier/recursion + Cache)
-    public long DF_NodeAccess = 0;
-    public long BF_NodeAccess = 0;
-    public long DF_FIFO_NodeAccess = 0;
-    public long BF_FIFO_NodeAccess = 0;
-    public long DF_LRU_NodeAccess = 0;
-    public long BF_LRU_NodeAccess = 0;
-    public long DF_LFU_NodeAccess = 0;
-    public long BF_LFU_NodeAccess = 0;
-    public long DF_BDC_NodeAccess = 0;
-    public long BF_BDC_NodeAccess = 0;
-    public long DF_Best_NodeAccess = 0;
-    public long BF_Best_NodeAccess = 0;
-    public long DF_Global_Object_NodeAccess = 0;
-    public long BF_Global_Object_NodeAccess = 0;
-    public long DF_Global_Query_NodeAccess = 0;
-    public long BF_Global_Query_NodeAccess = 0;
-    // the number of calculation time
-    public long DF_CalcCount = 0;
-    public long BF_CalcCount = 0;
-    public long DF_FIFO_CalcCount = 0;
-    public long BF_FIFO_CalcCount = 0;
-    public long DF_LRU_CalcCount = 0;
-    public long BF_LRU_CalcCount = 0;
-    public long DF_LFU_CalcCount = 0;
-    public long BF_LFU_CalcCount = 0;
-    public long DF_BDC_CalcCount = 0;
-    public long BF_BDC_CalcCount = 0;
-    public long DF_Best_CalcCount = 0;
-    public long BF_Best_CalcCount = 0;
-    public long DF_Global_Object_CalcCount = 0;
-    public long BF_Global_Object_CalcCount = 0;
-    public long DF_Global_Query_CalcCount = 0;
-    public long BF_Global_Query_CalcCount = 0;
-    // the search time
-    public double DF_Time = 0;
-    public double BF_Time = 0;
-    public double DF_FIFO_Time = 0;
-    public double BF_FIFO_Time = 0;
-    public double DF_LRU_Time = 0;
-    public double BF_LRU_Time = 0;
-    public double DF_LFU_Time = 0;
-    public double BF_LFU_Time = 0;
-    public double DF_BDC_Time = 0;
-    public double BF_BDC_Time = 0;
-    public double DF_Best_Time = 0;
-    public double BF_Best_Time = 0;
-    public double DF_Global_Object_Time = 0;
-    public double BF_Global_Object_Time = 0;
-    public double DF_Global_Query_Time = 0;
-    public double BF_Global_Query_Time = 0;
+    public HashMap<String, Integer> myMap = Settings.myMap;
+
+    public long[] nodeAccessOfEachMethod = new long[myMap.size()];
+    public long[] calcCountOfEachMethod = new long[myMap.size()];
+    public double[] timeOfEachMethod = new double[myMap.size()];
 
     public String info = null;
     public int sampleNB;
@@ -77,13 +33,20 @@ public class VPAlg {
         // tree construction
         t1 = System.currentTimeMillis();
         vp = new VPTreeBySample(this.dbData, sampleNB, bucketSize);
+        vp.getLayerNB(vp.root);
         vp.firstOrderVisit(vp.root);
         t2 = System.currentTimeMillis();
-        System.out.println("VP tree construction in  " + (t2 - t1) + " ms with " + vp.nodecount + " nodes");
+        System.out.println(
+                "VP tree construction in  " + (t2 - t1) + " ms with " + vp.nodeNB + " nodes " + vp.layerNB + " layers");
         cTime = t2 - t1;
     }
 
-    public ArrayList<PriorityQueue<NN>> DFS(int k, boolean useInitkNN, double updateThreshold) {
+    public ArrayList<PriorityQueue<NN>> DFS_BFS(String cacheStrategy, int k, boolean useInitkNN,
+            double updateThreshold, boolean useBFS) {
+
+        int methodID = myMap.getOrDefault(cacheStrategy, -1);
+        assert methodID != -1;
+
         vp.init();
         long n = qData.length;
         int hitCount = 0;
@@ -98,7 +61,7 @@ public class VPAlg {
                     int randomIdx = r.nextInt(dbData.length);
                     Point db = dbData[randomIdx];
                     double dist = queryPoint.distanceTo(db);
-                    if (nns.size() < Settings.k) {
+                    if (nns.size() < k) {
                         nns.add(new NN(db, dist));
                     } else {
                         if (nns.peek().dist2query > dist) {
@@ -107,72 +70,35 @@ public class VPAlg {
                         }
                     }
                 }
-                assert nns.size() == Settings.k;
+                assert nns.size() == k;
                 maxKdist = nns.peek().dist2query;
             }
-            PriorityQueue<NN> nns = vp.searchkNNDFS(queryPoint, k, maxKdist);
+            PriorityQueue<NN> nns = new PriorityQueue<>();
+            if (useBFS) {
+                nns = vp.searchkNNBFSRecu(queryPoint, k, maxKdist);
+            } else {
+                nns = vp.searchkNNDFS(queryPoint, k, maxKdist);
+            }
             res.add(nns);
             if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                 hitCount += 1;
             }
         }
         t2 = System.currentTimeMillis();
-        DF_Time = t2 - t1;
-        DF_NodeAccess = vp.nodeAccess / n;
-        DF_CalcCount = vp.calcCount / n;
+        timeOfEachMethod[methodID] = t2 - t1;
+        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n;
         info = String.format(
-                "\n****	DFS\nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
-                cTime, DF_Time / n, DF_NodeAccess, DF_CalcCount, hitCount);
+                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
+                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
+                calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> BFS(int k, boolean useInitkNN, double updateThreshold) {
-        vp.init();
-        long n = qData.length;
-        int hitCount = 0;
-        t1 = System.currentTimeMillis();
-        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
-        for (Point queryPoint : qData) {
-            double maxKdist = Double.MAX_VALUE;
-            if (useInitkNN) {
-                Random r = new Random(10);
-                PriorityQueue<NN> nns = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
-                for (int i = 0; i < Settings.cacheSize; i++) {
-                    int randomIdx = r.nextInt(dbData.length);
-                    Point db = dbData[randomIdx];
-                    double dist = queryPoint.distanceTo(db);
-                    if (nns.size() < Settings.k) {
-                        nns.add(new NN(db, dist));
-                    } else {
-                        if (nns.peek().dist2query > dist) {
-                            nns.poll();
-                            nns.add(new NN(db, dist));
-                        }
-                    }
-                }
-                assert nns.size() == Settings.k;
-                maxKdist = nns.peek().dist2query;
-            }
-            PriorityQueue<NN> nns = vp.searchkNNDFS(queryPoint, k, maxKdist);
-            res.add(nns);
-            if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                hitCount += 1;
-            }
-        }
-        t2 = System.currentTimeMillis();
-        BF_Time = t2 - t1;
-        BF_NodeAccess = vp.nodeAccess / n;
-        BF_CalcCount = vp.calcCount / n;
-        info = String.format(
-                "\n****	BFS\nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
-                cTime, BF_Time / n, BF_NodeAccess, BF_CalcCount, hitCount);
-        System.out.println(info);
-        return res;
-    }
-
-    public ArrayList<PriorityQueue<NN>> queryCache(String cacheStrategy, int cacheSize, double updateThreshold,
+    public ArrayList<PriorityQueue<NN>> queryLinear_Cache(String cacheStrategy, int cacheSize, double updateThreshold,
             int k, boolean useBFS) {
+
         vp.init();
         long n = qData.length;
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
@@ -234,7 +160,8 @@ public class VPAlg {
             // update cache
             start = System.currentTimeMillis();
             switch (cacheStrategy) {
-                case "FIFO":
+                case "FIFO-DFS":
+                case "FIFO-BFS":
                     queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
@@ -250,7 +177,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LRU":
+                case "LRU-DFS":
+                case "LRU-BFS":
                     queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
@@ -271,7 +199,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LFU":
+                case "LFU-DFS":
+                case "LFU-BFS":
                     queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
@@ -300,7 +229,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "BDC":
+                case "BDC-DFS":
+                case "BDC-BFS":
                     queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     queryPoint.ts = i;
                     if (cachedPoints.size() < cacheSize) {
@@ -349,98 +279,16 @@ public class VPAlg {
         // cachedPoints.size() + "/" + cacheSize;
         t2 = System.currentTimeMillis();
 
-        switch (cacheStrategy) {
-            case "FIFO":
-                if (useBFS) {
-                    BF_FIFO_Time = t2 - t1;
-                    BF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    BF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_FIFO_Time / n, BF_FIFO_NodeAccess, BF_FIFO_CalcCount, hitCount);
-                } else {
-                    DF_FIFO_Time = t2 - t1;
-                    DF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    DF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cacheStrategy, cTime, DF_FIFO_Time / n, DF_FIFO_NodeAccess, DF_FIFO_CalcCount, hitCount);
-                }
-                break;
-            case "LRU":
-                if (useBFS) {
-                    BF_LRU_Time = t2 - t1;
-                    BF_LRU_NodeAccess = vp.nodeAccess / n;
-                    BF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LRU_Time / n, BF_LRU_NodeAccess, BF_LRU_CalcCount, hitCount);
-                } else {
-                    DF_LRU_Time = t2 - t1;
-                    DF_LRU_NodeAccess = vp.nodeAccess / n;
-                    DF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LRU_Time / n, DF_LRU_NodeAccess, DF_LRU_CalcCount, hitCount);
-                }
-                break;
-            case "LFU":
-                if (useBFS) {
-                    BF_LFU_Time = t2 - t1;
-                    BF_LFU_NodeAccess = vp.nodeAccess / n;
-                    BF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LFU_Time / n, BF_LFU_NodeAccess, BF_LFU_CalcCount, hitCount);
-                } else {
-                    DF_LFU_Time = t2 - t1;
-                    DF_LFU_NodeAccess = vp.nodeAccess / n;
-                    DF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LFU_Time / n, DF_LFU_NodeAccess, DF_LFU_CalcCount, hitCount);
-                }
-                break;
-            case "BDC":
-                if (useBFS) {
-                    BF_BDC_Time = t2 - t1;
-                    BF_BDC_NodeAccess = vp.nodeAccess / n;
-                    BF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_BDC_Time / n, BF_BDC_NodeAccess, BF_BDC_CalcCount, hitCount);
-                } else {
-                    DF_BDC_Time = t2 - t1;
-                    DF_BDC_NodeAccess = vp.nodeAccess / n;
-                    DF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_BDC_Time / n, DF_BDC_NodeAccess, DF_BDC_CalcCount, hitCount);
-                }
-                break;
-            case "Global":
-                if (useBFS) {
-                    BF_Global_Query_Time = t2 - t1;
-                    BF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    BF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_Global_Query_Time / n, BF_Global_Query_NodeAccess, BF_Global_Query_CalcCount,
-                            hitCount);
-                } else {
-                    DF_Global_Query_Time = t2 - t1;
-                    DF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    DF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_Global_Query_Time / n, DF_Global_Query_NodeAccess, DF_Global_Query_CalcCount,
-                            hitCount);
-                }
-                break;
-            default:
+        int methodID = myMap.getOrDefault(cacheStrategy, -1);
+        assert methodID != -1;
 
-                break;
-        }
+        timeOfEachMethod[methodID] = t2 - t1;
+        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        info = String.format(
+                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
+                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
+                calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         System.out
                 .println("[Query Level] Final Cache Size/Given Cache Size : " + cachedPoints.size() + "/" + cacheSize);
@@ -449,7 +297,7 @@ public class VPAlg {
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> queryToObjectCache(String cacheStrategy, int cacheSize,
+    public ArrayList<PriorityQueue<NN>> queryLinear_To_ObjectLinear_Cache(String cacheStrategy, int cacheSize,
             double updateThreshold,
             int k, boolean useBFS) {
         vp.init();
@@ -521,7 +369,8 @@ public class VPAlg {
             // update cache
             start = System.currentTimeMillis();
             switch (cacheStrategy) {
-                case "FIFO":
+                case "FIFO-DFS":
+                case "FIFO-BFS":
                     queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
@@ -537,7 +386,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LRU":
+                case "LRU-DFS":
+                case "LRU-BFS":
                     queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
@@ -558,7 +408,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LFU":
+                case "LFU-DFS":
+                case "LFU-BFS":
                     queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
@@ -617,7 +468,8 @@ public class VPAlg {
 
                     }
                     break;
-                case "BDC":
+                case "BDC-DFS":
+                case "BDC-BFS":
                     queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     for (NN nn : nns) {
                         Point objectPoint = nn.point;
@@ -682,98 +534,16 @@ public class VPAlg {
         }
         t2 = System.currentTimeMillis();
 
-        switch (cacheStrategy) {
-            case "FIFO":
-                if (useBFS) {
-                    BF_FIFO_Time = t2 - t1;
-                    BF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    BF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_FIFO_Time / n, BF_FIFO_NodeAccess, BF_FIFO_CalcCount, hitCount);
-                } else {
-                    DF_FIFO_Time = t2 - t1;
-                    DF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    DF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_FIFO_Time / n, DF_FIFO_NodeAccess, DF_FIFO_CalcCount, hitCount);
-                }
-                break;
-            case "LRU":
-                if (useBFS) {
-                    BF_LRU_Time = t2 - t1;
-                    BF_LRU_NodeAccess = vp.nodeAccess / n;
-                    BF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LRU_Time / n, BF_LRU_NodeAccess, BF_LRU_CalcCount, hitCount);
-                } else {
-                    DF_LRU_Time = t2 - t1;
-                    DF_LRU_NodeAccess = vp.nodeAccess / n;
-                    DF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LRU_Time / n, DF_LRU_NodeAccess, DF_LRU_CalcCount, hitCount);
-                }
-                break;
-            case "LFU":
-                if (useBFS) {
-                    BF_LFU_Time = t2 - t1;
-                    BF_LFU_NodeAccess = vp.nodeAccess / n;
-                    BF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LFU_Time / n, BF_LFU_NodeAccess, BF_LFU_CalcCount, hitCount);
-                } else {
-                    DF_LFU_Time = t2 - t1;
-                    DF_LFU_NodeAccess = vp.nodeAccess / n;
-                    DF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LFU_Time / n, DF_LFU_NodeAccess, DF_LFU_CalcCount, hitCount);
-                }
-                break;
-            case "BDC":
-                if (useBFS) {
-                    BF_BDC_Time = t2 - t1;
-                    BF_BDC_NodeAccess = vp.nodeAccess / n;
-                    BF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_BDC_Time / n, BF_BDC_NodeAccess, BF_BDC_CalcCount, hitCount);
-                } else {
-                    DF_BDC_Time = t2 - t1;
-                    DF_BDC_NodeAccess = vp.nodeAccess / n;
-                    DF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_BDC_Time / n, DF_BDC_NodeAccess, DF_BDC_CalcCount, hitCount);
-                }
-                break;
-            case "Global":
-                if (useBFS) {
-                    BF_Global_Query_Time = t2 - t1;
-                    BF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    BF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_Global_Query_Time / n, BF_Global_Query_NodeAccess, BF_Global_Query_CalcCount,
-                            hitCount);
-                } else {
-                    DF_Global_Query_Time = t2 - t1;
-                    DF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    DF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_Global_Query_Time / n, DF_Global_Query_NodeAccess, DF_Global_Query_CalcCount,
-                            hitCount);
-                }
-                break;
-            default:
+        int methodID = myMap.getOrDefault(cacheStrategy, -1);
+        assert methodID != -1;
 
-                break;
-        }
+        timeOfEachMethod[methodID] = t2 - t1;
+        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        info = String.format(
+                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
+                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
+                calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         System.out
                 .println("[Query2Object Level Linear] Final Cache Size/Given Cache Size : "
@@ -783,7 +553,7 @@ public class VPAlg {
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> queryToObjectKGraphCache(String cacheStrategy, int cacheSize,
+    public ArrayList<PriorityQueue<NN>> queryLinear_To_ObjectKGraph_Cache(String cacheStrategy, int cacheSize,
             double updateThreshold, int k,
             boolean useBFS) {
         vp.init();
@@ -885,7 +655,8 @@ public class VPAlg {
                 continue;
             }
             switch (cacheStrategy) {
-                case "FIFO":
+                case "FIFO-DFS":
+                case "FIFO-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (kGraph.size() < cacheSize) {
@@ -898,7 +669,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LRU":
+                case "LRU-DFS":
+                case "LRU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (kGraph.size() < cacheSize) {
@@ -918,7 +690,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LFU":
+                case "LFU-DFS":
+                case "LFU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (kGraph.size() < cacheSize) {
@@ -938,7 +711,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "BDC":
+                case "BDC-DFS":
+                case "BDC-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (kGraph.size() < cacheSize) {
@@ -973,109 +747,28 @@ public class VPAlg {
 
         }
         t2 = System.currentTimeMillis();
-        switch (cacheStrategy) {
-            case "FIFO":
-                if (useBFS) {
-                    BF_FIFO_Time = t2 - t1;
-                    BF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    BF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_FIFO_Time / n, BF_FIFO_NodeAccess, BF_FIFO_CalcCount, hitCount);
-                } else {
-                    DF_FIFO_Time = t2 - t1;
-                    DF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    DF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_FIFO_Time / n, DF_FIFO_NodeAccess, DF_FIFO_CalcCount, hitCount);
-                }
-                break;
-            case "LRU":
-                if (useBFS) {
-                    BF_LRU_Time = t2 - t1;
-                    BF_LRU_NodeAccess = vp.nodeAccess / n;
-                    BF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LRU_Time / n, BF_LRU_NodeAccess, BF_LRU_CalcCount, hitCount);
-                } else {
-                    DF_LRU_Time = t2 - t1;
-                    DF_LRU_NodeAccess = vp.nodeAccess / n;
-                    DF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LRU_Time / n, DF_LRU_NodeAccess, DF_LRU_CalcCount, hitCount);
-                }
-                break;
-            case "LFU":
-                if (useBFS) {
-                    BF_LFU_Time = t2 - t1;
-                    BF_LFU_NodeAccess = vp.nodeAccess / n;
-                    BF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LFU_Time / n, BF_LFU_NodeAccess, BF_LFU_CalcCount, hitCount);
-                } else {
-                    DF_LFU_Time = t2 - t1;
-                    DF_LFU_NodeAccess = vp.nodeAccess / n;
-                    DF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LFU_Time / n, DF_LFU_NodeAccess, DF_LFU_CalcCount, hitCount);
-                }
-                break;
-            case "BDC":
-                if (useBFS) {
-                    BF_BDC_Time = t2 - t1;
-                    BF_BDC_NodeAccess = vp.nodeAccess / n;
-                    BF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_BDC_Time / n, BF_BDC_NodeAccess, BF_BDC_CalcCount, hitCount);
-                } else {
-                    DF_BDC_Time = t2 - t1;
-                    DF_BDC_NodeAccess = vp.nodeAccess / n;
-                    DF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_BDC_Time / n, DF_BDC_NodeAccess, DF_BDC_CalcCount, hitCount);
-                }
-                break;
-            case "Global":
-                if (useBFS) {
-                    BF_Global_Query_Time = t2 - t1;
-                    BF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    BF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_Global_Query_Time / n, BF_Global_Query_NodeAccess, BF_Global_Query_CalcCount,
-                            hitCount);
-                } else {
-                    DF_Global_Query_Time = t2 - t1;
-                    DF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    DF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_Global_Query_Time / n, DF_Global_Query_NodeAccess, DF_Global_Query_CalcCount,
-                            hitCount);
-                }
-                break;
-            default:
+        int methodID = myMap.getOrDefault(cacheStrategy, -1);
+        assert methodID != -1;
 
-                break;
-        }
+        timeOfEachMethod[methodID] = t2 - t1;
+        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        info = String.format(
+                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
+                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
+                calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         System.out
                 .println("[Object Level KGraph] Final Cache Size/Given Cache Size : " + kGraph.size() + "/"
                         + cacheSize);
         System.out.println("Update-time: " + (updateTime / n) + "  InitSearch-time: " + (initSearchTime / n)
                 + "   Search-time: " + (SearchTime / n));
-        System.out.println(" Graph calcCount: " + kGraph.calcCount / n);
+        System.out.println(" Graph update calcCount: " + kGraph.updateCalcCount / n);
+        System.out.println(" Graph search calcCount: " + kGraph.findCalcCount / n);
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> ObjectLinearCache(String cacheStrategy, int cacheSize, double updateThreshold,
+    public ArrayList<PriorityQueue<NN>> ObjectLinear_Cache(String cacheStrategy, int cacheSize, double updateThreshold,
             int k, boolean useBFS) {
         vp.init();
         cacheSize = cacheSize * k;
@@ -1144,7 +837,8 @@ public class VPAlg {
             }
             // Otherwise, update cache
             switch (cacheStrategy) {
-                case "FIFO":
+                case "FIFO-DFS":
+                case "FIFO-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (cachedObjectPoint.contains(nnPoint)) {
@@ -1161,7 +855,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LRU":
+                case "LRU-DFS":
+                case "LRU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (cachedObjectPoint.contains(nnPoint)) {
@@ -1184,7 +879,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LFU":
+                case "LFU-DFS":
+                case "LFU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (cachedObjectPoint.contains(nnPoint)) {
@@ -1207,7 +903,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "BDC":
+                case "BDC-DFS":
+                case "BDC-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (cachedObjectPoint.contains(nnPoint)) {
@@ -1249,98 +946,16 @@ public class VPAlg {
         }
         t2 = System.currentTimeMillis();
 
-        switch (cacheStrategy) {
-            case "FIFO":
-                if (useBFS) {
-                    BF_FIFO_Time = t2 - t1;
-                    BF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    BF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_FIFO_Time / n, BF_FIFO_NodeAccess, BF_FIFO_CalcCount, hitCount);
-                } else {
-                    DF_FIFO_Time = t2 - t1;
-                    DF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    DF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_FIFO_Time / n, DF_FIFO_NodeAccess, DF_FIFO_CalcCount, hitCount);
-                }
-                break;
-            case "LRU":
-                if (useBFS) {
-                    BF_LRU_Time = t2 - t1;
-                    BF_LRU_NodeAccess = vp.nodeAccess / n;
-                    BF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LRU_Time / n, BF_LRU_NodeAccess, BF_LRU_CalcCount, hitCount);
-                } else {
-                    DF_LRU_Time = t2 - t1;
-                    DF_LRU_NodeAccess = vp.nodeAccess / n;
-                    DF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LRU_Time / n, DF_LRU_NodeAccess, DF_LRU_CalcCount, hitCount);
-                }
-                break;
-            case "LFU":
-                if (useBFS) {
-                    BF_LFU_Time = t2 - t1;
-                    BF_LFU_NodeAccess = vp.nodeAccess / n;
-                    BF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LFU_Time / n, BF_LFU_NodeAccess, BF_LFU_CalcCount, hitCount);
-                } else {
-                    DF_LFU_Time = t2 - t1;
-                    DF_LFU_NodeAccess = vp.nodeAccess / n;
-                    DF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LFU_Time / n, DF_LFU_NodeAccess, DF_LFU_CalcCount, hitCount);
-                }
-                break;
-            case "BDC":
-                if (useBFS) {
-                    BF_BDC_Time = t2 - t1;
-                    BF_BDC_NodeAccess = vp.nodeAccess / n;
-                    BF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_BDC_Time / n, BF_BDC_NodeAccess, BF_BDC_CalcCount, hitCount);
-                } else {
-                    DF_BDC_Time = t2 - t1;
-                    DF_BDC_NodeAccess = vp.nodeAccess / n;
-                    DF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_BDC_Time / n, DF_BDC_NodeAccess, DF_BDC_CalcCount, hitCount);
-                }
-                break;
-            case "Global":
-                if (useBFS) {
-                    BF_Global_Query_Time = t2 - t1;
-                    BF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    BF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_Global_Query_Time / n, BF_Global_Query_NodeAccess, BF_Global_Query_CalcCount,
-                            hitCount);
-                } else {
-                    DF_Global_Query_Time = t2 - t1;
-                    DF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    DF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_Global_Query_Time / n, DF_Global_Query_NodeAccess, DF_Global_Query_CalcCount,
-                            hitCount);
-                }
-                break;
-            default:
+        int methodID = myMap.getOrDefault(cacheStrategy, -1);
+        assert methodID != -1;
 
-                break;
-        }
+        timeOfEachMethod[methodID] = t2 - t1;
+        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        info = String.format(
+                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
+                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
+                calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         System.out.println("[Object Level Linear] Final Cache Size/Given Cache Size : " + cachedObjectPoint.size() + "/"
                 + cacheSize);
@@ -1350,7 +965,7 @@ public class VPAlg {
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> ObjectKGraphCache(String cacheStrategy, int cacheSize, double updateThreshold,
+    public ArrayList<PriorityQueue<NN>> ObjectKGraph_Cache1(String cacheStrategy, int cacheSize, double updateThreshold,
             int k, boolean useBFS) {
         vp.init();
         cacheSize = cacheSize * k;
@@ -1421,7 +1036,8 @@ public class VPAlg {
                 continue;
             }
             switch (cacheStrategy) {
-                case "FIFO":
+                case "FIFO-DFS":
+                case "FIFO-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (kGraph.size() < cacheSize) {
@@ -1435,7 +1051,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LRU":
+                case "LRU-DFS":
+                case "LRU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (kGraph.size() < cacheSize) {
@@ -1456,7 +1073,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "LFU":
+                case "LFU-DFS":
+                case "LFU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (kGraph.size() < cacheSize) {
@@ -1477,7 +1095,8 @@ public class VPAlg {
                         }
                     }
                     break;
-                case "BDC":
+                case "BDC-DFS":
+                case "BDC-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         if (kGraph.size() < cacheSize) {
@@ -1515,109 +1134,222 @@ public class VPAlg {
         }
         t2 = System.currentTimeMillis();
 
-        switch (cacheStrategy) {
-            case "FIFO":
-                if (useBFS) {
-                    BF_FIFO_Time = t2 - t1;
-                    BF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    BF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_FIFO_Time / n, BF_FIFO_NodeAccess, BF_FIFO_CalcCount, hitCount);
-                } else {
-                    DF_FIFO_Time = t2 - t1;
-                    DF_FIFO_NodeAccess = vp.nodeAccess / n;
-                    DF_FIFO_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--FIFO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_FIFO_Time / n, DF_FIFO_NodeAccess, DF_FIFO_CalcCount, hitCount);
-                }
-                break;
-            case "LRU":
-                if (useBFS) {
-                    BF_LRU_Time = t2 - t1;
-                    BF_LRU_NodeAccess = vp.nodeAccess / n;
-                    BF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LRU_Time / n, BF_LRU_NodeAccess, BF_LRU_CalcCount, hitCount);
-                } else {
-                    DF_LRU_Time = t2 - t1;
-                    DF_LRU_NodeAccess = vp.nodeAccess / n;
-                    DF_LRU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LRU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LRU_Time / n, DF_LRU_NodeAccess, DF_LRU_CalcCount, hitCount);
-                }
-                break;
-            case "LFU":
-                if (useBFS) {
-                    BF_LFU_Time = t2 - t1;
-                    BF_LFU_NodeAccess = vp.nodeAccess / n;
-                    BF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_LFU_Time / n, BF_LFU_NodeAccess, BF_LFU_CalcCount, hitCount);
-                } else {
-                    DF_LFU_Time = t2 - t1;
-                    DF_LFU_NodeAccess = vp.nodeAccess / n;
-                    DF_LFU_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--LFU\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_LFU_Time / n, DF_LFU_NodeAccess, DF_LFU_CalcCount, hitCount);
-                }
-                break;
-            case "BDC":
-                if (useBFS) {
-                    BF_BDC_Time = t2 - t1;
-                    BF_BDC_NodeAccess = vp.nodeAccess / n;
-                    BF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_BDC_Time / n, BF_BDC_NodeAccess, BF_BDC_CalcCount, hitCount);
-                } else {
-                    DF_BDC_Time = t2 - t1;
-                    DF_BDC_NodeAccess = vp.nodeAccess / n;
-                    DF_BDC_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--BDC\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_BDC_Time / n, DF_BDC_NodeAccess, DF_BDC_CalcCount, hitCount);
-                }
-                break;
-            case "Global":
-                if (useBFS) {
-                    BF_Global_Query_Time = t2 - t1;
-                    BF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    BF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	BFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, BF_Global_Query_Time / n, BF_Global_Query_NodeAccess, BF_Global_Query_CalcCount,
-                            hitCount);
-                } else {
-                    DF_Global_Query_Time = t2 - t1;
-                    DF_Global_Query_NodeAccess = vp.nodeAccess / n;
-                    DF_Global_Query_CalcCount = vp.calcCount / n;
-                    info = String.format(
-                            "\n****	DFS--GLO\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                            cTime, DF_Global_Query_Time / n, DF_Global_Query_NodeAccess, DF_Global_Query_CalcCount,
-                            hitCount);
-                }
-                break;
-            default:
-
-                break;
-        }
+        int methodID = myMap.getOrDefault(cacheStrategy, -1);
+        assert methodID != -1;
+        timeOfEachMethod[methodID] = t2 - t1;
+        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        info = String.format(
+                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
+                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
+                calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         System.out
                 .println("[Object Level KGraph] Final Cache Size/Given Cache Size : " + kGraph.size() + "/"
                         + cacheSize);
         System.out.println("Update-time: " + (updateTime / n) + "  InitSearch-time: " + (initSearchTime / n)
                 + "   Search-time: " + (SearchTime / n));
-        System.out.println("Effective count: " + cc.size() + " Graph calcCount: " + kGraph.calcCount / n);
+        System.out.println("Effective count: " + cc.size());
+        System.out.println(" Graph update calcCount: " + kGraph.updateCalcCount / n);
+        System.out.println(" Graph search calcCount: " + kGraph.findCalcCount / n);
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> bestCache(double factor, double updateThreshold, int k, boolean useBFS) {
+    public ArrayList<PriorityQueue<NN>> ObjectKGraph_Cache(String cacheStrategy, int cacheSize, double updateThreshold,
+            int k, boolean useBFS) {
+        vp.init();
+        long n = qData.length;
+        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
+        t1 = System.currentTimeMillis();
+        long hitCount = 0;
+
+        double updateTime = 0;
+        double initSearchTime = 0;
+        double SearchTime = 0;
+        long start, end;
+
+        // initial a LRUCache
+        HNSWKGraph kGraph = new HNSWKGraph(3, k, cacheSize * k);
+        HashSet<Point> cc = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            Point queryPoint = qData[i];
+            if (i % 1000 == 0) {
+                System.out.println(i);
+            }
+
+            // use cached point to get an initial kNN distance
+            double maxKdist = Double.MAX_VALUE;
+            // initial
+            if (i == 0) {
+                maxKdist = Double.MAX_VALUE;
+            } else {
+                long startSearch = System.currentTimeMillis();
+                PriorityQueue<NN> pairs = kGraph.findKNN(queryPoint, k);
+                long endSearch = System.currentTimeMillis();
+                initSearchTime += (endSearch - startSearch);
+                if (pairs.size() == k) {
+                    maxKdist = pairs.peek().dist2query;
+                }
+            }
+
+            long nodeAccessBefore = vp.nodeAccess;
+            start = System.currentTimeMillis();
+            PriorityQueue<NN> nns = new PriorityQueue<>();
+            if (useBFS) {
+                nns = vp.searchkNNBFSRecu(queryPoint, k, maxKdist);
+            } else {
+                nns = vp.searchkNNDFS(queryPoint, k, maxKdist);
+            }
+            // update res
+            res.add(nns);
+            end = System.currentTimeMillis();
+            long nodeAccessAfter = vp.nodeAccess;
+            SearchTime += (end - start);
+
+            // update cache
+            start = System.currentTimeMillis();
+            if (i == 0) {
+                // ArrayList<Point> initPoints = new ArrayList<>();
+                for (NN nn : nns) {
+                    // initPoints.add(nn.point);
+                    // cc.add(nn.point);
+                    kGraph.addPoint(nn.point, k);
+                }
+                // kGraph.initGraph(initPoints, k);
+                continue;
+            }
+            for (NN nn : nns) {
+                nn.point.ts = i;
+                nn.point.addHitCount();
+                nn.point.expense = nodeAccessAfter - nodeAccessBefore;
+            }
+            // If it is hit, then we do not update the cached object points
+            if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                hitCount += 1;
+                continue;
+            }
+            switch (cacheStrategy) {
+                case "FIFO-DFS":
+                case "FIFO-BFS":
+                    for (NN nn : nns) {
+                        Point nnPoint = nn.point;
+                        if (kGraph.size() < cacheSize) {
+                            kGraph.addPoint(nnPoint, k);
+                            cc.add(nn.point);
+                        } else {
+                            // remove
+                            Point deleteP = kGraph.points.get(0);
+                            kGraph.removePoint(deleteP, nnPoint);
+                            kGraph.addPoint(nn.point, k);
+                        }
+                    }
+                    break;
+                case "LRU-DFS":
+                case "LRU-BFS":
+                    for (NN nn : nns) {
+                        Point nnPoint = nn.point;
+                        if (kGraph.size() < cacheSize) {
+                            kGraph.addPoint(nnPoint, k);
+                            cc.add(nn.point);
+                        } else {
+                            // remove
+                            int farthestT = Integer.MAX_VALUE;
+                            Point deleteP = kGraph.points.get(0);
+                            for (Point p : kGraph.points) {
+                                if (p.ts < farthestT) {
+                                    farthestT = p.ts;
+                                    deleteP = p;
+                                }
+                            }
+                            kGraph.removePoint(deleteP, nnPoint);
+                            kGraph.addPoint(nn.point, k);
+                        }
+                    }
+                    break;
+                case "LFU-DFS":
+                case "LFU-BFS":
+                    for (NN nn : nns) {
+                        Point nnPoint = nn.point;
+                        if (kGraph.size() < cacheSize) {
+                            kGraph.addPoint(nnPoint, k);
+                            cc.add(nn.point);
+                        } else {
+                            // remove
+                            int minHitCount = Integer.MAX_VALUE;
+                            Point deleteP = kGraph.points.get(0);
+                            for (Point p : kGraph.points) {
+                                if (p.hitCount < minHitCount) {
+                                    minHitCount = p.hitCount;
+                                    deleteP = p;
+                                }
+                            }
+                            kGraph.removePoint(deleteP, nnPoint);
+                            kGraph.addPoint(nn.point, k);
+                        }
+                    }
+                    break;
+                case "BDC-DFS":
+                case "BDC-BFS":
+                    for (NN nn : nns) {
+                        Point nnPoint = nn.point;
+                        if (kGraph.size() < cacheSize) {
+                            kGraph.addPoint(nnPoint, k);
+                            cc.add(nn.point);
+                        } else {
+                            // remove
+                            double minBenefit = Double.MAX_VALUE;
+                            Point deleteP = kGraph.points.get(0);
+                            for (Point p : kGraph.points) {
+                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 1);
+                                if (e < minBenefit) {
+                                    minBenefit = e;
+                                    deleteP = p;
+                                }
+                            }
+                            kGraph.removePoint(deleteP, nnPoint);
+                            kGraph.addPoint(nn.point, k);
+                        }
+                    }
+                    break;
+                case "Global":
+                    for (NN nn : nns) {
+                        Point nnPoint = nn.point;
+                        kGraph.addPoint(nnPoint, k);
+                    }
+                    break;
+                default:
+                    System.out.println("The cache strategy is not specficed!!");
+                    return null;
+            }
+            end = System.currentTimeMillis();
+
+            updateTime += (end - start);
+        }
+        t2 = System.currentTimeMillis();
+
+        int methodID = myMap.getOrDefault(cacheStrategy, -1);
+        assert methodID != -1;
+        timeOfEachMethod[methodID] = t2 - t1;
+        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        info = String.format(
+                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
+                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
+                calcCountOfEachMethod[methodID], hitCount);
+        System.out.println(info);
+        System.out
+                .println("[Object Level KGraph] Final Cache Size/Given Cache Size : " + kGraph.size() + "/"
+                        + cacheSize);
+        System.out.println("Update-time: " + (updateTime / n) + "  InitSearch-time: " + (initSearchTime / n)
+                + "   Search-time: " + (SearchTime / n));
+        System.out.println("Effective count: " + cc.size());
+        System.out.println(" Graph update calcCount: " + kGraph.updateCalcCount / n);
+        System.out.println(" Graph search calcCount: " + kGraph.findCalcCount / n);
+        return res;
+    }
+
+    public ArrayList<PriorityQueue<NN>> bestCache(String cacheStrategy, double factor, double updateThreshold, int k,
+            boolean useBFS) {
         vp.init();
         int n = qData.length;
         // Initilize best caches for all queries
@@ -1649,21 +1381,16 @@ public class VPAlg {
         }
         t2 = System.currentTimeMillis();
 
-        if (useBFS) {
-            BF_Best_Time = t2 - t1;
-            BF_Best_NodeAccess = vp.nodeAccess / n;
-            BF_Best_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	BFS--Best Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, BF_Best_Time / n, BF_Best_NodeAccess, BF_Best_CalcCount, hitCount);
-        } else {
-            DF_Best_Time = t2 - t1;
-            DF_Best_NodeAccess = vp.nodeAccess / n;
-            DF_Best_CalcCount = vp.calcCount / n;
-            info = String.format(
-                    "\n****	DFS--Best Caching\nconstruct time / mean search time / mean node accesses / mean calc count / hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%d",
-                    cTime, DF_Best_Time / n, DF_Best_NodeAccess, DF_Best_CalcCount, hitCount);
-        }
+        int methodID = myMap.getOrDefault(cacheStrategy, -1);
+        assert methodID != -1;
+
+        timeOfEachMethod[methodID] = t2 - t1;
+        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        info = String.format(
+                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
+                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
+                calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         return res;
     }

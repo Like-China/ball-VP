@@ -9,7 +9,9 @@ import utils.Point;
 public class KGraph {
     public HashMap<Point, ArrayList<Point>> adjacencyList; // Graph stored as an adjacency list
     public ArrayList<Point> points;
-    public double calcCount = 0;
+    // the distance
+    public double findCalcCount = 0;
+    public double updateCalcCount = 0;
 
     public KGraph() {
         adjacencyList = new HashMap<>();
@@ -31,7 +33,6 @@ public class KGraph {
             if (neighbors.remove(deleteP)) {
                 neighbors.add(incomingP);
             }
-
         }
     }
 
@@ -62,6 +63,7 @@ public class KGraph {
         for (Point q : points) {
             if (!p.equals(q)) {
                 double dist = p.distanceTo(q);
+                updateCalcCount += 1;
                 pq.add(new NN(q, dist));
                 // Keep only the closest k neighbors in the priority queue
                 if (pq.size() > K) {
@@ -116,7 +118,7 @@ public class KGraph {
 
                 if (!visited.contains(neighbor)) {
                     double neighborDistance = neighbor.distanceTo(targetPoint);
-                    calcCount += 1;
+                    findCalcCount += 1;
                     visited.add(neighbor);
                     // Add to priority queue if we find a closer neighbor
                     // System.out.println("check point: " + neighbor.id + " distance: " +

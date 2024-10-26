@@ -16,7 +16,8 @@ public class VPTree {
 	public long calcCount = 0;
 	// the vector list
 	ArrayList<Item> list = new ArrayList<Item>();
-	public static int nodecount = 0;
+	public int nodeNB = 0;
+	public int layerNB = 0;
 
 	/**
 	 * Constructor
@@ -28,7 +29,6 @@ public class VPTree {
 			Item itm = new Item(p);
 			list.add(itm);
 		}
-
 	}
 
 	public void init() {
@@ -305,14 +305,20 @@ public class VPTree {
 	}
 
 	public void firstOrderVisit(VPNode node) {
-		nodecount += 1;
+		nodeNB += 1;
 		if (node.getLeft() != null) {
 			firstOrderVisit(node.getLeft());
 		}
 		if (node.getRight() != null) {
 			firstOrderVisit(node.getRight());
 		}
+	}
 
+	public void getLayerNB(VPNode node) {
+		layerNB += 1;
+		if (node.getLeft() != null) {
+			getLayerNB(node.getLeft());
+		}
 	}
 
 }

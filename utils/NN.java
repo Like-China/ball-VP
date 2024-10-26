@@ -15,5 +15,4 @@ public class NN {
         // TODO Auto-generated method stub
         return point.id + "@" + dist2query + "\t";
     }
-
 }

@@ -63,7 +63,7 @@ public class VPTreeBySampleTester {
                 this.queryPoints = l.query.toArray(new Point[l.query.size()]);
                 this.dbPoints = l.db.toArray(new Point[l.db.size()]);
                 // use KMeans to get clusters
-                boolean isUseKmeans = true;
+                boolean isUseKmeans = Settings.isUseKmeans;
                 if (isUseKmeans) {
                         ArrayList<Point> points = new ArrayList();
                         this.queryPoints = new Point[l.query.size()];
@@ -103,14 +103,14 @@ public class VPTreeBySampleTester {
                 ArrayList<PriorityQueue<NN>> BFRes = bf.kNNSearch(k);
                 // VP-DFS
                 VPAlg sVP = new VPAlg(queryPoints, dbPoints, sampleNB, bucketSize);
-                ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS(k, false, updateThreshold);
+                ArrayList<PriorityQueue<NN>> DFSRes = sVP.DFS_BFS("#DFS", k, false, updateThreshold, false);
                 Util.checkKNN(BFRes, DFSRes);
 
                 /*
                  * 2. Best-First test (To test the VP-tree kNNs results of BFS and DFS based
                  * solutions)
                  */
-                ArrayList<PriorityQueue<NN>> BFSRes = sVP.BFS(k, false, updateThreshold);
+                ArrayList<PriorityQueue<NN>> BFSRes = sVP.DFS_BFS("#BFS", k, false, updateThreshold, true);
                 Util.checkKNN(DFSRes, BFSRes);
 
         }
@@ -141,49 +141,61 @@ public class VPTreeBySampleTester {
                 ArrayList<PriorityQueue<NN>> DFSLRURes, BFSLRURes, DFSLFURes, BFSLFURes, DFSFIFORes, BFSFIFORes,
                                 BFSGlobalRes;
 
-                DFSRes = sVP.DFS(k, false, updateThreshold);
-                ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS(k, true, updateThreshold);
-                // Util.checkKNN(DFSRes, DFSRes1);
-                BFSRes = sVP.BFS(k, false, updateThreshold);
-                ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.BFS(k, true, updateThreshold);
-                Util.checkKNN(BFSRes, BFSRes1);
+                // DFSRes = sVP.DFS_BFS("#DFS", k, false, updateThreshold, false);
+                // ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS_BFS("#DFS", k, true,
+                // updateThreshold, false);
+                // // Util.checkKNN(DFSRes, DFSRes1);
+                // BFSRes = sVP.DFS_BFS("#BFS", k, false, updateThreshold, true);
+                // ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.DFS_BFS("#BFS", k, true,
+                // updateThreshold, true);
+                // Util.checkKNN(BFSRes, BFSRes1);
 
-                BFSBDCRes = sVP.bestCache(factor, updateThreshold, k, true);
+                BFSBDCRes = sVP.bestCache("Best-BFS", factor, updateThreshold, k, true);
 
-                // DFSLRURes = sVP.queryCache("Global", cacheSize, updateThreshold, k, true);
-                // DFSLRURes = sVP.queryToObjectCache("Global", cacheSize, updateThreshold, k,
+                // DFSLRURes = sVP.queryLinear_Cache("Global", cacheSize, updateThreshold, k,
+                // true);
+                // DFSLRURes = sVP.queryLinear_To_ObjectLinear_Cache("Global", cacheSize,
+                // updateThreshold, k,
                 // true);
                 // Util.checkKNN(BFSGLORes, DFSLRURes);
 
-                // BFSBDCRes = sVP.queryCache("BDC", cacheSize, updateThreshold, k, true);
-                System.out.println("---------------------------------------------------------------------------");
-
-                DFSLRURes = sVP.queryCache("BDC", cacheSize, updateThreshold, k, true);
-                sVP.queryToObjectCache("BDC", cacheSize, updateThreshold, k, true);
-                sVP.ObjectLinearCache("BDC", cacheSize, updateThreshold, k, true);
-                // DFSLRURes = sVP.ObjectKGraphCache("BDC", cacheSize, updateThreshold, k,
+                // BFSBDCRes = sVP.queryLinear_Cache("BDC", cacheSize, updateThreshold, k,
                 // true);
                 System.out.println("---------------------------------------------------------------------------");
+
+                // DFSLRURes = sVP.queryLinear_Cache("BDC-BFS", cacheSize, updateThreshold, k,
+                // true);
+                // sVP.queryLinear_To_ObjectLinear_Cache("BDC-BFS", cacheSize, updateThreshold,
+                // k, true);
+                // BFSBDCRes = sVP.ObjectLinear_Cache("BDC-BFS", cacheSize, updateThreshold, k,
+                // true);
+                DFSLRURes = sVP.ObjectKGraph_Cache("BDC-BFS", cacheSize, updateThreshold, k, true);
+                System.out.println("---------------------------------------------------------------------------");
                 Util.checkKNN(BFSBDCRes, DFSLRURes);
 
-                sVP.queryCache("LRU", cacheSize, updateThreshold, k, true);
-                BFSBDCRes = sVP.queryToObjectCache("LRU", cacheSize, updateThreshold, k, true);
-                DFSLRURes = sVP.ObjectLinearCache("LRU", cacheSize, updateThreshold, k, true);
-                // sVP.ObjectKGraphCache("LRU", cacheSize, updateThreshold, k, true);
+                sVP.queryLinear_Cache("LRU-BFS", cacheSize, updateThreshold, k, true);
+                BFSBDCRes = sVP.queryLinear_To_ObjectLinear_Cache("LRU-BFS", cacheSize,
+                                updateThreshold, k, true);
+                DFSLRURes = sVP.ObjectLinear_Cache("LRU-BFS", cacheSize, updateThreshold, k,
+                                true);
+                sVP.ObjectKGraph_Cache("LRU-BFS", cacheSize, updateThreshold, k, true);
                 Util.checkKNN(BFSBDCRes, DFSLRURes);
                 System.out.println("---------------------------------------------------------------------------");
 
-                sVP.queryCache("FIFO", cacheSize, updateThreshold, k, true);
-                BFSFIFORes = sVP.queryToObjectCache("FIFO", cacheSize, updateThreshold, k, true);
-                DFSLRURes = sVP.ObjectLinearCache("FIFO", cacheSize, updateThreshold, k, true);
-                // sVP.ObjectKGraphCache("FIFO", cacheSize, updateThreshold, k, true);
-                // DFSLRURes = sVP.ObjectKGraphCache(cacheSize, updateThreshold, k, true);
+                sVP.queryLinear_Cache("FIFO-BFS", cacheSize, updateThreshold, k, true);
+                BFSFIFORes = sVP.queryLinear_To_ObjectLinear_Cache("FIFO-BFS", cacheSize,
+                                updateThreshold, k, true);
+                DFSLRURes = sVP.ObjectLinear_Cache("FIFO-BFS", cacheSize, updateThreshold, k,
+                                true);
+                sVP.ObjectKGraph_Cache("FIFO-BFS", cacheSize, updateThreshold, k, true);
                 System.out.println("---------------------------------------------------------------------------");
 
-                sVP.queryCache("LFU", cacheSize, updateThreshold, k, true);
-                BFSBDCRes = sVP.queryToObjectCache("LFU", cacheSize, updateThreshold, k, true);
-                DFSLRURes = sVP.ObjectLinearCache("LFU", cacheSize, updateThreshold, k, true);
-                // sVP.ObjectKGraphCache("LFU", cacheSize, updateThreshold, k, true);
+                sVP.queryLinear_Cache("LFU-BFS", cacheSize, updateThreshold, k, true);
+                BFSBDCRes = sVP.queryLinear_To_ObjectLinear_Cache("LFU-BFS", cacheSize,
+                                updateThreshold, k, true);
+                DFSLRURes = sVP.ObjectLinear_Cache("LFU-BFS", cacheSize, updateThreshold, k,
+                                true);
+                sVP.ObjectKGraph_Cache("LFU-BFS", cacheSize, updateThreshold, k, true);
                 Util.checkKNN(BFSBDCRes, DFSLRURes);
                 System.out.println("---------------------------------------------------------------------------");
 
@@ -202,34 +214,6 @@ public class VPTreeBySampleTester {
                 System.out.println("cache test-time cost: " + (System.currentTimeMillis() - t1));
         }
 
-        public void graphTest(double updateThreshold) {
-                long t1 = System.currentTimeMillis();
-                String data = Settings.data;
-                int k = Settings.k;
-                int sampleNB = Settings.sampleNB;
-                int qNB = Settings.qNB;
-                int dbNB = Settings.dbNB;
-                int dim = Settings.dim;
-                int bucketSize = Settings.bucketSize;
-                int cacheSize = Settings.cacheSize;
-                double factor = Settings.factor;
-                // load data
-                loadData(qNB, dbNB, dim);
-                String setInfo = String.format(
-                                "Data: %s \tqSize: %d \tdbPointsSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size: %d",
-                                data, queryPoints.length, dbPoints.length, k, dim, sampleNB, bucketSize);
-                System.out.println(setInfo);
-
-                VPAlg sVP = new VPAlg(queryPoints, dbPoints, sampleNB, bucketSize);
-                ArrayList<PriorityQueue<NN>> DFSRes, BFSRes, DFSBestRes, BFSBestRes, DFSBDCRes, BFSBDCRes, DFSGLORes,
-                                BFSGLORes;
-                ArrayList<PriorityQueue<NN>> DFSLRURes, BFSLRURes, DFSLFURes, BFSLFURes, DFSFIFORes, BFSFIFORes;
-
-                BFSBestRes = sVP.bestCache(factor, updateThreshold, k, true);
-
-                System.out.println("time cost: " + (System.currentTimeMillis() - t1));
-        }
-
         public void evaluate(int i, String data, int qSize, int dbPointsSize, int dim, int sampleNB, int k,
                         int bucketSize,
                         double factor, double updateThreshold, int cacheSize) {
@@ -244,66 +228,67 @@ public class VPTreeBySampleTester {
                 // DFS
                 // VPAlg.DFS(k, true);
                 // BFS
-                VPAlg.BFS(k, false, updateThreshold);
+                VPAlg.DFS_BFS("#BFS", k, false, updateThreshold, true);
                 // Util.checkKNN(DFSRes, BFSRes);
                 // VPAlg.bestCache(factor, updateThreshold, k, false);
-                VPAlg.bestCache(factor, updateThreshold, k, true);
+                VPAlg.bestCache("Best-BFS", factor, updateThreshold, k, true);
                 // VPAlg.LRUCache(cacheSize, updateThreshold, k, false);
-                VPAlg.queryCache("LRU", cacheSize, updateThreshold, k, true);
+                VPAlg.queryLinear_Cache("LRU", cacheSize, updateThreshold, k, true);
                 // VPAlg.LFUCache(cacheSize, updateThreshold, k, false);
-                VPAlg.queryCache("LFU", cacheSize, updateThreshold, k, true);
+                VPAlg.queryLinear_Cache("LFU", cacheSize, updateThreshold, k, true);
                 // VPAlg.FIFOCache(cacheSize, updateThreshold, k, false);
-                VPAlg.queryCache("FIFO", cacheSize, updateThreshold, k, true);
+                VPAlg.queryLinear_Cache("FIFO", cacheSize, updateThreshold, k, true);
                 // VPAlg.GLOCache(cacheSize, updateThreshold, k, false);
-                VPAlg.queryCache("Global", cacheSize, updateThreshold, k, true);
+                VPAlg.queryLinear_Cache("Global", cacheSize, updateThreshold, k, true);
                 // cacheTest
-                DF_NodeAccess[i] = VPAlg.DF_NodeAccess;
-                BF_NodeAccess[i] = VPAlg.BF_NodeAccess;
-                DF_FIFO_NodeAccess[i] = VPAlg.DF_FIFO_NodeAccess;
-                BF_FIFO_NodeAccess[i] = VPAlg.BF_FIFO_NodeAccess;
-                DF_LRU_NodeAccess[i] = VPAlg.DF_LRU_NodeAccess;
-                BF_LRU_NodeAccess[i] = VPAlg.BF_LRU_NodeAccess;
-                DF_LFU_NodeAccess[i] = VPAlg.DF_LFU_NodeAccess;
-                BF_LFU_NodeAccess[i] = VPAlg.BF_LFU_NodeAccess;
-                DF_Best_NodeAccess[i] = VPAlg.DF_Best_NodeAccess;
-                BF_Best_NodeAccess[i] = VPAlg.BF_Best_NodeAccess;
 
-                DF_Global_Object_NodeAccess[i] = VPAlg.DF_Global_Object_NodeAccess;
-                BF_Global_Object_NodeAccess[i] = VPAlg.BF_Global_Object_NodeAccess;
-                DF_Global_queryPoints_NodeAccess[i] = VPAlg.DF_Global_Query_NodeAccess;
-                BF_Global_queryPoints_NodeAccess[i] = VPAlg.BF_Global_Query_NodeAccess;
+                HashMap<String, Integer> myMap = Settings.myMap;
+                DF_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                BF_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                DF_FIFO_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                BF_FIFO_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                DF_LRU_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                BF_LRU_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                DF_LFU_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                BF_LFU_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                DF_Best_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                BF_Best_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                DF_Global_Object_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                BF_Global_Object_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                DF_Global_queryPoints_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
+                BF_Global_queryPoints_NodeAccess[i] = VPAlg.nodeAccessOfEachMethod[myMap.get("#DFS")];
 
                 // the number of calculation time
-                DF_CalcCount[i] = VPAlg.DF_CalcCount;
-                BF_CalcCount[i] = VPAlg.BF_CalcCount;
-                DF_FIFO_CalcCount[i] = VPAlg.DF_FIFO_CalcCount;
-                BF_FIFO_CalcCount[i] = VPAlg.BF_FIFO_CalcCount;
-                DF_LRU_CalcCount[i] = VPAlg.DF_LRU_CalcCount;
-                BF_LRU_CalcCount[i] = VPAlg.BF_LRU_CalcCount;
-                DF_LFU_CalcCount[i] = VPAlg.DF_LFU_CalcCount;
-                BF_LFU_CalcCount[i] = VPAlg.BF_LFU_CalcCount;
-                DF_Best_CalcCount[i] = VPAlg.DF_Best_CalcCount;
-                BF_Best_CalcCount[i] = VPAlg.BF_Best_CalcCount;
+                DF_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                BF_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                DF_FIFO_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                BF_FIFO_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                DF_LRU_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                BF_LRU_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                DF_LFU_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                BF_LFU_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                DF_Best_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                BF_Best_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
 
-                DF_Global_Object_CalcCount[i] = VPAlg.DF_Global_Object_CalcCount;
-                BF_Global_Object_CalcCount[i] = VPAlg.BF_Global_Object_CalcCount;
-                DF_Global_queryPoints_CalcCount[i] = VPAlg.DF_Global_Query_CalcCount;
-                BF_Global_queryPoints_CalcCount[i] = VPAlg.BF_Global_Query_CalcCount;
+                DF_Global_Object_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                BF_Global_Object_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                DF_Global_queryPoints_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
+                BF_Global_queryPoints_CalcCount[i] = VPAlg.calcCountOfEachMethod[myMap.get("#DFS")];
                 // the search time
-                DF_Time[i] = VPAlg.DF_Time;
-                BF_Time[i] = VPAlg.BF_Time;
-                DF_FIFO_Time[i] = VPAlg.DF_FIFO_Time;
-                BF_FIFO_Time[i] = VPAlg.BF_FIFO_Time;
-                DF_LRU_Time[i] = VPAlg.DF_LRU_Time;
-                BF_LRU_Time[i] = VPAlg.BF_LRU_Time;
-                DF_LFU_Time[i] = VPAlg.DF_LFU_Time;
-                BF_LFU_Time[i] = VPAlg.BF_LFU_Time;
-                DF_Best_Time[i] = VPAlg.DF_Best_Time;
-                BF_Best_Time[i] = VPAlg.BF_Best_Time;
-                DF_Global_Object_Time[i] = VPAlg.DF_Global_Object_Time;
-                BF_Global_Object_Time[i] = VPAlg.BF_Global_Object_Time;
-                DF_Global_queryPoints_Time[i] = VPAlg.DF_Global_Query_Time;
-                BF_Global_queryPoints_Time[i] = VPAlg.BF_Global_Query_Time;
+                DF_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                BF_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                DF_FIFO_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                BF_FIFO_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                DF_LRU_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                BF_LRU_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                DF_LFU_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                BF_LFU_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                DF_Best_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                BF_Best_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                DF_Global_Object_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                BF_Global_Object_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                DF_Global_queryPoints_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
+                BF_Global_queryPoints_Time[i] = VPAlg.timeOfEachMethod[myMap.get("#DFS")];
 
         }
 
