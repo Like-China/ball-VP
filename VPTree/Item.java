@@ -32,7 +32,7 @@ public class Item {
     /**
      * @return Image stored in the object
      */
-    public double[] getVector() {
+    public float[] getVector() {
         return point.vector;
     }
 

@@ -79,7 +79,7 @@ public class KMeans {
                 continue; // avoid empty clusters
 
             int dimension = cluster.get(0).vector.length;
-            double[] newvector = new double[dimension];
+            float[] newvector = new float[dimension];
 
             for (Point point : cluster) {
                 for (int i = 0; i < dimension; i++) {

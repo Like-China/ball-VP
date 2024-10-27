@@ -338,3 +338,6 @@ Update-time: 16.7203  InitSearch-time: 0.04225   Search-time: 4.4524
 Effective count: 20190 Graph calcCount: 205.06065
 ---------------------------------------------------------------------------
 cache test-time cost: 2951275
+
+
+8113ms                 18.5997ms       46777           46777           1000

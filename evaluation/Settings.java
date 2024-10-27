@@ -27,8 +27,8 @@ public class Settings {
         public static boolean isEarlyStopConstruct = false;
         public static boolean isUseKmeans = false;
         // the bucket size (leafnode capacity) in the balltree and VP-tree
-        public static int dbNB = 200000;
         public static int qNB = 20000;
+        public static int dbNB = 200000;
         // the dimension size
         public static int dim = 10;
         public static int[] dims = new int[] { 10, 20, 30, 40, 50 };
@@ -51,11 +51,7 @@ public class Settings {
         public static double updateThreshold = 1.5f;
         public static double[] updateThresholds = new double[] { 2f, 2.5f, 3f, 3.5f, 4f };
 
-        // public static String dirPath = "/data/home/like/deep1M/";
-        public static String dirPath = "/data/home/like/sift1M/";
-        // public static String data = "random";
-        public static String data = "sift";
-        // public static String data = "Deep1M";
+        public static String data = "SIFT";
         public static boolean isShuffle = false;
 
 }

@@ -1,5 +1,6 @@
 package VPTree;
 
+import java.io.IOException;
 import java.util.*;
 import evaluation.*;
 import utils.*;
@@ -58,25 +59,29 @@ public class VPTreeBySampleTester {
         public void loadData(int qSize, int dbPointsSize, int dim) {
                 long t1 = System.currentTimeMillis();
                 // load queryPoints / database points
-                Loader l = new Loader();
-                l.loadData(qSize, dbPointsSize, dim);
-                this.queryPoints = l.query.toArray(new Point[l.query.size()]);
-                this.dbPoints = l.db.toArray(new Point[l.db.size()]);
-                // use KMeans to get clusters
-                boolean isUseKmeans = Settings.isUseKmeans;
-                if (isUseKmeans) {
-                        ArrayList<Point> points = new ArrayList();
-                        this.queryPoints = new Point[l.query.size()];
-                        int maxIterations = 100;
-                        List<List<Point>> clusters = KMeans.kMeansCluster(l.query, 10, maxIterations);
-                        // for (List<Point> ls : clusters) {
-                        for (Point p : clusters.get(0)) {
-                                points.add(p);
+                Loader l;
+                try {
+                        l = new Loader(Settings.data);
+                        l.loadData(qSize, dbPointsSize, dim);
+                        this.queryPoints = l.query.toArray(new Point[l.query.size()]);
+                        this.dbPoints = l.db.toArray(new Point[l.db.size()]);
+                        // use KMeans to get clusters
+                        boolean isUseKmeans = Settings.isUseKmeans;
+                        if (isUseKmeans) {
+                                ArrayList<Point> points = new ArrayList();
+                                this.queryPoints = new Point[l.query.size()];
+                                int maxIterations = 100;
+                                List<List<Point>> clusters = KMeans.kMeansCluster(l.query, 10, maxIterations);
+                                for (Point p : clusters.get(0)) {
+                                        points.add(p);
+                                }
+                                this.queryPoints = points.toArray(new Point[points.size()]);
                         }
-                        this.queryPoints = points.toArray(new Point[points.size()]);
+                        long t2 = System.currentTimeMillis();
+                        System.out.println("Data Loaded in " + (t2 - t1) + " ms");
+                } catch (IOException e) {
+                        e.printStackTrace();
                 }
-                long t2 = System.currentTimeMillis();
-                System.out.println("Data Loaded in " + (t2 - t1) + " ms");
         }
 
         public void test() {
@@ -141,23 +146,23 @@ public class VPTreeBySampleTester {
                 ArrayList<PriorityQueue<NN>> DFSLRURes, BFSLRURes, DFSLFURes, BFSLFURes, DFSFIFORes, BFSFIFORes,
                                 BFSGlobalRes;
 
-                // DFSRes = sVP.DFS_BFS("#DFS", k, false, updateThreshold, false);
-                // ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS_BFS("#DFS", k, true,
-                // updateThreshold, false);
-                // // Util.checkKNN(DFSRes, DFSRes1);
-                // BFSRes = sVP.DFS_BFS("#BFS", k, false, updateThreshold, true);
-                // ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.DFS_BFS("#BFS", k, true,
-                // updateThreshold, true);
-                // Util.checkKNN(BFSRes, BFSRes1);
+                DFSRes = sVP.DFS_BFS("#DFS", k, false, updateThreshold, false);
+                ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS_BFS("#DFS", k, true,
+                                updateThreshold, false);
+                // Util.checkKNN(DFSRes, DFSRes1);
+                BFSBDCRes = sVP.DFS_BFS("#BFS", k, false, updateThreshold, true);
+                ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.DFS_BFS("#BFS", k, true,
+                                updateThreshold, true);
+                Util.checkKNN(BFSBDCRes, BFSRes1);
 
-                BFSBDCRes = sVP.bestCache("Best-BFS", factor, updateThreshold, k, true);
+                // BFSBDCRes = sVP.bestCache("Best-BFS", factor, updateThreshold, k, true);
 
-                // DFSLRURes = sVP.queryLinear_Cache("Global", cacheSize, updateThreshold, k,
+                // BFSBDCRes = sVP.queryLinear_Cache("Global", cacheSize, updateThreshold, k,
                 // true);
                 // DFSLRURes = sVP.queryLinear_To_ObjectLinear_Cache("Global", cacheSize,
                 // updateThreshold, k,
                 // true);
-                // Util.checkKNN(BFSGLORes, DFSLRURes);
+                // Util.checkKNN(BFSBDCRes, DFSLRURes);
 
                 // BFSBDCRes = sVP.queryLinear_Cache("BDC", cacheSize, updateThreshold, k,
                 // true);

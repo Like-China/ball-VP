@@ -5,7 +5,7 @@ import java.util.*;
 // Class to represent a point in space
 public class Point {
     public int id; // Unique identifier for the point
-    public double[] vector;
+    public float[] vector;
     public boolean isQueryPoint = true;
 
     // the last timestamp when this point is added into the cache
@@ -13,13 +13,13 @@ public class Point {
     // the hit number if it is stored as a cached point
     public int hitCount = 0;
     // the expense of get the kNN of this point
-    public double expense = 0;
+    public float expense = 0;
     // the NN neighbor of this point
     public PriorityQueue<NN> NNs = new PriorityQueue<>();
     // if the point is an object point, record its reverse kNN query points
     private ArrayList<Point> rKNNs = new ArrayList<>();
 
-    public Point(int id, double[] vector, boolean isQueryPoint) {
+    public Point(int id, float[] vector, boolean isQueryPoint) {
         this.id = id;
         this.vector = vector;
         this.isQueryPoint = isQueryPoint;
@@ -41,11 +41,11 @@ public class Point {
 
     // Euclidean distance calculation between this point and another point
     public double distanceTo(Point other) {
-        double[] p1 = this.vector;
-        double[] p2 = other.vector;
+        float[] p1 = this.vector;
+        float[] p2 = other.vector;
         double dist = 0.0;
         for (int i = 0; i < p1.length; i++) {
-            double diff = p1[i] - p2[i];
+            float diff = p1[i] - p2[i];
             dist += diff * diff;
         }
         // If true Euclidean distance is needed, uncomment the following line
@@ -64,7 +64,7 @@ public class Point {
         return hitCount;
     }
 
-    public void setNNs(PriorityQueue<NN> NNs, double expense) {
+    public void setNNs(PriorityQueue<NN> NNs, float expense) {
         this.expense = expense;
         this.NNs = NNs;
     }
