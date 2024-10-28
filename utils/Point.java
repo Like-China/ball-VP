@@ -19,6 +19,11 @@ public class Point {
     // if the point is an object point, record its reverse kNN query points
     private ArrayList<Point> rKNNs = new ArrayList<>();
 
+    public Point(int id, float[] vector) {
+        this.id = id;
+        this.vector = vector;
+    }
+
     public Point(int id, float[] vector, boolean isQueryPoint) {
         this.id = id;
         this.vector = vector;
