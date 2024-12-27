@@ -136,8 +136,9 @@ public class VPTreeBySampleTester {
                 // load data
                 loadData(qNB, dbNB, dim);
                 String setInfo = String.format(
-                                "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size: %d",
-                                data, queryPoints.length, dbPoints.length, k, dim, sampleNB, bucketSize);
+                                "Data: %s \tqSize: %d \tdbSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size: %d \t factor: %f \t cacheSize: %d     ",
+                                data, queryPoints.length, dbPoints.length, k, dim, sampleNB, bucketSize, factor,
+                                cacheSize);
                 System.out.println(setInfo);
 
                 VPAlg sVP = new VPAlg(queryPoints, dbPoints, sampleNB, bucketSize);
@@ -147,13 +148,13 @@ public class VPTreeBySampleTester {
                                 BFSGlobalRes;
 
                 DFSRes = sVP.DFS_BFS("#DFS", k, false, updateThreshold, false);
-                ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS_BFS("#DFS", k, true,
-                                updateThreshold, false);
-                // Util.checkKNN(DFSRes, DFSRes1);
-                BFSBDCRes = sVP.DFS_BFS("#BFS", k, false, updateThreshold, true);
-                ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.DFS_BFS("#BFS", k, true,
-                                updateThreshold, true);
-                Util.checkKNN(BFSBDCRes, BFSRes1);
+                // ArrayList<PriorityQueue<NN>> DFSRes1 = sVP.DFS_BFS("#DFS", k, true,
+                // updateThreshold, false);
+                // // Util.checkKNN(DFSRes, DFSRes1);
+                // BFSBDCRes = sVP.DFS_BFS("#BFS", k, false, updateThreshold, true);
+                // ArrayList<PriorityQueue<NN>> BFSRes1 = sVP.DFS_BFS("#BFS", k, true,
+                // updateThreshold, true);
+                // Util.checkKNN(BFSBDCRes, BFSRes1);
 
                 // BFSBDCRes = sVP.bestCache("Best-BFS", factor, updateThreshold, k, true);
 
@@ -174,25 +175,37 @@ public class VPTreeBySampleTester {
                 // k, true);
                 // BFSBDCRes = sVP.ObjectLinear_Cache("BDC-BFS", cacheSize, updateThreshold, k,
                 // true);
-                DFSLRURes = sVP.ObjectKGraph_Cache("BDC-BFS", cacheSize, updateThreshold, k, true);
+                // sVP.queryLinear_Cache("FIFO-BFS", cacheSize, updateThreshold, k, true);
+                // sVP.queryLinear_To_ObjectLinear_Cache("FIFO-BFS", cacheSize,
+                // updateThreshold, k, true);
+                // sVP.ObjectLinear_Cache("FIFO-BFS", cacheSize, updateThreshold, k,
+                // true);
+                // DFSLRURes = sVP.ObjectHNSW_Cache("FIFO-BFS", cacheSize, updateThreshold, k,
+                // true);
+                // DFSLRURes = sVP.ObjectHNSW_Cache("Global", cacheSize, updateThreshold, k,
+                // true);
+                DFSLRURes = sVP.ObjectLinear_Cache("Global", cacheSize, updateThreshold, k,
+                                true);
                 System.out.println("---------------------------------------------------------------------------");
-                Util.checkKNN(BFSBDCRes, DFSLRURes);
+                // Util.checkKNN(BFSBDCRes, DFSLRURes);
+                System.out.println("cache test-time cost: " + (System.currentTimeMillis() - t1));
+                System.exit(0);
 
                 sVP.queryLinear_Cache("LRU-BFS", cacheSize, updateThreshold, k, true);
                 BFSBDCRes = sVP.queryLinear_To_ObjectLinear_Cache("LRU-BFS", cacheSize,
                                 updateThreshold, k, true);
                 DFSLRURes = sVP.ObjectLinear_Cache("LRU-BFS", cacheSize, updateThreshold, k,
                                 true);
-                sVP.ObjectKGraph_Cache("LRU-BFS", cacheSize, updateThreshold, k, true);
+                sVP.ObjectHNSW_Cache("LRU-BFS", cacheSize, updateThreshold, k, true);
                 Util.checkKNN(BFSBDCRes, DFSLRURes);
                 System.out.println("---------------------------------------------------------------------------");
 
                 sVP.queryLinear_Cache("FIFO-BFS", cacheSize, updateThreshold, k, true);
-                BFSFIFORes = sVP.queryLinear_To_ObjectLinear_Cache("FIFO-BFS", cacheSize,
+                sVP.queryLinear_To_ObjectLinear_Cache("FIFO-BFS", cacheSize,
                                 updateThreshold, k, true);
-                DFSLRURes = sVP.ObjectLinear_Cache("FIFO-BFS", cacheSize, updateThreshold, k,
+                sVP.ObjectLinear_Cache("FIFO-BFS", cacheSize, updateThreshold, k,
                                 true);
-                sVP.ObjectKGraph_Cache("FIFO-BFS", cacheSize, updateThreshold, k, true);
+                sVP.ObjectHNSW_Cache("FIFO-BFS", cacheSize, updateThreshold, k, true);
                 System.out.println("---------------------------------------------------------------------------");
 
                 sVP.queryLinear_Cache("LFU-BFS", cacheSize, updateThreshold, k, true);
@@ -200,7 +213,7 @@ public class VPTreeBySampleTester {
                                 updateThreshold, k, true);
                 DFSLRURes = sVP.ObjectLinear_Cache("LFU-BFS", cacheSize, updateThreshold, k,
                                 true);
-                sVP.ObjectKGraph_Cache("LFU-BFS", cacheSize, updateThreshold, k, true);
+                sVP.ObjectHNSW_Cache("LFU-BFS", cacheSize, updateThreshold, k, true);
                 Util.checkKNN(BFSBDCRes, DFSLRURes);
                 System.out.println("---------------------------------------------------------------------------");
 

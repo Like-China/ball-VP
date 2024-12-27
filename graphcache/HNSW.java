@@ -1,22 +1,19 @@
 package graphcache;
 
-import java.io.IOException;
 import java.util.*;
-import evaluation.Settings;
-import utils.Loader;
 import utils.NN;
 import utils.Point;
 
-public class HNSWKGraph {
+public class HNSW {
     private List<HashMap<Point, ArrayList<Point>>> layers;
     private int maxLevel;
     private int M; // 最大连接数
     private int maxSize; // 图中最大点数
     public ArrayList<Point> points;
-    public double findCalcCount = 0;
-    public double updateCalcCount = 0;
+    public double calcCount = 0;
+    Random random = new Random(10);
 
-    public HNSWKGraph(int maxLevel, int M, int maxSize) {
+    public HNSW(int maxLevel, int M, int maxSize) {
         this.maxLevel = maxLevel;
         this.M = M;
         this.maxSize = maxSize;
@@ -28,9 +25,6 @@ public class HNSWKGraph {
     }
 
     public void removePoint(Point deleteP, Point incomingP) {
-        if (!points.contains(deleteP)) {
-            return;
-        }
         points.remove(deleteP);
         for (int l = 0; l < maxLevel; l++) {
             HashMap<Point, ArrayList<Point>> currentLayer = layers.get(l);
@@ -38,27 +32,26 @@ public class HNSWKGraph {
                 ArrayList<Point> neighbors = currentLayer.remove(deleteP);
                 for (Point neighbor : neighbors) {
                     ArrayList<Point> neighborConnections = currentLayer.get(neighbor);
+                    if (neighborConnections == null) {
+                        continue;
+                    }
                     neighborConnections.remove(deleteP);
                     if (incomingP != null && !neighborConnections.contains(incomingP)) {
                         neighborConnections.add(incomingP);
                     }
                 }
+                // for (Point p : currentLayer.keySet()) {
+                // currentLayer.get(p).remove(deleteP);
+                // }
             }
         }
     }
 
     public void addPoint(Point p, int K) {
         // System.out.println("\n添加点: " + p.id);
-        if (points.size() >= maxSize) {
-            Point oldestPoint = points.remove(0);
-            removePoint(oldestPoint, p);
-            // System.out.println("移除最旧的点: " + oldestPoint.id);
-        }
-        if (!points.contains(p)) {
-            points.add(p);
-            // System.out.println("添加新点: " + p.id);
-        }
-
+        if (points.contains(p))
+            return;
+        points.add(p);
         int level = assignLevel();
         // System.out.println("分配的层级: " + level);
         PriorityQueue<NN> entryPoints = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
@@ -82,7 +75,7 @@ public class HNSWKGraph {
 
     private int assignLevel() {
         int level = 0;
-        while (Math.random() < 0.5 && level < maxLevel - 1) {
+        while (random.nextFloat() < 0.5 && level < maxLevel - 1) {
             level++;
         }
         return level;
@@ -104,11 +97,16 @@ public class HNSWKGraph {
             pNeighbors.add(neighbor);
             // 为邻居添加p
             ArrayList<Point> neighborNeighbors = currentLayer.get(neighbor);
+            if (neighborNeighbors == null) {
+                neighborNeighbors = new ArrayList<>();
+                currentLayer.put(neighbor, neighborNeighbors);
+            }
             if (neighborNeighbors.size() < M) {
                 neighborNeighbors.add(p);
             } else {
+                calcCount += 2;
                 if (neighbor.distanceTo(p) < neighbor.distanceTo(neighborNeighbors.get(0))) {
-                    neighborNeighbors.remove(0);
+                    // neighborNeighbors.remove(0);
                     neighborNeighbors.add(p);
                 }
             }
@@ -117,7 +115,7 @@ public class HNSWKGraph {
 
     public PriorityQueue<NN> findKNN(Point targetPoint, int k) {
         Point entryPoint = getEntryPoint();
-        PriorityQueue<NN> result = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, b.dist2query));
+        PriorityQueue<NN> result = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
 
         for (int l = maxLevel - 1; l >= 0; l--) {
             result = searchLayer(targetPoint, k, entryPoint, l, result);
@@ -151,7 +149,7 @@ public class HNSWKGraph {
             if (!currentLayer.isEmpty()) {
                 Point randomPoint = currentLayer.keySet().iterator().next();
                 double dist = randomPoint.distanceTo(targetPoint);
-                updateCalcCount++;
+                calcCount++;
                 candidates.add(new NN(randomPoint, dist));
                 visited.add(randomPoint);
                 // System.out.println("使用随机点作为入口: " + randomPoint.id);
@@ -169,7 +167,7 @@ public class HNSWKGraph {
             // System.out.println("当前层级点数较少，直接遍历");
             for (Point point : currentLayer.keySet()) {
                 double dist = point.distanceTo(targetPoint);
-                findCalcCount++;
+                calcCount++;
                 visited.add(point);
                 result.add(new NN(point, dist));
                 if (result.size() >= k) {
@@ -203,7 +201,7 @@ public class HNSWKGraph {
                     for (Point neighbor : neighbors) {
                         if (!visited.contains(neighbor)) {
                             double dist = neighbor.distanceTo(targetPoint);
-                            findCalcCount++;
+                            calcCount++;
                             visited.add(neighbor);
                             NN newNN = new NN(neighbor, dist);
                             // System.out.println(" 检查邻居 " + neighbor.id + ", 距离 " + dist);
@@ -232,6 +230,7 @@ public class HNSWKGraph {
             PriorityQueue<NN> initialCandidates) {
         if (initialCandidates.isEmpty() && entryPoint != null) {
             double dist = entryPoint.distanceTo(targetPoint);
+            calcCount++;
             initialCandidates.add(new NN(entryPoint, dist));
         }
         return findKNNInLayer(targetPoint, k, layer, initialCandidates);
@@ -265,40 +264,6 @@ public class HNSWKGraph {
     }
 
     // 测试代码
-    public static void main(String[] args) throws IOException {
-        // 创建HNSWKGraph实例
-        int maxLevel = 3;
-        int M = 20;
-        int maxSize = 1000;
-        HNSWKGraph graph = new HNSWKGraph(maxLevel, M, maxSize);
-
-        Loader l = new Loader(Settings.data);
-        l.loadData(1000, 1000, 7);
-
-        Point[] queryPoints = l.query.toArray(new Point[l.query.size()]);
-        Point[] dbPoints = l.db.toArray(new Point[l.db.size()]);
-        for (Point p : dbPoints) {
-            graph.addPoint(p, M);
-        }
-
-        // 打印图结构
-        // graph.printGraph();
-
-        // 执行搜索
-        float[] queryVector = { 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f };
-        Point queryPoint = new Point(-1, queryVector);
-        int K = 5;
-        PriorityQueue<NN> results = graph.searchLayer(queryPoint, K, null, 0, new PriorityQueue<>());
-
-        // 打印搜索结果
-        System.out.println("\n查询点: " + Arrays.toString(queryVector));
-
-        while (!results.isEmpty()) {
-            NN nn = results.poll();
-            System.out.println(
-                    "ID: " + nn.point.id + " vector: " + Arrays.toString(nn.point.vector) + ", 距离: " + nn.dist2query);
-        }
-
-    }
+    //
 
 }

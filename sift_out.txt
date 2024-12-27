@@ -503,3 +503,426 @@ DF_Global_Object_Time=[0.0, 0.0, 0.0, 0.0, 0.0]
 BF_Global_Object_Time=[70355.0, 251794.0, 552962.0, 929705.0, 1097969.0]
 DF_Global_Query_Time=[0.0, 0.0, 0.0, 0.0, 0.0]
 BF_Global_Query_Time=[17287.0, 165316.0, 478370.0, 872134.0, 1058264.0]
+
+
+
+DF_stime =[9.9848, ]
+BF_stime =[1.2670, ]
+Graph_stime =[2.13, ]
+
+
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 1.000000
+VP tree construction in  51771 ms with 1000000 nodes 16 layers
+
+***        #DFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+51771ms                 9.9705ms        30599           30599               0
+
+***        Best-BFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+51771ms                 1.1251ms         3215            3215           39904
+---------------------------------------------------------------------------
+HNSW图参数:
+  最大层数: 4
+  最大连接数 M: 20
+  最大点数: 50000
+
+HNSW Graph Structure:
+Layer 0:
+0 层级点数: 321553
+Layer 1:
+1 层级点数: 161367
+Layer 2:
+2 层级点数: 80853
+Layer 3:
+3 层级点数: 40218
+Total points: 321553
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+51771ms                 18.3454ms        5001            5001              73
+[Object Level hnsw] Final Cache Size/Given Cache Size : 321553/50000
+Update-time: 16.18425  InitSearch-time: 0.199225   Search-time: 1.960725
+Effective count: 0
+ Graph calcCount: 4590.373125
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+51771ms                 49.3278ms        4886            4886             100
+[Object Level Linear] Final Cache Size/Given Cache Size : 321571/50000
+Update-time: 13.8432  InitSearch-time: 33.629075   Search-time: 1.85505
+---------------------------------------------------------------------------
+cache test-time cost: 3602155
+
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 1.500000  
+VP tree construction in  52861 ms with 1000000 nodes 16 layers
+
+***        #DFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+52861ms              9.9848ms        30599           30599               0
+
+***        Best-BFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+52861ms              1.2670ms         3573            3573           39903
+---------------------------------------------------------------------------
+HNSW图参数:
+  最大层数: 4
+  最大连接数 M: 20
+  最大点数: 50000
+
+HNSW Graph Structure:
+Layer 0:
+0 层级点数: 137136
+Layer 1:
+1 层级点数: 68728
+Layer 2:
+2 层级点数: 34570
+Layer 3:
+3 层级点数: 17131
+Total points: 137136
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+52861ms                 5.2144ms         5472            5472           25702
+[Object Level hnsw] Final Cache Size/Given Cache Size : 137136/50000
+Update-time: 2.8803  InitSearch-time: 0.195775   Search-time: 2.137275
+Effective count: 0
+ Graph calcCount: 1864.804575
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+52861ms                 23.6404ms        5416            5416           26696
+[Object Level Linear] Final Cache Size/Given Cache Size : 128169/50000
+Update-time: 1.892625  InitSearch-time: 19.541625   Search-time: 2.20565
+---------------------------------------------------------------------------
+cache test-time cost: 2096908
+
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 2.000000
+VP tree construction in  54498 ms with 1000000 nodes 16 layers
+
+***        #DFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+54498ms                 9.9144ms        30599           30599               0
+
+***        Best-BFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+54498ms                 1.4058ms         3808            3808           39904
+---------------------------------------------------------------------------
+HNSW图参数:
+  最大层数: 4
+  最大连接数 M: 20
+  最大点数: 50000
+
+HNSW Graph Structure:
+Layer 0:
+0 层级点数: 49236
+Layer 1:
+1 层级点数: 24677
+Layer 2:
+2 层级点数: 12451
+Layer 3:
+3 层级点数: 6179
+Total points: 49236
+
+
+
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+54498ms                 3.1999ms         6478            6478           34975
+[Object Level hnsw] Final Cache Size/Given Cache Size : 49236/50000
+Update-time: 0.42275  InitSearch-time: 0.21135   Search-time: 2.563875
+Effective count: 0
+ Graph calcCount: 798.57195
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+54498ms                 9.4638ms         6410            6410           35444
+[Object Level Linear] Final Cache Size/Given Cache Size : 44684/50000
+Update-time: 0.2171  InitSearch-time: 6.6128   Search-time: 2.63305
+---------------------------------------------------------------------------
+cache test-time cost: 1477447
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 2.500000
+VP tree construction in  53344 ms with 1000000 nodes 16 layers
+
+***        #DFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+53344ms                 9.2702ms        30599           30599               0
+
+***        Best-BFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+53344ms                 1.3419ms         3986            3986           39904
+---------------------------------------------------------------------------
+HNSW图参数:
+  最大层数: 4
+  最大连接数 M: 20
+  最大点数: 50000
+
+HNSW Graph Structure:
+Layer 0:
+0 层级点数: 22395
+Layer 1:
+1 层级点数: 11147
+Layer 2:
+2 层级点数: 5677
+Layer 3:
+3 层级点数: 2823
+Total points: 22395
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+53344ms                 2.7755ms         7366            7366           37693
+[Object Level hnsw] Final Cache Size/Given Cache Size : 22395/50000
+Update-time: 0.103775  InitSearch-time: 0.15425   Search-time: 2.5164
+Effective count: 0
+ Graph calcCount: 505.52115
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+53344ms                 4.1663ms         7324            7324           37865
+[Object Level Linear] Final Cache Size/Given Cache Size : 20728/50000
+Update-time: 0.0429  InitSearch-time: 1.57375   Search-time: 2.54915
+---------------------------------------------------------------------------
+cache test-time cost: 1217681
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 3.000000
+VP tree construction in  55746 ms with 1000000 nodes 16 layers
+
+***        #DFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+55746ms                 9.5946ms        30599           30599               0
+
+***        Best-BFS
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+55746ms                 1.4178ms         4130            4130           39904
+---------------------------------------------------------------------------
+HNSW图参数:
+  最大层数: 4
+  最大连接数 M: 20
+  最大点数: 50000
+
+HNSW Graph Structure:
+Layer 0:
+0 层级点数: 12327
+Layer 1:
+1 层级点数: 6104
+Layer 2:
+2 层级点数: 3108
+Layer 3:
+3 层级点数: 1544
+Total points: 12327
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+55746ms                 2.9596ms         8195            8195           38705
+[Object Level hnsw] Final Cache Size/Given Cache Size : 12327/50000
+Update-time: 0.041975  InitSearch-time: 0.1475   Search-time: 2.768475
+Effective count: 0
+ Graph calcCount: 415.3339
+
+***        Global
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+55746ms                 3.5194ms         8149            8149           38779
+[Object Level Linear] Final Cache Size/Given Cache Size : 11612/50000
+Update-time: 0.013325  InitSearch-time: 0.87665   Search-time: 2.6288
+---------------------------------------------------------------------------
+cache test-time cost: 1252330
+
+
+
+
+
+Vary cache Size
+
+
+
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 3.000000        cacheSize: 100     
+VP tree construction in  38556 ms with 1000000 nodes 16 layers
+---------------------------------------------------------------------------
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+38556ms                 2.5410ms        11609           11609           18205
+[Query Level Linear Search] Final Cache Size/Given Cache Size : 100/100
+Update-time: 1.5E-4  InitSearch-time: 0.00615   Search-time: 2.534375
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+38556ms                 2.4707ms        10953           10953           21690
+[Query2Object Level Linear] Final Cache Size/Given Cache Size : 100/100
+Update-time: 1.75E-4  InitSearch-time: 0.120175   Search-time: 2.349775
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+38556ms                 2.4317ms        10954           10954           21694
+[Object Level Linear] Final Cache Size/Given Cache Size : 1000/1000
+Update-time: 0.0166  InitSearch-time: 0.0642   Search-time: 2.350475
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+38556ms                 3.2411ms        10304           10304           25727
+[Object Level hnsw] Final Cache Size/Given Cache Size : 1000/1000
+Update-time: 0.781075  InitSearch-time: 0.1773   Search-time: 2.281775
+Effective count: 1036
+ Graph calcCount: 3004.6224
+
+***        Global 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+38556ms                 1.8927ms         8170            8170           38688
+[Object Level hnsw] Final Cache Size/Given Cache Size : 12498/1000
+Update-time: 0.0362  InitSearch-time: 0.093575   Search-time: 1.76245
+Effective count: 0
+ Graph calcCount: 394.66555
+
+***        Global 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+38556ms                 2.4893ms         8149            8149           38779
+[Object Level Linear] Final Cache Size/Given Cache Size : 11612/1000
+Update-time: 0.0153  InitSearch-time: 0.69125   Search-time: 1.78235
+---------------------------------------------------------------------------
+cache test-time cost: 646802
+
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 3.000000        cacheSize: 200     
+VP tree construction in  41113 ms with 1000000 nodes 16 layers
+---------------------------------------------------------------------------
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+41113ms                 2.2784ms        10496           10496           24629
+[Query Level Linear Search] Final Cache Size/Given Cache Size : 200/200
+Update-time: 1.25E-4  InitSearch-time: 0.0109   Search-time: 2.266825
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+41113ms                 2.3617ms         9871            9871           28813
+[Query2Object Level Linear] Final Cache Size/Given Cache Size : 200/200
+Update-time: 1.5E-4  InitSearch-time: 0.225525   Search-time: 2.135425
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+41113ms                 2.3518ms         9876            9876           28824
+[Object Level Linear] Final Cache Size/Given Cache Size : 2000/2000
+Update-time: 0.03935  InitSearch-time: 0.14195   Search-time: 2.1699
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+41113ms                 2.7166ms         9633            9633           30552
+[Object Level hnsw] Final Cache Size/Given Cache Size : 2000/2000
+Update-time: 0.44565  InitSearch-time: 0.133775   Search-time: 2.136025
+Effective count: 2056
+ Graph calcCount: 2171.2768
+---------------------------------------------------------------------------
+cache test-time cost: 434967
+
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 3.000000        cacheSize: 500     
+VP tree construction in  37950 ms with 1000000 nodes 16 layers
+---------------------------------------------------------------------------
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+37950ms                 2.0926ms         9441            9441           32330
+[Query Level Linear Search] Final Cache Size/Given Cache Size : 500/500
+Update-time: 2.0E-4  InitSearch-time: 0.02515   Search-time: 2.06675
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+37950ms                 2.4434ms         8834            8834           36185
+[Query2Object Level Linear] Final Cache Size/Given Cache Size : 500/500
+Update-time: 1.5E-4  InitSearch-time: 0.5006   Search-time: 1.9423
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+37950ms                 2.3209ms         8868            8868           36265
+[Object Level Linear] Final Cache Size/Given Cache Size : 5000/5000
+Update-time: 0.0346  InitSearch-time: 0.361525   Search-time: 1.9243
+HNSW图参数:
+  最大层数: 4
+  最大连接数 M: 20
+  最大点数: 5000
+
+HNSW Graph Structure:
+Layer 0:
+0 层级点数: 6543
+Layer 1:
+1 层级点数: 4157
+Layer 2:
+2 层级点数: 1976
+Layer 3:
+3 层级点数: 1369
+Total points: 5000
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+37950ms                 2.1871ms         8919            8919           35611
+[Object Level hnsw] Final Cache Size/Given Cache Size : 5000/5000
+Update-time: 0.132575  InitSearch-time: 0.1014   Search-time: 1.952425
+Effective count: 5158
+ Graph calcCount: 682.304625
+---------------------------------------------------------------------------
+cache test-time cost: 405300
+
+
+Data: BIGANN    qSize: 40000    dbSize: 1000000         k: 10   dim: 10         sample: 100     Bucket Size: 20          factor: 3.000000        cacheSize: 1000     
+VP tree construction in  39266 ms with 1000000 nodes 16 layers
+---------------------------------------------------------------------------
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+39266ms                 2.0446ms         8783            8783           36535
+[Query Level Linear Search] Final Cache Size/Given Cache Size : 1000/1000
+Update-time: 2.0E-4  InitSearch-time: 0.048925   Search-time: 1.995025
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+39266ms                 2.8177ms         8010            8010           38765
+[Query2Object Level Linear] Final Cache Size/Given Cache Size : 1000/1000
+Update-time: 2.0E-4  InitSearch-time: 0.95265   Search-time: 1.86435
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+39266ms                 2.5869ms         8260            8260           38691
+[Object Level Linear] Final Cache Size/Given Cache Size : 10000/10000
+Update-time: 0.017575  InitSearch-time: 0.6801   Search-time: 1.8886
+HNSW图参数:
+  最大层数: 4
+  最大连接数 M: 20
+  最大点数: 10000
+
+HNSW Graph Structure:
+Layer 0:
+0 层级点数: 10032
+Layer 1:
+1 层级点数: 5533
+Layer 2:
+2 层级点数: 2895
+Layer 3:
+3 层级点数: 1420
+Total points: 10000
+
+***        FIFO-BFS 
+construct time / mean search time / mean node accesses / mean calc count/ hit count:
+39266ms                 2.0352ms         8350            8350           38430
+[Object Level hnsw] Final Cache Size/Given Cache Size : 10000/10000
+Update-time: 0.04975  InitSearch-time: 0.099625   Search-time: 1.88465
+Effective count: 10078
+ Graph calcCount: 386.1921
+---------------------------------------------------------------------------
+cache test-time cost: 424159
+
+query_node = [11609,10496,9441,8783,8272,7629,7241]
+query_time = [2.53, 2.26, 2.06, 1.99, 1.88, 1.76,1.6849]
+object_node = [10754, 9876,8868, 8260,8149,8149]
+object_time = [2.35,2.16,1.92,1.88,1.83, 1.78]
+
+
+
+
+
+
+

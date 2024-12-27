@@ -2,8 +2,7 @@ package evaluation;
 
 import java.util.*;
 import VPTree.*;
-import graphcache.HNSWKGraph;
-import graphcache.KGraph;
+import graphcache.HNSW;
 import utils.NN;
 import utils.Point;
 
@@ -46,7 +45,6 @@ public class VPAlg {
 
         int methodID = myMap.getOrDefault(cacheStrategy, -1);
         assert methodID != -1;
-
         vp.init();
         long n = qData.length;
         int hitCount = 0;
@@ -55,8 +53,8 @@ public class VPAlg {
         for (Point queryPoint : qData) {
             double maxKdist = Double.MAX_VALUE;
             if (useInitkNN) {
-                Random r = new Random(10);
                 PriorityQueue<NN> nns = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
+                Random r = new Random(10);
                 for (int i = 0; i < Settings.cacheSize; i++) {
                     int randomIdx = r.nextInt(dbData.length);
                     Point db = dbData[randomIdx];
@@ -104,14 +102,14 @@ public class VPAlg {
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         t1 = System.currentTimeMillis();
         // initial a cached queryPoint points
-        ArrayList<Point> cachedPoints = new ArrayList<>();
+        ArrayList<Point> cachedQueryPoints = new ArrayList<>();
 
         double updateTime = 0;
         double initSearchTime = 0;
         double SearchTime = 0;
         long start, end;
-
         long hitCount = 0;
+
         for (int i = 0; i < n; i++) {
             Point queryPoint = qData[i];
 
@@ -120,8 +118,7 @@ public class VPAlg {
             double minDist = Double.MAX_VALUE;
             double maxKdist = Double.MAX_VALUE;
             Point minPP = null;
-            NN minNN = null;
-            for (Point pp : cachedPoints) {
+            for (Point pp : cachedQueryPoints) {
                 double dist = pp.distanceTo(queryPoint);
                 if (dist < minDist) {
                     minDist = dist;
@@ -134,7 +131,6 @@ public class VPAlg {
                     double dist = nn.point.distanceTo(queryPoint);
                     if (dist >= maxKdist) {
                         maxKdist = dist;
-                        minNN = nn;
                     }
                 }
             }
@@ -159,12 +155,12 @@ public class VPAlg {
 
             // update cache
             start = System.currentTimeMillis();
+            queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
             switch (cacheStrategy) {
                 case "FIFO-DFS":
                 case "FIFO-BFS":
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-                    if (cachedPoints.size() < cacheSize) {
-                        cachedPoints.add(queryPoint);
+                    if (cachedQueryPoints.size() < cacheSize) {
+                        cachedQueryPoints.add(queryPoint);
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                             hitCount += 1;
                         }
@@ -172,38 +168,36 @@ public class VPAlg {
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                             hitCount += 1;
                         } else {
-                            cachedPoints.remove(0);
-                            cachedPoints.add(queryPoint);
+                            cachedQueryPoints.remove(0);
+                            cachedQueryPoints.add(queryPoint);
                         }
                     }
                     break;
                 case "LRU-DFS":
                 case "LRU-BFS":
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-                    if (cachedPoints.size() < cacheSize) {
-                        cachedPoints.add(queryPoint);
+                    if (cachedQueryPoints.size() < cacheSize) {
+                        cachedQueryPoints.add(queryPoint);
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                             hitCount += 1;
-                            cachedPoints.remove(minPP);
-                            cachedPoints.add(minPP);
+                            cachedQueryPoints.remove(minPP);
+                            cachedQueryPoints.add(minPP);
                         }
                     } else {
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                             hitCount += 1;
-                            cachedPoints.remove(minPP);
-                            cachedPoints.add(minPP);
+                            cachedQueryPoints.remove(minPP);
+                            cachedQueryPoints.add(minPP);
                         } else {
                             // remove the outdated cached queryPoint point
-                            cachedPoints.remove(0);
-                            cachedPoints.add(queryPoint);
+                            cachedQueryPoints.remove(0);
+                            cachedQueryPoints.add(queryPoint);
                         }
                     }
                     break;
                 case "LFU-DFS":
                 case "LFU-BFS":
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-                    if (cachedPoints.size() < cacheSize) {
-                        cachedPoints.add(queryPoint);
+                    if (cachedQueryPoints.size() < cacheSize) {
+                        cachedQueryPoints.add(queryPoint);
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                             hitCount += 1;
                             minPP.addHitCount();
@@ -215,26 +209,25 @@ public class VPAlg {
                         } else {
                             // remove the queryPoint node with minimal hit count
                             double minExpense = Double.MAX_VALUE;
-                            Point minP = cachedPoints.get(0);
-                            for (Point pp : cachedPoints) {
+                            Point minP = cachedQueryPoints.get(0);
+                            for (Point pp : cachedQueryPoints) {
                                 double e = pp.hitCount;
                                 if (e < minExpense) {
                                     minExpense = e;
                                     minP = pp;
                                 }
                             }
-                            cachedPoints.remove(minP);
+                            cachedQueryPoints.remove(minP);
                             // add the current queryPoint point
-                            cachedPoints.add(queryPoint);
+                            cachedQueryPoints.add(queryPoint);
                         }
                     }
                     break;
                 case "BDC-DFS":
                 case "BDC-BFS":
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     queryPoint.ts = i;
-                    if (cachedPoints.size() < cacheSize) {
-                        cachedPoints.add(queryPoint);
+                    if (cachedQueryPoints.size() < cacheSize) {
+                        cachedQueryPoints.add(queryPoint);
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                             hitCount += 1;
                             minPP.addHitCount();
@@ -245,25 +238,23 @@ public class VPAlg {
                             minPP.addHitCount();
                         } else {
                             double minExpense = Double.MAX_VALUE;
-                            Point minP = cachedPoints.get(0);
-                            for (Point pp : cachedPoints) {
+                            Point minP = cachedQueryPoints.get(0);
+                            for (Point pp : cachedQueryPoints) {
                                 assert i - pp.ts > 0;
-                                double e = pp.expense * pp.hitCount / Math.pow(i - pp.ts, 1);
+                                double e = pp.expense * pp.hitCount / Math.pow(i - pp.ts, 3);
                                 if (e < minExpense) {
                                     minExpense = e;
                                     minP = pp;
                                 }
                             }
-                            cachedPoints.remove(minP);
-                            cachedPoints.add(queryPoint);
+                            cachedQueryPoints.remove(minP);
+                            cachedQueryPoints.add(queryPoint);
                         }
 
                     }
                     break;
                 case "Global":
-                    // global cache by default
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-                    cachedPoints.add(queryPoint);
+                    cachedQueryPoints.add(queryPoint);
                     if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                         hitCount += 1;
                     }
@@ -291,7 +282,8 @@ public class VPAlg {
                 calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         System.out
-                .println("[Query Level] Final Cache Size/Given Cache Size : " + cachedPoints.size() + "/" + cacheSize);
+                .println("[Query Level Linear Search] Final Cache Size/Given Cache Size : " + cachedQueryPoints.size()
+                        + "/" + cacheSize);
         System.out.println("Update-time: " + (updateTime / n) + "  InitSearch-time: " + (initSearchTime / n)
                 + "   Search-time: " + (SearchTime / n));
         return res;
@@ -311,7 +303,6 @@ public class VPAlg {
         double initSearchTime = 0;
         double SearchTime = 0;
         long start, end;
-
         long hitCount = 0;
 
         for (int i = 0; i < n; i++) {
@@ -322,23 +313,23 @@ public class VPAlg {
             PriorityQueue<NN> pq = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
             Point minPP = null;
             double maxKdist = Double.MAX_VALUE;
-            HashSet<Point> cachedObjectPoints = new HashSet<>();
+            HashSet<Point> visitedObjectPoints = new HashSet<>();
             for (Point cachedQueryPoint : cachedPoints) {
                 for (NN cacheNN : cachedQueryPoint.getNNs()) {
                     Point cachedObjectPoint = cacheNN.point;
-                    if (cachedObjectPoints.contains(cachedObjectPoint)) {
+                    if (visitedObjectPoints.contains(cachedObjectPoint)) {
                         continue;
                     }
                     double dist = queryPoint.distanceTo(cachedObjectPoint);
                     if (pq.size() < k) {
                         minPP = cachedQueryPoint;
-                        cachedObjectPoints.add(cachedObjectPoint);
+                        visitedObjectPoints.add(cachedObjectPoint);
                         pq.add(new NN(cachedObjectPoint, dist));
                     } else {
                         if (pq.peek().dist2query > dist) {
                             pq.poll();
                             minPP = cachedQueryPoint;
-                            cachedObjectPoints.add(cachedObjectPoint);
+                            visitedObjectPoints.add(cachedObjectPoint);
                             pq.add(new NN(cachedObjectPoint, dist));
                         }
                     }
@@ -368,10 +359,10 @@ public class VPAlg {
 
             // update cache
             start = System.currentTimeMillis();
+            queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
             switch (cacheStrategy) {
                 case "FIFO-DFS":
                 case "FIFO-BFS":
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
@@ -388,7 +379,6 @@ public class VPAlg {
                     break;
                 case "LRU-DFS":
                 case "LRU-BFS":
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
@@ -410,7 +400,6 @@ public class VPAlg {
                     break;
                 case "LFU-DFS":
                 case "LFU-BFS":
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     if (cachedPoints.size() < cacheSize) {
                         cachedPoints.add(queryPoint);
                         if (maxKdist / nns.peek().dist2query <= updateThreshold) {
@@ -456,7 +445,7 @@ public class VPAlg {
                             Point minP = cachedPoints.get(0);
                             for (Point pp : cachedPoints) {
                                 assert i - pp.ts > 0;
-                                double e = pp.expense * pp.hitCount / Math.pow(i - pp.ts, 1);
+                                double e = pp.expense * pp.hitCount / Math.pow(i - pp.ts, 2);
                                 if (e < minExpense) {
                                     minExpense = e;
                                     minP = pp;
@@ -470,7 +459,6 @@ public class VPAlg {
                     break;
                 case "BDC-DFS":
                 case "BDC-BFS":
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     for (NN nn : nns) {
                         Point objectPoint = nn.point;
                         objectPoint.addrKNNs(queryPoint);
@@ -499,26 +487,11 @@ public class VPAlg {
                             }
                             cachedPoints.remove(minP);
                             cachedPoints.add(queryPoint);
-
-                            // System.out.println();
-                            // System.out.println(minP.id + "/" + minRkNN);
-
-                            // int minRkNN1 = 0;
-                            // for (NN nn : queryPoint.NNs) {
-                            // minRkNN1 += nn.point.rkNNSize();
-                            // }
-                            // System.out.println(queryPoint.id + "/" + minRkNN1);
-
-                            // if (minRkNN1 > minRkNN) {
-                            // cachedPoints.remove(minP);
-                            // cachedPoints.add(queryPoint);
-                            // }
                         }
                     }
                     break;
                 case "Global":
                     // global cache by default
-                    queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
                     cachedPoints.add(queryPoint);
                     if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                         hitCount += 1;
@@ -553,7 +526,7 @@ public class VPAlg {
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> queryLinear_To_ObjectKGraph_Cache(String cacheStrategy, int cacheSize,
+    public ArrayList<PriorityQueue<NN>> queryLinear_To_ObjectHNSW_Cache(String cacheStrategy, int cacheSize,
             double updateThreshold, int k,
             boolean useBFS) {
         vp.init();
@@ -569,17 +542,15 @@ public class VPAlg {
         double SearchTime = 0;
         long start, end;
         // initial a LRUCache
-        KGraph kGraph = new KGraph();
+        HNSW hnsw = new HNSW(4, 16, cacheSize * k);
         for (int i = 0; i < n; i++) {
             Point queryPoint = qData[i];
 
             // use cached point to get an initial kNN distance
-            PriorityQueue<NN> pq = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
             Point minPP = null;
             double maxDist = Double.MAX_VALUE;
             double maxKdist = Double.MAX_VALUE;
 
-            HashSet<Point> cachedObjectPoints = new HashSet<>();
             start = System.currentTimeMillis();
             if (!cachedQueryPoints.isEmpty()) {
                 minPP = cachedQueryPoints.get(0);
@@ -590,7 +561,7 @@ public class VPAlg {
                         minPP = cachedQueryPoint;
                     }
                 }
-                PriorityQueue<NN> pairs = kGraph.findKNN(minPP.NNs.peek().point, queryPoint, k);
+                PriorityQueue<NN> pairs = hnsw.findKNN(queryPoint, k);
                 if (pairs.size() == k) {
                     maxKdist = pairs.peek().dist2query;
                 }
@@ -610,133 +581,164 @@ public class VPAlg {
             // update res
             res.add(nns);
             end = System.currentTimeMillis();
-
             // update cache
             SearchTime += (end - start);
             start = System.currentTimeMillis();
             queryPoint.setNNs(nns, nodeAccessAfter - nodeAccessBefore);
-            if (cachedQueryPoints.size() < cacheSize) {
-                // update cached query points
-                cachedQueryPoints.add(queryPoint);
-                // update cached object points
-                for (NN nn : nns) {
-                    kGraph.addPoint(nn.point, k);
-                }
-
-                if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                    hitCount += 1;
-                    cachedQueryPoints.remove(minPP);
-                    cachedQueryPoints.add(minPP);
-                }
-            } else {
-                if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                    hitCount += 1;
-                    cachedQueryPoints.remove(minPP);
-                    cachedQueryPoints.add(minPP);
-                } else {
-                    // remove
-                    Point deleteP = cachedQueryPoints.get(0);
-                    cachedQueryPoints.remove(deleteP);
-                    // for (NN nn : deleteP.NNs) {
-                    // kGraph.removePoint(nn.point);
-                    // }
-                    // add
-                    cachedQueryPoints.add(queryPoint);
-                    for (NN nn : nns) {
-                        kGraph.addPoint(nn.point, k);
-                    }
-
-                }
-            }
-
             // If it is hit, then we do not update the cached object points
-            if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                hitCount += 1;
-                continue;
-            }
             switch (cacheStrategy) {
                 case "FIFO-DFS":
                 case "FIFO-BFS":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
+                    if (cachedQueryPoints.size() < cacheSize) {
+                        // update cached query points
+                        cachedQueryPoints.add(queryPoint);
+                        // update cached object points
+                        for (NN nn : nns) {
+                            hnsw.addPoint(nn.point, k);
+                        }
+
+                        if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                            hitCount += 1;
+                        }
+                    } else {
+                        if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                            hitCount += 1;
                         } else {
                             // remove
-                            Point deleteP = kGraph.points.get(0);
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
+                            Point deleteP = cachedQueryPoints.get(0);
+                            cachedQueryPoints.remove(deleteP);
+                            for (NN nn : deleteP.NNs) {
+                                hnsw.removePoint(nn.point, null);
+                            }
+                            // add
+                            cachedQueryPoints.add(queryPoint);
+                            for (NN nn : nns) {
+                                hnsw.addPoint(nn.point, k);
+                            }
+
                         }
                     }
                     break;
                 case "LRU-DFS":
                 case "LRU-BFS":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
+                    if (cachedQueryPoints.size() < cacheSize) {
+                        // update cached query points
+                        cachedQueryPoints.add(queryPoint);
+                        // update cached object points
+                        for (NN nn : nns) {
+                            hnsw.addPoint(nn.point, k);
+                        }
+
+                        if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                            hitCount += 1;
+                            cachedQueryPoints.remove(minPP);
+                            cachedQueryPoints.add(minPP);
+                        }
+                    } else {
+                        if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                            hitCount += 1;
+                            cachedQueryPoints.remove(minPP);
+                            cachedQueryPoints.add(minPP);
                         } else {
                             // remove
-                            int farthestT = Integer.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
-                                if (p.ts < farthestT) {
-                                    farthestT = p.ts;
-                                    deleteP = p;
-                                }
+                            Point deleteP = cachedQueryPoints.get(0);
+                            cachedQueryPoints.remove(deleteP);
+                            for (NN nn : deleteP.NNs) {
+                                hnsw.removePoint(nn.point, null);
                             }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
+                            // add
+                            cachedQueryPoints.add(queryPoint);
+                            for (NN nn : nns) {
+                                hnsw.addPoint(nn.point, k);
+                            }
+
                         }
                     }
                     break;
                 case "LFU-DFS":
                 case "LFU-BFS":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
+                    if (cachedQueryPoints.size() < cacheSize) {
+                        // update cached query points
+                        cachedQueryPoints.add(queryPoint);
+                        // update cached object points
+                        for (NN nn : nns) {
+                            hnsw.addPoint(nn.point, k);
+                        }
+
+                        if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                            hitCount += 1;
+                        }
+                    } else {
+                        if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                            hitCount += 1;
                         } else {
                             // remove
                             int minHitCount = Integer.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
+                            Point deleteP = cachedQueryPoints.get(0);
+                            for (Point p : cachedQueryPoints) {
                                 if (p.hitCount < minHitCount) {
                                     minHitCount = p.hitCount;
                                     deleteP = p;
                                 }
                             }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
+                            cachedQueryPoints.remove(deleteP);
+                            for (NN nn : deleteP.NNs) {
+                                hnsw.removePoint(nn.point, null);
+                            }
+                            // add
+                            cachedQueryPoints.add(queryPoint);
+                            for (NN nn : nns) {
+                                hnsw.addPoint(nn.point, k);
+                            }
+
                         }
                     }
                     break;
                 case "BDC-DFS":
                 case "BDC-BFS":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
+                    if (cachedQueryPoints.size() < cacheSize) {
+                        // update cached query points
+                        cachedQueryPoints.add(queryPoint);
+                        // update cached object points
+                        for (NN nn : nns) {
+                            hnsw.addPoint(nn.point, k);
+                        }
+
+                        if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                            hitCount += 1;
+                        }
+                    } else {
+                        if (maxKdist / nns.peek().dist2query <= updateThreshold) {
+                            hitCount += 1;
                         } else {
                             // remove
                             double minBenefit = Double.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
-                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 1);
+                            Point deleteP = cachedQueryPoints.get(0);
+                            for (Point p : cachedQueryPoints) {
+                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 2);
                                 if (e < minBenefit) {
                                     minBenefit = e;
                                     deleteP = p;
                                 }
                             }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
+                            cachedQueryPoints.remove(deleteP);
+                            for (NN nn : deleteP.NNs) {
+                                hnsw.removePoint(nn.point, null);
+                            }
+                            // add
+                            cachedQueryPoints.add(queryPoint);
+                            for (NN nn : nns) {
+                                hnsw.addPoint(nn.point, k);
+                            }
+
                         }
                     }
                     break;
                 case "Global":
+                    cachedQueryPoints.add(queryPoint);
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        kGraph.addPoint(nnPoint, k);
+                        hnsw.addPoint(nnPoint, k);
                     }
                     break;
                 default:
@@ -759,12 +761,11 @@ public class VPAlg {
                 calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         System.out
-                .println("[Object Level KGraph] Final Cache Size/Given Cache Size : " + kGraph.size() + "/"
+                .println("[Object Level hnsw] Final Cache Size/Given Cache Size : " + hnsw.size() + "/"
                         + cacheSize);
         System.out.println("Update-time: " + (updateTime / n) + "  InitSearch-time: " + (initSearchTime / n)
                 + "   Search-time: " + (SearchTime / n));
-        System.out.println(" Graph update calcCount: " + kGraph.updateCalcCount / n);
-        System.out.println(" Graph search calcCount: " + kGraph.findCalcCount / n);
+        System.out.println(" Graph update calcCount: " + hnsw.calcCount / n);
         return res;
     }
 
@@ -833,7 +834,7 @@ public class VPAlg {
             // If it is hit, then we do not update the cached object points
             if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                 hitCount += 1;
-                continue;
+                // continue;
             }
             // Otherwise, update cache
             switch (cacheStrategy) {
@@ -917,7 +918,7 @@ public class VPAlg {
                             double minBenefit = Double.MAX_VALUE;
                             Point deleteP = cachedObjectPoint.get(0);
                             for (Point p : cachedObjectPoint) {
-                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 1);
+                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 2);
                                 if (e < minBenefit) {
                                     minBenefit = e;
                                     deleteP = p;
@@ -931,10 +932,9 @@ public class VPAlg {
                 case "Global":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (cachedObjectPoint.contains(nnPoint)) {
-                            continue;
+                        if (!cachedObjectPoint.contains(nnPoint)) {
+                            cachedObjectPoint.add(nnPoint);
                         }
-                        cachedObjectPoint.add(nnPoint);
                     }
                     break;
                 default:
@@ -965,9 +965,10 @@ public class VPAlg {
         return res;
     }
 
-    public ArrayList<PriorityQueue<NN>> ObjectKGraph_Cache1(String cacheStrategy, int cacheSize, double updateThreshold,
+    public ArrayList<PriorityQueue<NN>> ObjectHNSW_Cache(String cacheStrategy, int cacheSize, double updateThreshold,
             int k, boolean useBFS) {
         vp.init();
+
         cacheSize = cacheSize * k;
         long n = qData.length;
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
@@ -980,11 +981,11 @@ public class VPAlg {
         long start, end;
 
         // initial a LRUCache
-        KGraph kGraph = new KGraph();
+        int M = 20;
+        HNSW hnsw = new HNSW(4, M, cacheSize);
         HashSet<Point> cc = new HashSet<>();
         for (int i = 0; i < n; i++) {
             Point queryPoint = qData[i];
-
             // use cached point to get an initial kNN distance
             double maxKdist = Double.MAX_VALUE;
             // initial
@@ -992,199 +993,7 @@ public class VPAlg {
                 maxKdist = Double.MAX_VALUE;
             } else {
                 long startSearch = System.currentTimeMillis();
-                PriorityQueue<NN> pairs = kGraph.findKNN(null, queryPoint, k);
-                long endSearch = System.currentTimeMillis();
-                initSearchTime += (endSearch - startSearch);
-                if (pairs.size() == k) {
-                    maxKdist = pairs.peek().dist2query;
-                }
-            }
-
-            long nodeAccessBefore = vp.nodeAccess;
-            start = System.currentTimeMillis();
-            PriorityQueue<NN> nns = new PriorityQueue<>();
-            if (useBFS) {
-                nns = vp.searchkNNBFSRecu(queryPoint, k, maxKdist);
-            } else {
-                nns = vp.searchkNNDFS(queryPoint, k, maxKdist);
-            }
-            // update res
-            res.add(nns);
-            end = System.currentTimeMillis();
-            long nodeAccessAfter = vp.nodeAccess;
-            SearchTime += (end - start);
-
-            // update cache
-            start = System.currentTimeMillis();
-            if (i == 0) {
-                ArrayList<Point> initPoints = new ArrayList<>();
-                for (NN nn : nns) {
-                    initPoints.add(nn.point);
-                    cc.add(nn.point);
-                }
-                kGraph.initGraph(initPoints, k);
-                continue;
-            }
-            for (NN nn : nns) {
-                nn.point.ts = i;
-                nn.point.addHitCount();
-                nn.point.expense = nodeAccessAfter - nodeAccessBefore;
-            }
-            // If it is hit, then we do not update the cached object points
-            if (maxKdist / nns.peek().dist2query <= updateThreshold) {
-                hitCount += 1;
-                continue;
-            }
-            switch (cacheStrategy) {
-                case "FIFO-DFS":
-                case "FIFO-BFS":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
-                            cc.add(nn.point);
-                        } else {
-                            // remove
-                            Point deleteP = kGraph.points.get(0);
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
-                        }
-                    }
-                    break;
-                case "LRU-DFS":
-                case "LRU-BFS":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
-                            cc.add(nn.point);
-                        } else {
-                            // remove
-                            int farthestT = Integer.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
-                                if (p.ts < farthestT) {
-                                    farthestT = p.ts;
-                                    deleteP = p;
-                                }
-                            }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
-                        }
-                    }
-                    break;
-                case "LFU-DFS":
-                case "LFU-BFS":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
-                            cc.add(nn.point);
-                        } else {
-                            // remove
-                            int minHitCount = Integer.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
-                                if (p.hitCount < minHitCount) {
-                                    minHitCount = p.hitCount;
-                                    deleteP = p;
-                                }
-                            }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
-                        }
-                    }
-                    break;
-                case "BDC-DFS":
-                case "BDC-BFS":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
-                            cc.add(nn.point);
-                        } else {
-                            // remove
-                            double minBenefit = Double.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
-                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 1);
-                                if (e < minBenefit) {
-                                    minBenefit = e;
-                                    deleteP = p;
-                                }
-                            }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
-                        }
-                    }
-                    break;
-                case "Global":
-                    for (NN nn : nns) {
-                        Point nnPoint = nn.point;
-                        kGraph.addPoint(nnPoint, k);
-                    }
-                    break;
-                default:
-                    System.out.println("The cache strategy is not specficed!!");
-                    return null;
-            }
-            end = System.currentTimeMillis();
-
-            updateTime += (end - start);
-        }
-        t2 = System.currentTimeMillis();
-
-        int methodID = myMap.getOrDefault(cacheStrategy, -1);
-        assert methodID != -1;
-        timeOfEachMethod[methodID] = t2 - t1;
-        nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
-        calcCountOfEachMethod[methodID] = vp.calcCount / n;
-        info = String.format(
-                "\n***        %s \nconstruct time / mean search time / mean node accesses / mean calc count/ hit count:\n%5dms \t\t%5.4fms \t%5d \t\t%5d \t\t%5d",
-                cacheStrategy, cTime, timeOfEachMethod[methodID] / n, nodeAccessOfEachMethod[methodID],
-                calcCountOfEachMethod[methodID], hitCount);
-        System.out.println(info);
-        System.out
-                .println("[Object Level KGraph] Final Cache Size/Given Cache Size : " + kGraph.size() + "/"
-                        + cacheSize);
-        System.out.println("Update-time: " + (updateTime / n) + "  InitSearch-time: " + (initSearchTime / n)
-                + "   Search-time: " + (SearchTime / n));
-        System.out.println("Effective count: " + cc.size());
-        System.out.println(" Graph update calcCount: " + kGraph.updateCalcCount / n);
-        System.out.println(" Graph search calcCount: " + kGraph.findCalcCount / n);
-        return res;
-    }
-
-    public ArrayList<PriorityQueue<NN>> ObjectKGraph_Cache(String cacheStrategy, int cacheSize, double updateThreshold,
-            int k, boolean useBFS) {
-        vp.init();
-        long n = qData.length;
-        ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
-        t1 = System.currentTimeMillis();
-        long hitCount = 0;
-
-        double updateTime = 0;
-        double initSearchTime = 0;
-        double SearchTime = 0;
-        long start, end;
-
-        // initial a LRUCache
-        HNSWKGraph kGraph = new HNSWKGraph(3, k, cacheSize * k);
-        HashSet<Point> cc = new HashSet<>();
-        for (int i = 0; i < n; i++) {
-            Point queryPoint = qData[i];
-            if (i % 1000 == 0) {
-                System.out.println(i);
-            }
-
-            // use cached point to get an initial kNN distance
-            double maxKdist = Double.MAX_VALUE;
-            // initial
-            if (i == 0) {
-                maxKdist = Double.MAX_VALUE;
-            } else {
-                long startSearch = System.currentTimeMillis();
-                PriorityQueue<NN> pairs = kGraph.findKNN(queryPoint, k);
+                PriorityQueue<NN> pairs = hnsw.findKNN(queryPoint, k);
                 long endSearch = System.currentTimeMillis();
                 initSearchTime += (endSearch - startSearch);
                 if (pairs.size() == k) {
@@ -1213,9 +1022,8 @@ public class VPAlg {
                 for (NN nn : nns) {
                     // initPoints.add(nn.point);
                     // cc.add(nn.point);
-                    kGraph.addPoint(nn.point, k);
+                    hnsw.addPoint(nn.point, k);
                 }
-                // kGraph.initGraph(initPoints, k);
                 continue;
             }
             for (NN nn : nns) {
@@ -1226,21 +1034,21 @@ public class VPAlg {
             // If it is hit, then we do not update the cached object points
             if (maxKdist / nns.peek().dist2query <= updateThreshold) {
                 hitCount += 1;
-                continue;
+                // continue;
             }
             switch (cacheStrategy) {
                 case "FIFO-DFS":
                 case "FIFO-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
+                        if (hnsw.size() < cacheSize) {
+                            hnsw.addPoint(nnPoint, k);
                             cc.add(nn.point);
                         } else {
                             // remove
-                            Point deleteP = kGraph.points.get(0);
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
+                            Point deleteP = hnsw.points.get(0);
+                            hnsw.removePoint(deleteP, nnPoint);
+                            hnsw.addPoint(nnPoint, k);
                         }
                     }
                     break;
@@ -1248,21 +1056,21 @@ public class VPAlg {
                 case "LRU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
+                        if (hnsw.size() < cacheSize) {
+                            hnsw.addPoint(nnPoint, k);
                             cc.add(nn.point);
                         } else {
                             // remove
                             int farthestT = Integer.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
+                            Point deleteP = hnsw.points.get(0);
+                            for (Point p : hnsw.points) {
                                 if (p.ts < farthestT) {
                                     farthestT = p.ts;
                                     deleteP = p;
                                 }
                             }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
+                            hnsw.removePoint(deleteP, nnPoint);
+                            hnsw.addPoint(nn.point, k);
                         }
                     }
                     break;
@@ -1270,21 +1078,21 @@ public class VPAlg {
                 case "LFU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
+                        if (hnsw.size() < cacheSize) {
+                            hnsw.addPoint(nnPoint, k);
                             cc.add(nn.point);
                         } else {
                             // remove
                             int minHitCount = Integer.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
+                            Point deleteP = hnsw.points.get(0);
+                            for (Point p : hnsw.points) {
                                 if (p.hitCount < minHitCount) {
                                     minHitCount = p.hitCount;
                                     deleteP = p;
                                 }
                             }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
+                            hnsw.removePoint(deleteP, nnPoint);
+                            hnsw.addPoint(nn.point, k);
                         }
                     }
                     break;
@@ -1292,29 +1100,29 @@ public class VPAlg {
                 case "BDC-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (kGraph.size() < cacheSize) {
-                            kGraph.addPoint(nnPoint, k);
-                            cc.add(nn.point);
+                        if (hnsw.size() < cacheSize) {
+                            hnsw.addPoint(nnPoint, k);
+                            cc.add(nnPoint);
                         } else {
                             // remove
                             double minBenefit = Double.MAX_VALUE;
-                            Point deleteP = kGraph.points.get(0);
-                            for (Point p : kGraph.points) {
-                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 1);
+                            Point deleteP = hnsw.points.get(0);
+                            for (Point p : hnsw.points) {
+                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 2);
                                 if (e < minBenefit) {
                                     minBenefit = e;
                                     deleteP = p;
                                 }
                             }
-                            kGraph.removePoint(deleteP, nnPoint);
-                            kGraph.addPoint(nn.point, k);
+                            hnsw.removePoint(deleteP, nnPoint);
+                            hnsw.addPoint(nnPoint, k);
                         }
                     }
                     break;
                 case "Global":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        kGraph.addPoint(nnPoint, k);
+                        hnsw.addPoint(nnPoint, k);
                     }
                     break;
                 default:
@@ -1325,6 +1133,7 @@ public class VPAlg {
 
             updateTime += (end - start);
         }
+        hnsw.printGraph();
         t2 = System.currentTimeMillis();
 
         int methodID = myMap.getOrDefault(cacheStrategy, -1);
@@ -1338,13 +1147,12 @@ public class VPAlg {
                 calcCountOfEachMethod[methodID], hitCount);
         System.out.println(info);
         System.out
-                .println("[Object Level KGraph] Final Cache Size/Given Cache Size : " + kGraph.size() + "/"
+                .println("[Object Level hnsw] Final Cache Size/Given Cache Size : " + hnsw.size() + "/"
                         + cacheSize);
         System.out.println("Update-time: " + (updateTime / n) + "  InitSearch-time: " + (initSearchTime / n)
                 + "   Search-time: " + (SearchTime / n));
         System.out.println("Effective count: " + cc.size());
-        System.out.println(" Graph update calcCount: " + kGraph.updateCalcCount / n);
-        System.out.println(" Graph search calcCount: " + kGraph.findCalcCount / n);
+        System.out.println(" Graph calcCount: " + hnsw.calcCount / n);
         return res;
     }
 

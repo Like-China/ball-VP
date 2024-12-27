@@ -52,9 +52,9 @@ public class Loader {
                 }
                 // 将向量添加到列表中
                 vectors.add(vector);
-                if (vectors.size() % 100000 == 0) {
-                    System.out.println("已加载 " + vectors.size() + " 个向量");
-                }
+                // if (vectors.size() % 400000 == 0) {
+                // System.out.println("已加载 " + vectors.size() + " 个向量");
+                // }
             }
         }
         return vectors;

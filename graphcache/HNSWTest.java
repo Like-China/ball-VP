@@ -10,21 +10,58 @@ import utils.NN;
 import utils.Point;
 
 public class HNSWTest {
+    // public static void main(String[] args) throws IOException {
+    // // 创建HNSWKGraph实例
+    // int maxLevel = 3;
+    // int M = 20;
+    // int maxSize = 1000;
+    // HNSW graph = new HNSW(maxLevel, M, maxSize);
+
+    // Loader l = new Loader(Settings.data);
+    // l.loadData(1000, 1000, 7);
+
+    // Point[] queryPoints = l.query.toArray(new Point[l.query.size()]);
+    // Point[] dbPoints = l.db.toArray(new Point[l.db.size()]);
+    // for (Point p : dbPoints) {
+    // graph.addPoint(p, M);
+    // }
+
+    // // 打印图结构
+    // // graph.printGraph();
+
+    // // 执行搜索
+    // float[] queryVector = { 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f };
+    // Point queryPoint = new Point(-1, queryVector);
+    // int K = 5;
+    // PriorityQueue<NN> results = graph.searchLayer(queryPoint, K, null, 0, new
+    // PriorityQueue<>());
+
+    // // 打印搜索结果
+    // System.out.println("\n查询点: " + Arrays.toString(queryVector));
+
+    // while (!results.isEmpty()) {
+    // NN nn = results.poll();
+    // System.out.println(
+    // "ID: " + nn.point.id + " vector: " + Arrays.toString(nn.point.vector) + ",
+    // 距离: " + nn.dist2query);
+    // }
+
+    // }
 
     // 测试代码
     public static void main(String[] args) throws IOException {
         // load data
         Loader l = new Loader(Settings.data);
-        l.loadData(10000, 500000, 10);
+        l.loadData(2000, 20000, 10);
         Point[] queryPoints = l.query.toArray(new Point[l.query.size()]);
         Point[] dbPoints = l.db.toArray(new Point[l.db.size()]);
         // 创建HNSWKGraph实例
         int maxLevel = 3;
-        int M = 15;
+        int M = 10;
         int maxSize = 1000000;
 
         long t0 = System.currentTimeMillis();
-        HNSWKGraph graph = new HNSWKGraph(maxLevel, M, maxSize);
+        HNSW graph = new HNSW(maxLevel, M, maxSize);
         for (Point p : dbPoints) {
             graph.addPoint(p, M);
         }
@@ -43,10 +80,11 @@ public class HNSWTest {
         // 使用HNSW计算近
         ArrayList<PriorityQueue<NN>> hnswResults = new ArrayList<>();
         for (Point q : queryPoints) {
-            PriorityQueue<NN> result = graph.searchLayer(q, K, null, 0, new PriorityQueue<>());
+            PriorityQueue<NN> result = graph.findKNN(q, K);
             hnswResults.add(result);
         }
         long t3 = System.currentTimeMillis();
+        System.out.println("Graph calcCount: " + graph.calcCount / queryPoints.length);
         System.out.println("HNSW计算完成，时间: " + (t3 - t2) + " ms");
         // 计算平均召回率
         double totalRecall = 0.0;

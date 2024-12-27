@@ -34,10 +34,10 @@ Increase the size of queries
 10/22
 1. focus on the technical improvement in the cahce update time
 2. HNSW cache update
-3. How to set the update frequence, not very frequently updated scenrio.
-4. cache size influence is e expected to have signficant degrades
-5. ask for data
-6. update kGraph
+3. How to set the update frequence, not very frequently updated scenrio.--
+4. cache size influence is expected to have signficant degrades--
+5. ask for data --
+6. update kGraph --
 7. memory cost analysis
 8. let the initial NN by Linear Search not be so good
 9. re-design the cache update conditions
@@ -340,4 +340,16 @@ Effective count: 20190 Graph calcCount: 205.06065
 cache test-time cost: 2951275
 
 
-8113ms                 18.5997ms       46777           46777           1000
+DF_stime =[9.9705,9.9848,9.9144 9.2702 9.5946 ]
+BF_stime =[1.1251,1.2670, 1.4058 1.3419 1.4178]
+Graph_stime =[1.960725, 2.137275  2.563875 2.5164 2.768475 ]
+Liner_stime = [1.85505  2.20565 2.63305 2.54915 2.6288]
+
+Graph_hit_count  = [73 25702 34975 37693 38705]   
+Linear_hit_count = [100,26696, 39904, 37865, 38779] 
+Graph_update_ratio = [99.8175, 35.745 , 12.5625,  5.7675,  3.2375]
+Linear_update_ratio = [99.75  , 33.26  ,  0.24  ,  5.3375,  3.0525]
+
+
+
+

@@ -19,6 +19,7 @@ public class Settings {
                         put("BDC-BFS", 9);
                         put("Best-DFS", 10);
                         put("Best-BFS", 11);
+                        put("Global", 12);
 
                 }
         };
@@ -27,8 +28,8 @@ public class Settings {
         public static boolean isEarlyStopConstruct = false;
         public static boolean isUseKmeans = false;
         // the bucket size (leafnode capacity) in the balltree and VP-tree
-        public static int qNB = 20000;
-        public static int dbNB = 200000;
+        public static int qNB = 40000;
+        public static int dbNB = 1000000;
         // the dimension size
         public static int dim = 10;
         public static int[] dims = new int[] { 10, 20, 30, 40, 50 };
@@ -42,16 +43,16 @@ public class Settings {
         public static int k = 10;
         public static int[] ks = new int[] { 10, 20, 30, 40, 50 };
         // the expand factor
-        public static double factor = 1;
+        public static double factor = 3;
         public static double[] factors = new double[] { 1, 1.5, 2, 2.5, 3 };
         // the cache size
-        public static int cacheSize = dbNB / 100 / k;
+        public static int cacheSize = (dbNB / 1000 / k) * 100;
         public static int[] cacheSizes = new int[] { 1000, 2000, 3000, 4000, 5000 };
         // the update thresold of caching
-        public static double updateThreshold = 1.5f;
+        public static double updateThreshold = factor;
         public static double[] updateThresholds = new double[] { 2f, 2.5f, 3f, 3.5f, 4f };
 
-        public static String data = "SIFT";
+        public static String data = "BIGANN";
         public static boolean isShuffle = false;
 
 }
