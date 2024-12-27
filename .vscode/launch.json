@@ -1,0 +1,155 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "HNSWTest",
+            "request": "launch",
+            "mainClass": "graphcache.HNSWTest",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "HNSWKGraph",
+            "request": "launch",
+            "mainClass": "graphcache.HNSWKGraph",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "HNSW",
+            "request": "launch",
+            "mainClass": "graphcache.HNSW",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "HNSWComparison",
+            "request": "launch",
+            "mainClass": "graphcache.HNSWComparison",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "Loader",
+            "request": "launch",
+            "mainClass": "utils.Loader",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "FvecsLoader",
+            "request": "launch",
+            "mainClass": "utils.FvecsLoader",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "FvecsReader",
+            "request": "launch",
+            "mainClass": "utils.FvecsReader",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "DataLoader",
+            "request": "launch",
+            "mainClass": "utils.DataLoader",
+            "projectName": "ball-VP_2b08d608",
+            "vmArgs": "-Xmx2G -Xms100m"
+        },
+        {
+            "type": "java",
+            "name": "KGraph",
+            "request": "launch",
+            "mainClass": "graphcache.KGraph",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "KNNGraph",
+            "request": "launch",
+            "mainClass": "graphcache.KNNGraph",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "KNNGraphSearch",
+            "request": "launch",
+            "mainClass": "graphcache.KNNGraphSearch",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "LFU",
+            "request": "launch",
+            "mainClass": "cacheIndex.LFU",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "HQF",
+            "request": "launch",
+            "mainClass": "cacheIndex.HQF",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "HQFCache",
+            "request": "launch",
+            "mainClass": "cacheIndex.HQFCache",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "LRUCache",
+            "request": "launch",
+            "mainClass": "cacheIndex.LRUCache",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "CacheTest",
+            "request": "launch",
+            "mainClass": "cacheIndex.CacheTest",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "KMeans",
+            "request": "launch",
+            "mainClass": "cacheIndex.KMeans",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "KNNGraphSearch",
+            "request": "launch",
+            "mainClass": "cacheIndex.KNNGraphSearch",
+            "projectName": "ball-VP_2b08d608"
+        },
+        {
+            "type": "java",
+            "name": "VPTreeBySampleTester",
+            "request": "launch",
+            "mainClass": "VPTree.VPTreeBySampleTester",
+            "projectName": "ball-VP_2b08d608",
+            "vmArgs": "-Xms1G -Xmx3G -enableassertions"
+        },
+        {
+            "type": "java",
+            "name": "Evaluate",
+            "request": "launch",
+            "mainClass": "evaluation.Evaluate",
+            "projectName": "ball-VP_2b08d608",
+            "vmArgs": "-enableassertions"
+        },
+        {
+            "type": "java",
+            "name": "My App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "my-app",
+            "vmArgs": "-enableassertions"
+        }
+    ]
+}
