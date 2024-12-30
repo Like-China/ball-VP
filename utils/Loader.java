@@ -1,11 +1,7 @@
 package utils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import evaluation.Settings;
 
@@ -39,29 +35,27 @@ public class Loader {
         return vectors;
     }
 
-    public List<int[]> loadBvecs(String filePath, int readSize) throws IOException {
-        List<int[]> vectors = new ArrayList<>();
+    public List<float[]> loadBvecs(String filePath, int readSize) throws IOException {
+        List<float[]> vectors = new ArrayList<>();
         try (DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(filePath)))) {
             while (dis.available() > 0 && vectors.size() < readSize) {
-                // 读取向量的维度
                 int dim = Integer.reverseBytes(dis.readInt());
-                // 读取向量数据（假设以字节形式存储）
-                int[] vector = new int[dim];
+                float[] vector = new float[dim];
+                // read each byte as unsigned int
                 for (int i = 0; i < dim; i++) {
-                    vector[i] = dis.readUnsignedByte(); // 将每个字节读取为无符号整数
+                    vector[i] = dis.readUnsignedByte();
                 }
-                // 将向量添加到列表中
                 vectors.add(vector);
-                // if (vectors.size() % 400000 == 0) {
-                // System.out.println("已加载 " + vectors.size() + " 个向量");
-                // }
+                // show the progress
+                if (vectors.size() % 100000 == 0) {
+                    System.out.println("Loaded vectors:  " + vectors.size() + "/" + readSize);
+                }
             }
         }
         return vectors;
     }
 
     public void loadData(int qNB, int dbNB, int dim) throws IOException {
-        // 加载数据
         List<float[]> tempVectors = new ArrayList<>();
         switch (dataName) {
             case "random":
@@ -74,16 +68,8 @@ public class Loader {
                     tempVectors.add(point);
                 }
                 break;
-            case "SIFTSMALL":
-                filePath = filePath + "siftsmall/siftsmall_base.fvecs";
-                tempVectors = loadFvecs(filePath, qNB + dbNB);
-                break;
             case "SIFT":
-                filePath = filePath + "sift1M/sift_base.fvecs";
-                tempVectors = loadFvecs(filePath, qNB + dbNB);
-                break;
-            case "GIST":
-                filePath = filePath + "gist/gist_base.fvecs";
+                filePath = filePath + "sift/sift_base.fvecs";
                 tempVectors = loadFvecs(filePath, qNB + dbNB);
                 break;
             case "DEEP":
@@ -92,23 +78,22 @@ public class Loader {
                 break;
             case "BIGANN":
                 filePath = filePath + "bigann/bigann_base.bvecs";
-                List<int[]> intVectors = loadBvecs(filePath, qNB + dbNB);
-                tempVectors = convertIntToFloat(intVectors);
+                tempVectors = loadBvecs(filePath, qNB + dbNB);
                 break;
             default:
-                throw new IllegalArgumentException("未知数据集: " + dataName);
+                throw new IllegalArgumentException("Unknown datasets: " + dataName);
         }
-        // System.out.println(Arrays.toString(tempVectors.get(100)));
+
+        // get vectors with a specifized dimension
         List<float[]> allVectors = new ArrayList<>();
         for (float[] vector : tempVectors) {
             allVectors.add(Arrays.copyOf(vector, dim));
         }
-
         if (Settings.isShuffle) {
-            Collections.shuffle(tempVectors);
+            Collections.shuffle(allVectors);
         }
-        assert allVectors.get(0).length == dim;
-        assert allVectors.size() == qNB + dbNB;
+        assert allVectors.get(0).length == dim : "Dimensional is not aligned!";
+        assert allVectors.size() == qNB + dbNB : "Data is limited!";
         for (int i = 0; i < qNB; i++) {
             query.add(new Point(i, allVectors.get(i), true));
         }
@@ -118,16 +103,14 @@ public class Loader {
 
     }
 
-    private List<float[]> convertIntToFloat(List<int[]> intVectors) {
-        List<float[]> floatVectors = new ArrayList<>();
-        for (int[] intVector : intVectors) {
-            float[] floatVector = new float[intVector.length];
-            for (int i = 0; i < intVector.length; i++) {
-                floatVector[i] = (float) intVector[i];
-            }
-            floatVectors.add(floatVector);
-        }
-        return floatVectors;
-    }
+    // public static void main(String[] args) throws IOException {
+    // String dataName = "SIFT";
+    // int qNB = 100000;
+    // int dbNB = 900000;
+    // Loader l = new Loader(dataName);
+    // l.loadData(qNB, dbNB, 128);
+    // System.out.println(l.query.size() + "/" + l.db.size());
+
+    // }
 
 }

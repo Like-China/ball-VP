@@ -238,7 +238,7 @@ public class VPTreeBySampleTester {
                 // load data
                 loadData(qSize, dbPointsSize, dim);
                 String setInfo = String.format(
-                                "Data: %s \tqSize: %d \tdbPointsSize: %d \tk: %d \tdim: %d \tsample: %d \tBucket Size:%d \tfactor: %f \tfactor: %f",
+                                "Data: %s\tqSize: %d\tdbSize: %d\tk: %d\tdim: %d\tsample: %d\tbucket Size:%d\tfactor: %f\tfactor: %f",
                                 data, queryPoints.length, dbPoints.length, k, dim, sampleNB, bucketSize, factor,
                                 updateThreshold);
                 System.out.println(setInfo);
