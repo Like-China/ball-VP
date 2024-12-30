@@ -22,7 +22,7 @@ public class VPTreeBySample extends VPTree {
 	public VPTreeBySample(Point[] vectors, int sampleNB, int bucketSize) {
 		super(vectors);
 		this.sampleNB = sampleNB;
-		root = recurse(list, bucketSize);
+		root = recurse(itemList, bucketSize);
 	}
 
 	/**
@@ -32,27 +32,27 @@ public class VPTreeBySample extends VPTree {
 	 * @param ArrayList of Item objects
 	 * @return Node object which is the root of the VP Tree
 	 */
-	private VPNode recurse(ArrayList<Item> list, int bucketSize) {
-		if (list.isEmpty()) {
+	private VPNode recurse(ArrayList<Item> itemList, int bucketSize) {
+		if (itemList.isEmpty()) {
 			System.out.println(1111);
 			return null;
 		}
 
 		// Early stop condition
-		if (Settings.isEarlyStopConstruct && list.size() <= bucketSize) {
+		if (Settings.isEarlyStopConstruct && itemList.size() <= bucketSize) {
 			// Create a leaf node
 			VPNode leafNode = new VPNode(null); // or a node with some dummy item
-			leafNode.items = new ArrayList<>(list);
+			leafNode.items = new ArrayList<>(itemList);
 			return leafNode;
 		}
 
-		Item vpItem = getVP(list);
-		deleteItem(list, vpItem);
+		Item vpItem = getVP(itemList);
+		deleteItem(itemList, vpItem);
 		VPNode n = new VPNode(vpItem);
 
 		ArrayList<Double> arr = new ArrayList<Double>();
 		Point vpPoint = vpItem.getPoint();
-		for (Item itm : list) {
+		for (Item itm : itemList) {
 			double dist = itm.getPoint().distanceTo(vpPoint);
 			itm.push(dist);
 			arr.add(dist);
@@ -64,7 +64,7 @@ public class VPTreeBySample extends VPTree {
 		ArrayList<Item> L = new ArrayList<Item>();
 		ArrayList<Item> R = new ArrayList<Item>();
 
-		for (Item itm : list) {
+		for (Item itm : itemList) {
 			if (itm.tail() < mu)
 				L.add(itm);
 			else
@@ -72,10 +72,10 @@ public class VPTreeBySample extends VPTree {
 		}
 		// If either side is empty, stop recursion
 		// if (L.isEmpty() || R.isEmpty()) {
-		// System.out.println(list.size() + "/" + L.size() + "/" + R.size());
+		// System.out.println(itemList.size() + "/" + L.size() + "/" + R.size());
 		// VPNode leafNode = new VPNode(vpItem);
-		// list.add(vpItem);
-		// leafNode.items = new ArrayList<>(list);
+		// itemList.add(vpItem);
+		// leafNode.items = new ArrayList<>(itemList);
 		// return leafNode;
 		// }
 		if (!L.isEmpty()) {
@@ -95,18 +95,18 @@ public class VPTreeBySample extends VPTree {
 	 * @param ArrayList of Item objects and size of sample
 	 * @return ArrayList of Item objects representing the sample
 	 */
-	public ArrayList<Item> getSample(ArrayList<Item> list) {
-		if (list.size() <= sampleNB)
-			return list;
+	public ArrayList<Item> getSample(ArrayList<Item> itemList) {
+		if (itemList.size() <= sampleNB)
+			return itemList;
 		Random rand = new Random(0);
 		ArrayList<Item> ans = new ArrayList<Item>();
 		HashSet<Integer> set = new HashSet<Integer>();
 		while (ans.size() < sampleNB) {
-			int i = rand.nextInt(list.size());
+			int i = rand.nextInt(itemList.size());
 			if (set.contains(i))
 				continue;
 			set.add(i);
-			ans.add(list.get(i));
+			ans.add(itemList.get(i));
 		}
 		return ans;
 	}
@@ -117,14 +117,14 @@ public class VPTreeBySample extends VPTree {
 	 * @param ArrayList of Item objects
 	 * @return Item object containing the Vantage Point
 	 */
-	public Item getVP(ArrayList<Item> list) {
-		if (list.size() == 1) {
-			return list.get(0);
+	public Item getVP(ArrayList<Item> itemList) {
+		if (itemList.size() == 1) {
+			return itemList.get(0);
 		}
-		ArrayList<Item> samplesA = getSample(list);
-		ArrayList<Item> samplesB = getSample(list);
+		ArrayList<Item> samplesA = getSample(itemList);
+		ArrayList<Item> samplesB = getSample(itemList);
 		double best_spread = 0.0;
-		Item best = list.get(0);
+		Item best = itemList.get(0);
 		for (Item i : samplesA) {
 			// all distances from vectors in d to current vp candidate p
 			ArrayList<Double> arr = new ArrayList<Double>();
