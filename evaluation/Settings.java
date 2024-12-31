@@ -52,7 +52,7 @@ public class Settings {
         public static double updateThreshold = factor;
         public static double[] updateThresholds = new double[] { 2f, 2.5f, 3f, 3.5f, 4f };
 
-        public static String data = "BIGANN";
+        public static String data = "SIFT";
         public static boolean isShuffle = false;
 
 }

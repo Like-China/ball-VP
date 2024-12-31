@@ -1,13 +1,7 @@
 package utils;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-
+import java.io.*;
+import java.util.*;
 import VPTree.VPTreeBySampleTester;
 import evaluation.Settings;
 

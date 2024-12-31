@@ -61,11 +61,11 @@ public class Loader {
             case "random":
                 Random r = new Random(0);
                 for (int id = 0; id < qNB + dbNB; id++) {
-                    float[] point = new float[dim];
+                    float[] vector = new float[dim];
                     for (int j = 0; j < dim; j++) {
-                        point[j] = r.nextFloat();
+                        vector[j] = r.nextFloat();
                     }
-                    tempVectors.add(point);
+                    tempVectors.add(vector);
                 }
                 break;
             case "SIFT":

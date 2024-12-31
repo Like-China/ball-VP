@@ -16,8 +16,6 @@ public class VPTreeBySample extends VPTree {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param the train dataset of double[]s, Distance metric d to be used
 	 */
 	public VPTreeBySample(Point[] vectors, int sampleNB, int bucketSize) {
 		super(vectors);
@@ -33,11 +31,7 @@ public class VPTreeBySample extends VPTree {
 	 * @return Node object which is the root of the VP Tree
 	 */
 	private VPNode recurse(ArrayList<Item> itemList, int bucketSize) {
-		if (itemList.isEmpty()) {
-			System.out.println(1111);
-			return null;
-		}
-
+		assert !itemList.isEmpty() : "No items!";
 		// Early stop condition
 		if (Settings.isEarlyStopConstruct && itemList.size() <= bucketSize) {
 			// Create a leaf node
@@ -70,14 +64,6 @@ public class VPTreeBySample extends VPTree {
 			else
 				R.add(itm);
 		}
-		// If either side is empty, stop recursion
-		// if (L.isEmpty() || R.isEmpty()) {
-		// System.out.println(itemList.size() + "/" + L.size() + "/" + R.size());
-		// VPNode leafNode = new VPNode(vpItem);
-		// itemList.add(vpItem);
-		// leafNode.items = new ArrayList<>(itemList);
-		// return leafNode;
-		// }
 		if (!L.isEmpty()) {
 			n.setLeft(recurse(L, bucketSize));
 		}

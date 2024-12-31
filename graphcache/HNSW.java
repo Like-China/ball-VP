@@ -7,10 +7,10 @@ import utils.Point;
 public class HNSW {
     private List<HashMap<Point, ArrayList<Point>>> layers;
     private int maxLevel;
-    private int M; // 最大连接数
-    private int maxSize; // 图中最大点数
+    private int M; // the maximum connection of a node
+    private int maxSize; // the maximum number of nodes
     public ArrayList<Point> points;
-    public double calcCount = 0;
+    public double calcCount = 0; // include the establish and query
     Random random = new Random(10);
 
     public HNSW(int maxLevel, int M, int maxSize) {
@@ -36,6 +36,7 @@ public class HNSW {
                         continue;
                     }
                     neighborConnections.remove(deleteP);
+                    // 应该从2-3跳邻居中再找
                     if (incomingP != null && !neighborConnections.contains(incomingP)) {
                         neighborConnections.add(incomingP);
                     }
@@ -57,9 +58,7 @@ public class HNSW {
         PriorityQueue<NN> entryPoints = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
 
         for (int l = Math.min(level, maxLevel - 1); l >= 0; l--) {
-            int layerM = getLayerM(l);
-            // System.out.println("当前层: " + l + ", layerM: " + layerM);
-            PriorityQueue<NN> neighbors = findKNNInLayer(p, Math.min(layerM, K), l, entryPoints);
+            PriorityQueue<NN> neighbors = findKNNInLayer(p, Math.min(M, K), l, entryPoints);
             // System.out.println("找到的邻居数量: " + neighbors.size());
             connectNewPoint(p, neighbors, l);
             // System.out.println("当前层信息：");
@@ -81,21 +80,16 @@ public class HNSW {
         return level;
     }
 
-    private int getLayerM(int layer) {
-        return Math.max(M, (int) (M / Math.pow(2, maxLevel - layer - 1)));
-    }
-
     private void connectNewPoint(Point p, PriorityQueue<NN> neighbors, int layer) {
         HashMap<Point, ArrayList<Point>> currentLayer = layers.get(layer);
         ArrayList<Point> pNeighbors = new ArrayList<>();
         currentLayer.put(p, pNeighbors);
 
         while (!neighbors.isEmpty()) {
-            NN nn = neighbors.poll();
-            Point neighbor = nn.point;
-            // 为p添加邻居
+            Point neighbor = neighbors.poll().point;
+            // Add neighbor to p's neighbor list
             pNeighbors.add(neighbor);
-            // 为邻居添加p
+            // Add p to neighbor's neighbor list if p is a better neighbor
             ArrayList<Point> neighborNeighbors = currentLayer.get(neighbor);
             if (neighborNeighbors == null) {
                 neighborNeighbors = new ArrayList<>();
@@ -106,7 +100,7 @@ public class HNSW {
             } else {
                 calcCount += 2;
                 if (neighbor.distanceTo(p) < neighbor.distanceTo(neighborNeighbors.get(0))) {
-                    // neighborNeighbors.remove(0);
+                    neighborNeighbors.remove(0);
                     neighborNeighbors.add(p);
                 }
             }
@@ -114,26 +108,26 @@ public class HNSW {
     }
 
     public PriorityQueue<NN> findKNN(Point targetPoint, int k) {
-        Point entryPoint = getEntryPoint();
+        Point entryPoint = layers.get(maxLevel - 1).keySet().iterator().next();
         PriorityQueue<NN> result = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
-
         for (int l = maxLevel - 1; l >= 0; l--) {
             result = searchLayer(targetPoint, k, entryPoint, l, result);
             if (l > 0 && !result.isEmpty()) {
                 entryPoint = result.peek().point;
             }
         }
-
         return result;
     }
 
-    private Point getEntryPoint() {
-        for (int l = maxLevel - 1; l >= 0; l--) {
-            if (!layers.get(l).isEmpty()) {
-                return layers.get(l).keySet().iterator().next();
-            }
+    public PriorityQueue<NN> searchLayer(Point targetPoint, int k, Point entryPoint, int layer,
+            PriorityQueue<NN> initialCandidates) {
+        // for maxlayer-1 layer
+        if (initialCandidates.isEmpty() && entryPoint != null) {
+            double dist = entryPoint.distanceTo(targetPoint);
+            calcCount++;
+            initialCandidates.add(new NN(entryPoint, dist));
         }
-        return null;
+        return findKNNInLayer(targetPoint, k, layer, initialCandidates);
     }
 
     private PriorityQueue<NN> findKNNInLayer(Point targetPoint, int k, int layer, PriorityQueue<NN> entryPoints) {
@@ -164,7 +158,6 @@ public class HNSW {
         // 如果当前层级点数较少，直接遍历
         // System.out.println("当前层级点数: " + currentLayer.size() + " 目标k值: " + k);
         if (currentLayer.size() < k) {
-            // System.out.println("当前层级点数较少，直接遍历");
             for (Point point : currentLayer.keySet()) {
                 double dist = point.distanceTo(targetPoint);
                 calcCount++;
@@ -175,9 +168,9 @@ public class HNSW {
                 }
             }
         } else {
-            int iterations = 0;
+            // int iterations = 0;
             while (!candidates.isEmpty()) {
-                iterations++;
+                // iterations++;
                 NN current = candidates.poll();
                 // System.out.println("迭代 " + iterations + ": 当前点 " + current.point.id + ", 距离 "
                 // + current.dist2query);
@@ -187,7 +180,7 @@ public class HNSW {
                     // System.out.println("达到终止条件，退出循环");
                     break;
                 }
-                // 将当前点添加到结果集
+                // add current checking candidate to the result if it is closer to the target
                 if (currentSize < k) {
                     result.add(current);
                 } else if (current.dist2query < result.peek().dist2query) {
@@ -205,7 +198,7 @@ public class HNSW {
                             visited.add(neighbor);
                             NN newNN = new NN(neighbor, dist);
                             // System.out.println(" 检查邻居 " + neighbor.id + ", 距离 " + dist);
-                            // 更新候选点
+                            // update candidates
                             if (result.size() < k) {
                                 candidates.add(newNN);
                                 // System.out.println("结果集未满 添加到候选点");
@@ -226,31 +219,19 @@ public class HNSW {
         return result;
     }
 
-    public PriorityQueue<NN> searchLayer(Point targetPoint, int k, Point entryPoint, int layer,
-            PriorityQueue<NN> initialCandidates) {
-        if (initialCandidates.isEmpty() && entryPoint != null) {
-            double dist = entryPoint.distanceTo(targetPoint);
-            calcCount++;
-            initialCandidates.add(new NN(entryPoint, dist));
-        }
-        return findKNNInLayer(targetPoint, k, layer, initialCandidates);
-    }
-
     public int size() {
         return points.size();
     }
 
     public void printGraph() {
-        System.out.println("HNSW图参数:");
-        System.out.println("  最大层数: " + maxLevel);
-        System.out.println("  最大连接数 M: " + M);
-        System.out.println("  最大点数: " + maxSize);
-        System.out.println();
+        System.out.println("HNSW Graph Info:");
+        System.out.println("  The Maximum Layer: " + maxLevel);
+        System.out.println("  The Maximum Connections: " + M);
+        System.out.println("  The Maximim Number of Nodes: " + maxSize);
         System.out.println("HNSW Graph Structure:");
         for (int l = 0; l < maxLevel; l++) {
-            System.out.println("Layer " + l + ":");
             HashMap<Point, ArrayList<Point>> currentLayer = layers.get(l);
-            System.out.println(l + " 层级点数: " + currentLayer.size());
+            System.out.println("Layer " + l + "--NB OF Nodes: " + currentLayer.size());
             // for (Map.Entry<Point, ArrayList<Point>> entry : currentLayer.entrySet()) {
             // System.out.print(" Point " + entry.getKey().id + " -> ");
             // System.out.print("Neighbors: " + entry.getValue().size() + " [");
@@ -260,10 +241,6 @@ public class HNSW {
             // System.out.println("]");
             // }
         }
-        System.out.println("Total points: " + points.size());
     }
-
-    // 测试代码
-    //
 
 }
