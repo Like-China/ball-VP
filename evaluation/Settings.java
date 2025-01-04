@@ -9,17 +9,18 @@ public class Settings {
                 {
                         put("#DFS", 0);
                         put("#BFS", 1);
-                        put("FIFO-DFS", 2);
-                        put("FIFO-BFS", 3);
-                        put("LRU-DFS", 4);
-                        put("LRU-BFS", 5);
-                        put("LFU-DFS", 6);
-                        put("LFU-BFS", 7);
-                        put("BDC-DFS", 8);
-                        put("BDC-BFS", 9);
-                        put("Best-DFS", 10);
-                        put("Best-BFS", 11);
-                        put("Global", 12);
+                        put("Best-DFS", 2);
+                        put("Best-BFS", 3);
+                        put("FIFO-DFS", 4);
+                        put("FIFO-BFS", 5);
+                        put("LRU-DFS", 6);
+                        put("LRU-BFS", 7);
+                        put("LFU-DFS", 8);
+                        put("LFU-BFS", 9);
+                        put("BDC-DFS", 10);
+                        put("BDC-BFS", 11);
+                        put("GLO-DFS", 12);
+                        put("GLO-BFS", 13);
 
                 }
         };
@@ -28,8 +29,8 @@ public class Settings {
         public static boolean isEarlyStopConstruct = false;
         public static boolean isUseKmeans = false;
         // the bucket size (leafnode capacity) in the balltree and VP-tree
-        public static int qNB = 40000;
-        public static int dbNB = 1000000;
+        public static int qNB = 20;
+        public static int dbNB = 1000;
         // the dimension size
         public static int dim = 10;
         public static int[] dims = new int[] { 10, 20, 30, 40, 50 };
@@ -40,13 +41,13 @@ public class Settings {
         public static int bucketSize = 20;
         public static int[] bucketSizes = new int[] { 10, 20, 30, 40, 50 };
         // the k
-        public static int k = 10;
+        public static int k = 2;
         public static int[] ks = new int[] { 10, 20, 30, 40, 50 };
         // the expand factor
-        public static double factor = 3;
+        public static double factor = 2;
         public static double[] factors = new double[] { 1, 1.5, 2, 2.5, 3 };
         // the cache size
-        public static int cacheSize = (dbNB / 1000 / k) * 100;
+        public static int cacheSize = 5;
         public static int[] cacheSizes = new int[] { 1000, 2000, 3000, 4000, 5000 };
         // the update thresold of caching
         public static double updateThreshold = factor;

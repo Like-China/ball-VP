@@ -243,4 +243,25 @@ public class HNSW {
         }
     }
 
+    public void printConnections() {
+        System.out.println("HNSW Graph Connections:");
+        for (int l = 0; l < maxLevel; l++) {
+            HashMap<Point, ArrayList<Point>> currentLayer = layers.get(l);
+            System.out.println("Layer " + l + "--NB OF Nodes: " + currentLayer.size());
+            for (Map.Entry<Point, ArrayList<Point>> entry : currentLayer.entrySet()) {
+                System.out.print(" Point " + entry.getKey().id + " -> ");
+                System.out.print("Neighbors: " + entry.getValue().size() + " [");
+                for (Point p : entry.getValue()) {
+                    System.out.print(p.id + " ");
+                }
+                System.out.println("]");
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return points.size() + "@" + points;
+    }
 }

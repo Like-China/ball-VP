@@ -31,11 +31,6 @@ public class VPTree {
 		}
 	}
 
-	public void init() {
-		nodeAccess = 0;
-		calcCount = 0;
-	}
-
 	/**
 	 * Helper function to delete an Item object from the ArrayList
 	 * When a item is added as a vp item, it should be deleted then.
@@ -85,10 +80,10 @@ public class VPTree {
 	 * Finds the k nearest neighbors of Point q under the distance range maxD
 	 * Best First Search by recursive search
 	 */
-	public PriorityQueue<NN> searchkNNBFSRecu(Point q, int k, double maxD) {
+	public PriorityQueue<NN> searchkNNBFS(Point q, int k, double maxD) {
 		PriorityQueue<NN> res = new PriorityQueue<>(k, (a, b) -> Double.compare(b.dist2query, a.dist2query));
 		// recursive search
-		_searchkNNBFSRecu(root, q, k, res, maxD);
+		_searchkNNBFS(root, q, k, res, maxD);
 		return res; // Return the k-nearest neighbors
 	}
 
@@ -143,7 +138,7 @@ public class VPTree {
 		}
 	}
 
-	private void _searchkNNBFSRecu(VPNode n, Point q, int k, PriorityQueue<NN> res, double maxD) {
+	private void _searchkNNBFS(VPNode n, Point q, int k, PriorityQueue<NN> res, double maxD) {
 		if (n == null) {
 			return;
 		}

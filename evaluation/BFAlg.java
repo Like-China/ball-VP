@@ -38,7 +38,7 @@ public class BFAlg {
         }
         double t2 = System.currentTimeMillis();
         fTime = t2 - t1;
-        info = String.format("**\tBrute-Forced\nkNN-Search time cost: %.3f ms / query", fTime / qData.length);
+        info = String.format("***        #Brute-Forced\nkNN-Search time cost: %.3f ms / query", fTime / qData.length);
         System.out.println(info);
         return nnList;
     }

@@ -7,7 +7,7 @@ import java.util.Random;
 public class KMeans {
 
     // Function to run k-means clustering
-    public static List<List<Point>> kMeansCluster(List<Point> points, int k, int maxIterations) {
+    public static List<List<Point>> kMeansCluster(Point[] points, int k, int maxIterations) {
         // Step 1: Initialize centroids randomly
         List<Point> centroids = initializeCentroids(points, k);
         List<List<Point>> clusters = new ArrayList<>();
@@ -31,10 +31,13 @@ public class KMeans {
     }
 
     // Initialize k random centroids
-    private static List<Point> initializeCentroids(List<Point> points, int k) {
+    private static List<Point> initializeCentroids(Point[] points, int k) {
         Random random = new Random(0);
         List<Point> centroids = new ArrayList<>();
-        List<Point> copyPoints = new ArrayList<>(points);
+        List<Point> copyPoints = new ArrayList<>();
+        for (Point point : points) {
+            copyPoints.add(point);
+        }
 
         for (int i = 0; i < k; i++) {
             int randomIndex = random.nextInt(copyPoints.size());
@@ -46,7 +49,7 @@ public class KMeans {
     }
 
     // Assign points to the nearest centroid to form clusters
-    private static List<List<Point>> assignPointsToClusters(List<Point> points, List<Point> centroids) {
+    private static List<List<Point>> assignPointsToClusters(Point[] points, List<Point> centroids) {
         List<List<Point>> clusters = new ArrayList<>();
         for (int i = 0; i < centroids.size(); i++) {
             clusters.add(new ArrayList<>()); // create empty clusters

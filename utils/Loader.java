@@ -7,8 +7,7 @@ import evaluation.Settings;
 
 public class Loader {
 
-    public ArrayList<Point> query = new ArrayList<>();
-    public ArrayList<Point> db = new ArrayList<>();
+    public Point[] query, db;
     String dataName;
     String filePath;
 
@@ -94,11 +93,14 @@ public class Loader {
         }
         assert allVectors.get(0).length == dim : "Dimensional is not aligned!";
         assert allVectors.size() == qNB + dbNB : "Data is limited!";
+
+        query = new Point[qNB];
+        db = new Point[dbNB];
         for (int i = 0; i < qNB; i++) {
-            query.add(new Point(i, allVectors.get(i), true));
+            query[i] = new Point(i, allVectors.get(i), true);
         }
         for (int i = qNB; i < qNB + dbNB; i++) {
-            db.add(new Point(i, allVectors.get(i), false));
+            db[i - qNB] = new Point(i, allVectors.get(i), false);
         }
 
     }
