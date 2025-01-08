@@ -6,17 +6,15 @@ import utils.Point;
 
 public class HNSW {
     private List<HashMap<Point, ArrayList<Point>>> layers;
-    private int maxLevel;
+    private int maxLevel; // the maximum level of the graph
     private int M; // the maximum connection of a node
-    private int maxSize; // the maximum number of nodes
     public ArrayList<Point> points;
     public double calcCount = 0; // include the establish and query
     Random random = new Random(10);
 
-    public HNSW(int maxLevel, int M, int maxSize) {
+    public HNSW(int maxLevel, int M) {
         this.maxLevel = maxLevel;
         this.M = M;
-        this.maxSize = maxSize;
         this.layers = new ArrayList<>(maxLevel);
         for (int i = 0; i < maxLevel; i++) {
             layers.add(new HashMap<>());
@@ -29,23 +27,52 @@ public class HNSW {
         for (int l = 0; l < maxLevel; l++) {
             HashMap<Point, ArrayList<Point>> currentLayer = layers.get(l);
             if (currentLayer.containsKey(deleteP)) {
-                ArrayList<Point> neighbors = currentLayer.remove(deleteP);
-                for (Point neighbor : neighbors) {
+                currentLayer.remove(deleteP);
+                for (Point neighbor : deleteP.getrKNNs()) {
                     ArrayList<Point> neighborConnections = currentLayer.get(neighbor);
                     if (neighborConnections == null) {
                         continue;
                     }
-                    neighborConnections.remove(deleteP);
-                    // 应该从2-3跳邻居中再找
-                    if (incomingP != null && !neighborConnections.contains(incomingP)) {
+                    if (neighborConnections.remove(deleteP) && incomingP != null
+                            && !neighborConnections.contains(incomingP)) {
                         neighborConnections.add(incomingP);
                     }
                 }
-                // for (Point p : currentLayer.keySet()) {
-                // currentLayer.get(p).remove(deleteP);
-                // }
             }
+
+            // System.out.println(l + " " + deleteP.id + " " + currentLayer.size());
+            // printConnections();
+            // 用一个表记录每个点曾经记录的邻居
+
+            // currentLayer.remove(deleteP);
+            // Set<Point> layerPoints = currentLayer.keySet();
+            // for (Point p : layerPoints) {
+            // ArrayList<Point> deletePConnections = currentLayer.get(p);
+            // if (deletePConnections.remove(deleteP)) {
+            // // System.out.println(p.id + " " + deletePConnections);
+            // while (deletePConnections.size() < M) {
+            // if (incomingP != null && !deletePConnections.contains(incomingP)) {
+            // deletePConnections.add(incomingP);
+            // } else {
+            // // randomly select a point
+            // Point randPoint =
+            // layerPoints.stream().skip(random.nextInt(layerPoints.size()))
+            // .findFirst()
+            // .get();
+            // // System.out.println(randPoint);
+            // if (randPoint != deleteP && randPoint != p &&
+            // !deletePConnections.contains(randPoint)) {
+            // deletePConnections.add(randPoint);
+            // }
+            // }
+            // }
+            // // System.out.println(p.id + " " + deletePConnections);
+            // // System.out.println();
+            // }
+            // }
+
         }
+
     }
 
     public void addPoint(Point p, int K) {
@@ -74,7 +101,7 @@ public class HNSW {
 
     private int assignLevel() {
         int level = 0;
-        while (random.nextFloat() < 0.5 && level < maxLevel - 1) {
+        while (random.nextFloat() < 0.3 && level < maxLevel - 1) {
             level++;
         }
         return level;
@@ -86,29 +113,36 @@ public class HNSW {
         currentLayer.put(p, pNeighbors);
 
         while (!neighbors.isEmpty()) {
-            Point neighbor = neighbors.poll().point;
+            NN nn = neighbors.poll();
+            Point neighbor = nn.point;
             // Add neighbor to p's neighbor list
             pNeighbors.add(neighbor);
+            p.addrKNNs(neighbor);
             // Add p to neighbor's neighbor list if p is a better neighbor
             ArrayList<Point> neighborNeighbors = currentLayer.get(neighbor);
             if (neighborNeighbors == null) {
-                neighborNeighbors = new ArrayList<>();
-                currentLayer.put(neighbor, neighborNeighbors);
+                continue;
             }
             if (neighborNeighbors.size() < M) {
                 neighborNeighbors.add(p);
+                neighbor.addrKNNs(p);
             } else {
-                calcCount += 2;
-                if (neighbor.distanceTo(p) < neighbor.distanceTo(neighborNeighbors.get(0))) {
+                calcCount += 1;
+                if (nn.dist2query < neighbor.distanceTo(neighborNeighbors.get(0))) {
                     neighborNeighbors.remove(0);
                     neighborNeighbors.add(p);
+                    neighbor.addrKNNs(p);
                 }
             }
         }
     }
 
     public PriorityQueue<NN> findKNN(Point targetPoint, int k) {
-        Point entryPoint = layers.get(maxLevel - 1).keySet().iterator().next();
+        HashMap<Point, ArrayList<Point>> topLayer = layers.get(maxLevel - 1);
+        Point entryPoint = null;
+        if (!topLayer.isEmpty()) {
+            entryPoint = topLayer.keySet().iterator().next();
+        }
         PriorityQueue<NN> result = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
         for (int l = maxLevel - 1; l >= 0; l--) {
             result = searchLayer(targetPoint, k, entryPoint, l, result);
@@ -227,7 +261,6 @@ public class HNSW {
         System.out.println("HNSW Graph Info:");
         System.out.println("  The Maximum Layer: " + maxLevel);
         System.out.println("  The Maximum Connections: " + M);
-        System.out.println("  The Maximim Number of Nodes: " + maxSize);
         System.out.println("HNSW Graph Structure:");
         for (int l = 0; l < maxLevel; l++) {
             HashMap<Point, ArrayList<Point>> currentLayer = layers.get(l);
@@ -248,11 +281,14 @@ public class HNSW {
         for (int l = 0; l < maxLevel; l++) {
             HashMap<Point, ArrayList<Point>> currentLayer = layers.get(l);
             System.out.println("Layer " + l + "--NB OF Nodes: " + currentLayer.size());
-            for (Map.Entry<Point, ArrayList<Point>> entry : currentLayer.entrySet()) {
-                System.out.print(" Point " + entry.getKey().id + " -> ");
-                System.out.print("Neighbors: " + entry.getValue().size() + " [");
-                for (Point p : entry.getValue()) {
-                    System.out.print(p.id + " ");
+            for (Point p : points) {
+                // for (Point p : currentLayer.keySet()) {
+                if (!currentLayer.containsKey(p))
+                    continue;
+                System.out.print(" Point " + p.id + " -> ");
+                System.out.print("Neighbors: " + currentLayer.get(p).size() + " [");
+                for (Point nn : currentLayer.get(p)) {
+                    System.out.print(nn.id + " ");
                 }
                 System.out.println("]");
             }

@@ -17,7 +17,7 @@ public class Point {
     // the NN neighbor of this point
     public PriorityQueue<NN> NNs = new PriorityQueue<>();
     // if the point is an object point, record its reverse kNN query points
-    private ArrayList<Point> rKNNs = new ArrayList<>();
+    private HashSet<Point> rKNNs = new HashSet<>();
 
     public Point(int id, float[] vector) {
         this.id = id;
@@ -30,18 +30,21 @@ public class Point {
         this.isQueryPoint = isQueryPoint;
     }
 
+    public void init() {
+        NNs = new PriorityQueue<>();
+        rKNNs = new HashSet<>();
+    }
+
     public int rkNNSize() {
         return rKNNs.size();
     }
 
-    public void initrKNNs() {
-        this.rKNNs = new ArrayList<>();
+    public void addrKNNs(Point p) {
+        rKNNs.add(p);
     }
 
-    public void addrKNNs(Point p) {
-        assert p.isQueryPoint == true;
-        assert this.isQueryPoint == false;
-        rKNNs.add(p);
+    public HashSet<Point> getrKNNs() {
+        return rKNNs;
     }
 
     // Euclidean distance calculation between this point and another point

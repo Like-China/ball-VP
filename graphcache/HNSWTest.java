@@ -17,9 +17,8 @@ public class HNSWTest {
         // create a HNSW index
         int maxLevel = 2;
         int M = 10;
-        int maxSize = 1000000;
         long t0 = System.currentTimeMillis();
-        HNSW graph = new HNSW(maxLevel, M, maxSize);
+        HNSW graph = new HNSW(maxLevel, M);
         for (Point p : dbPoints) {
             graph.addPoint(p, M);
         }

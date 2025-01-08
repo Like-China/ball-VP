@@ -51,6 +51,9 @@ public class VPAlg {
             calcCountOfEachMethod[i] = 0;
             timeOfEachMethod[i] = 0;
         }
+        for (Point p : qData) {
+            p.init();
+        }
         vp.nodeAccess = 0;
         vp.calcCount = 0;
         initSearchTime = 0; // time to get an initial kNN distance
@@ -317,20 +320,20 @@ public class VPAlg {
             HashSet<Point> visitedObjectPoints = new HashSet<>();
             for (Point cachedQueryPoint : cachedQueryPoints) {
                 for (NN cacheNN : cachedQueryPoint.getNNs()) {
-                    Point cachedObjectPoint = cacheNN.point;
-                    if (visitedObjectPoints.contains(cachedObjectPoint)) {
+                    Point cachedObjectPoints = cacheNN.point;
+                    if (visitedObjectPoints.contains(cachedObjectPoints)) {
                         continue;
                     }
-                    double dist = queryPoint.distanceTo(cachedObjectPoint);
+                    double dist = queryPoint.distanceTo(cachedObjectPoints);
                     initSearchCount++;
-                    visitedObjectPoints.add(cachedObjectPoint);
+                    visitedObjectPoints.add(cachedObjectPoints);
                     if (pq.size() < k) {
-                        pq.add(new NN(cachedObjectPoint, dist));
+                        pq.add(new NN(cachedObjectPoints, dist));
                     } else {
                         if (pq.peek().dist2query > dist) {
                             pq.poll();
                             visitedQueryPoints.add(cachedQueryPoint);
-                            pq.add(new NN(cachedObjectPoint, dist));
+                            pq.add(new NN(cachedObjectPoints, dist));
                         }
                     }
                 }
@@ -503,7 +506,7 @@ public class VPAlg {
         t1 = System.currentTimeMillis();
         ArrayList<Point> cachedQueryPoints = new ArrayList<>();
         long start, end;
-        HNSW hnsw = new HNSW(2, k, cacheSize * k);
+        HNSW hnsw = new HNSW(2, k);
 
         for (int i = 0; i < n; i++) {
             Point queryPoint = qData[i];
@@ -529,6 +532,7 @@ public class VPAlg {
                     maxKdist = pairs.peek().dist2query;
                 }
             }
+
             end = System.currentTimeMillis();
             initSearchTime += (end - start);
             // 2. search exact kNN using VP-tree
@@ -542,6 +546,7 @@ public class VPAlg {
             }
             res.add(nns);
             long nodeAccessAfter = vp.nodeAccess;
+            // System.out.println(i + " " + maxKdist + "/" + nns.peek().dist2query);
             end = System.currentTimeMillis();
             searchTime += (end - start);
             // 3. update cache
@@ -559,12 +564,12 @@ public class VPAlg {
                             hnsw.addPoint(nn.point, k);
                         }
 
-                        System.out.println();
+                        // System.out.println();
                         // System.out.println("cachedQueryPoints with add: " + queryPoint);
                         // System.out.println("cachedQueryPoints: " + cachedQueryPoints);
-                        System.out.println("HNSW with add: " + nns);
-                        System.out.println("HNSW points: " + hnsw);
-                        hnsw.printConnections();
+                        // System.out.println("HNSW with add: " + nns);
+                        // System.out.println("HNSW points: " + hnsw);
+                        // hnsw.printConnections();
 
                     } else {
                         if (maxKdist / nns.peek().dist2query > updateThreshold) {
@@ -581,16 +586,14 @@ public class VPAlg {
                                 hnsw.addPoint(nn.point, k);
                             }
 
-                            System.out.println();
+                            // System.out.println();
                             // System.out.println("cachedQueryPoints with remove: " + removeP);
-                            System.out.println("HNSW with remove: " + removeP.NNs);
-
+                            // System.out.println("HNSW with remove: " + removeP.NNs);
                             // System.out.println("cachedQueryPoints with add: " + queryPoint);
-                            System.out.println("HNSW with add: " + nns);
-
+                            // System.out.println("HNSW with add: " + nns);
                             // System.out.println("cachedQueryPoints: " + cachedQueryPoints);
-                            System.out.println("HNSW points " + hnsw);
-                            hnsw.printConnections();
+                            // System.out.println("HNSW points " + hnsw);
+                            // hnsw.printConnections();
                         }
                     }
                     break;
@@ -709,8 +712,9 @@ public class VPAlg {
                     return null;
             }
             end = System.currentTimeMillis();
-
+            updateTime += (end - start);
         }
+        hnsw.printGraph();
         t2 = System.currentTimeMillis();
         int methodID = myMap.getOrDefault(cacheStrategy, -1);
         assert methodID != -1;
@@ -726,8 +730,6 @@ public class VPAlg {
         System.out.println(info);
         System.out.println("[Query Linear + Object HNSW Search] Final Cache Size/Given Cache Size : "
                 + cachedQueryPoints.size() + "/" + cacheSize);
-        System.out.println("Init Search-time: " + (initSearchTime / n) + " VPTree Search-time: " + (searchTime / n)
-                + " Cache Update-time: " + (updateTime / n));
         System.out.println(" Graph update calcCount: " + hnsw.calcCount / n);
         return res;
     }
@@ -736,9 +738,8 @@ public class VPAlg {
             int k, boolean useBFS) {
         init();
         cacheSize = cacheSize * k;
-
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
-        ArrayList<Point> cachedObjectPoint = new ArrayList<>();
+        ArrayList<Point> cachedObjectPoints = new ArrayList<>();
         t1 = System.currentTimeMillis();
         long start, end;
         for (int i = 0; i < n; i++) {
@@ -747,7 +748,7 @@ public class VPAlg {
             start = System.currentTimeMillis();
             PriorityQueue<NN> pq = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
             double maxKdist = Double.MAX_VALUE;
-            for (Point p : cachedObjectPoint) {
+            for (Point p : cachedObjectPoints) {
                 double dist = p.distanceTo(queryPoint);
                 if (pq.size() < k) {
                     pq.add(new NN(p, dist));
@@ -773,7 +774,6 @@ public class VPAlg {
                 nns = vp.searchkNNDFS(queryPoint, k, maxKdist);
             }
             long nodeAccessAfter = vp.nodeAccess;
-            // update res
             res.add(nns);
             for (NN nn : nns) {
                 nn.point.ts = i;
@@ -782,23 +782,28 @@ public class VPAlg {
             }
             end = System.currentTimeMillis();
             searchTime += (end - start);
-
             // 3. update cache
             start = System.currentTimeMillis();
-            // Otherwise, update cache
+            if (maxKdist / nns.peek().dist2query > updateThreshold) {
+                updateCount += 1;
+            } else {
+                if (cachedObjectPoints.size() >= cacheSize) {
+                    continue;
+                }
+            }
             switch (cacheStrategy) {
                 case "FIFO-DFS":
                 case "FIFO-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (cachedObjectPoint.contains(nnPoint)) {
+                        if (cachedObjectPoints.contains(nnPoint)) {
                             continue;
                         }
-                        if (cachedObjectPoint.size() < cacheSize) {
-                            cachedObjectPoint.add(nnPoint);
+                        if (cachedObjectPoints.size() < cacheSize) {
+                            cachedObjectPoints.add(nnPoint);
                         } else {
-                            cachedObjectPoint.remove(0);
-                            cachedObjectPoint.add(nnPoint);
+                            cachedObjectPoints.remove(0);
+                            cachedObjectPoints.add(nnPoint);
                         }
                     }
                     break;
@@ -806,23 +811,23 @@ public class VPAlg {
                 case "LRU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (cachedObjectPoint.contains(nnPoint)) {
+                        if (cachedObjectPoints.contains(nnPoint)) {
                             continue;
                         }
-                        if (cachedObjectPoint.size() < cacheSize) {
-                            cachedObjectPoint.add(nnPoint);
+                        if (cachedObjectPoints.size() < cacheSize) {
+                            cachedObjectPoints.add(nnPoint);
                         } else {
                             // remove
                             int farthestT = Integer.MAX_VALUE;
-                            Point removeP = cachedObjectPoint.get(0);
-                            for (Point p : cachedObjectPoint) {
+                            Point removeP = cachedObjectPoints.get(0);
+                            for (Point p : cachedObjectPoints) {
                                 if (p.ts < farthestT) {
                                     farthestT = p.ts;
                                     removeP = p;
                                 }
                             }
-                            cachedObjectPoint.remove(removeP);
-                            cachedObjectPoint.add(nnPoint);
+                            cachedObjectPoints.remove(removeP);
+                            cachedObjectPoints.add(nnPoint);
                         }
                     }
                     break;
@@ -830,23 +835,23 @@ public class VPAlg {
                 case "LFU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (cachedObjectPoint.contains(nnPoint)) {
+                        if (cachedObjectPoints.contains(nnPoint)) {
                             continue;
                         }
-                        if (cachedObjectPoint.size() < cacheSize) {
-                            cachedObjectPoint.add(nnPoint);
+                        if (cachedObjectPoints.size() < cacheSize) {
+                            cachedObjectPoints.add(nnPoint);
                         } else {
                             // remove
                             int minHitCount = Integer.MAX_VALUE;
-                            Point removeP = cachedObjectPoint.get(0);
-                            for (Point p : cachedObjectPoint) {
+                            Point removeP = cachedObjectPoints.get(0);
+                            for (Point p : cachedObjectPoints) {
                                 if (p.hitCount < minHitCount) {
                                     minHitCount = p.hitCount;
                                     removeP = p;
                                 }
                             }
-                            cachedObjectPoint.remove(removeP);
-                            cachedObjectPoint.add(nnPoint);
+                            cachedObjectPoints.remove(removeP);
+                            cachedObjectPoints.add(nnPoint);
                         }
                     }
                     break;
@@ -854,23 +859,23 @@ public class VPAlg {
                 case "BDC-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (cachedObjectPoint.contains(nnPoint)) {
+                        if (cachedObjectPoints.contains(nnPoint)) {
                             continue;
                         }
-                        if (cachedObjectPoint.size() < cacheSize) {
-                            cachedObjectPoint.add(nnPoint);
+                        if (cachedObjectPoints.size() < cacheSize) {
+                            cachedObjectPoints.add(nnPoint);
                         } else {
                             double minBenefit = Double.MAX_VALUE;
-                            Point removeP = cachedObjectPoint.get(0);
-                            for (Point p : cachedObjectPoint) {
+                            Point removeP = cachedObjectPoints.get(0);
+                            for (Point p : cachedObjectPoints) {
                                 double e = p.expense * p.hitCount / Math.pow(i - p.ts, 2);
                                 if (e < minBenefit) {
                                     minBenefit = e;
                                     removeP = p;
                                 }
                             }
-                            cachedObjectPoint.remove(removeP);
-                            cachedObjectPoint.add(nnPoint);
+                            cachedObjectPoints.remove(removeP);
+                            cachedObjectPoints.add(nnPoint);
                         }
                     }
                     break;
@@ -878,8 +883,8 @@ public class VPAlg {
                 case "GLO-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (!cachedObjectPoint.contains(nnPoint)) {
-                            cachedObjectPoint.add(nnPoint);
+                        if (!cachedObjectPoints.contains(nnPoint)) {
+                            cachedObjectPoints.add(nnPoint);
                         }
                     }
                     break;
@@ -904,36 +909,32 @@ public class VPAlg {
                 calcCountOfEachMethod[methodID], updateCount, initSearchTime / n,
                 searchTime / n, updateTime / n, timeOfEachMethod[methodID]);
         System.out.println(info);
-        System.out.println("[Object Level Linear] Final Cache Size/Given Cache Size : " + cachedObjectPoint.size() + "/"
-                + cacheSize);
-        System.out.println("Init Search-time: " + (initSearchTime / n) + " VPTree Search-time: " + (searchTime / n)
-                + " Cache Update-time: " + (updateTime / n));
-        System.out.println("Cached Object Size: " + cachedObjectPoint.size());
+        System.out
+                .println("[Object Level Linear] Final Cache Size/Given Cache Size : " + cachedObjectPoints.size() + "/"
+                        + cacheSize);
         return res;
     }
 
     public ArrayList<PriorityQueue<NN>> ObjectHNSW_Cache(String cacheStrategy, int cacheSize, double updateThreshold,
             int k, boolean useBFS) {
         init();
-        cacheSize = cacheSize * k;
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         t1 = System.currentTimeMillis();
         long start, end;
-        HNSW hnsw = new HNSW(4, 20, cacheSize);
-        HashSet<Point> cc = new HashSet<>();
+        HNSW hnsw = new HNSW(2, 20);
         for (int i = 0; i < n; i++) {
             Point queryPoint = qData[i];
             // 1．use cached point to get an initial kNN distance
+            start = System.currentTimeMillis();
             double maxKdist = Double.MAX_VALUE;
             if (i != 0) {
-                long startSearch = System.currentTimeMillis();
                 PriorityQueue<NN> pairs = hnsw.findKNN(queryPoint, k);
-                long endSearch = System.currentTimeMillis();
-                initSearchTime += (endSearch - startSearch);
-                if (pairs.size() == k) {
+                if (pairs != null && pairs.size() == k) {
                     maxKdist = pairs.peek().dist2query;
                 }
             }
+            end = System.currentTimeMillis();
+            initSearchTime += (end - start);
             // 2. search exact kNN using VP-tree
             long nodeAccessBefore = vp.nodeAccess;
             start = System.currentTimeMillis();
@@ -944,34 +945,33 @@ public class VPAlg {
                 nns = vp.searchkNNDFS(queryPoint, k, maxKdist);
             }
             res.add(nns);
-            end = System.currentTimeMillis();
             long nodeAccessAfter = vp.nodeAccess;
-            searchTime += (end - start);
-            // 3. update cache
-            start = System.currentTimeMillis();
             for (NN nn : nns) {
                 nn.point.ts = i;
                 nn.point.addHitCount();
                 nn.point.expense = nodeAccessAfter - nodeAccessBefore;
             }
-            if (i == 0) {
-                for (NN nn : nns) {
-                    hnsw.addPoint(nn.point, k);
-                }
+            // System.out.println("\n" + i + " " + maxKdist + "/" + nns.peek().dist2query);
+            end = System.currentTimeMillis();
+            searchTime += (end - start);
+            // 3. update cache
+            start = System.currentTimeMillis();
+            if (maxKdist / nns.peek().dist2query < updateThreshold)
                 continue;
-            }
+            updateCount += 1;
+            // System.out.println("HNSW points " + hnsw);
+            // hnsw.printConnections();
             switch (cacheStrategy) {
                 case "FIFO-DFS":
                 case "FIFO-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (hnsw.size() < cacheSize) {
-                            hnsw.addPoint(nnPoint, k);
-                            cc.add(nn.point);
-                        } else {
+                        hnsw.addPoint(nnPoint, k);
+                        // System.out.println("HNSW with add: " + nn);
+                        if (hnsw.size() > cacheSize) {
                             Point removeP = hnsw.points.get(0);
                             hnsw.removePoint(removeP, nnPoint);
-                            hnsw.addPoint(nnPoint, k);
+                            // System.out.println("HNSW with remove: " + removeP);
                         }
                     }
                     break;
@@ -979,10 +979,8 @@ public class VPAlg {
                 case "LRU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (hnsw.size() < cacheSize) {
-                            hnsw.addPoint(nnPoint, k);
-                            cc.add(nn.point);
-                        } else {
+                        hnsw.addPoint(nnPoint, k);
+                        if (hnsw.size() > cacheSize) {
                             int farthestT = Integer.MAX_VALUE;
                             Point removeP = hnsw.points.get(0);
                             for (Point p : hnsw.points) {
@@ -992,7 +990,6 @@ public class VPAlg {
                                 }
                             }
                             hnsw.removePoint(removeP, nnPoint);
-                            hnsw.addPoint(nn.point, k);
                         }
                     }
                     break;
@@ -1000,10 +997,8 @@ public class VPAlg {
                 case "LFU-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (hnsw.size() < cacheSize) {
-                            hnsw.addPoint(nnPoint, k);
-                            cc.add(nn.point);
-                        } else {
+                        hnsw.addPoint(nnPoint, k);
+                        if (hnsw.size() > cacheSize) {
                             int minHitCount = Integer.MAX_VALUE;
                             Point removeP = hnsw.points.get(0);
                             for (Point p : hnsw.points) {
@@ -1013,7 +1008,6 @@ public class VPAlg {
                                 }
                             }
                             hnsw.removePoint(removeP, nnPoint);
-                            hnsw.addPoint(nn.point, k);
                         }
                     }
                     break;
@@ -1021,10 +1015,8 @@ public class VPAlg {
                 case "BDC-BFS":
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
-                        if (hnsw.size() < cacheSize) {
-                            hnsw.addPoint(nnPoint, k);
-                            cc.add(nnPoint);
-                        } else {
+                        hnsw.addPoint(nnPoint, k);
+                        if (hnsw.size() > cacheSize) {
                             double minBenefit = Double.MAX_VALUE;
                             Point removeP = hnsw.points.get(0);
                             for (Point p : hnsw.points) {
@@ -1035,7 +1027,6 @@ public class VPAlg {
                                 }
                             }
                             hnsw.removePoint(removeP, nnPoint);
-                            hnsw.addPoint(nnPoint, k);
                         }
                     }
                     break;
@@ -1053,9 +1044,8 @@ public class VPAlg {
 
             updateTime += (end - start);
         }
-        hnsw.printGraph();
-        t2 = System.currentTimeMillis();
 
+        t2 = System.currentTimeMillis();
         int methodID = myMap.getOrDefault(cacheStrategy, -1);
         assert methodID != -1;
         timeOfEachMethod[methodID] = (t2 - t1) / n;
@@ -1068,30 +1058,27 @@ public class VPAlg {
                 searchTime / n, updateTime / n, timeOfEachMethod[methodID]);
         System.out.println(info);
         System.out.println("[Object Level hnsw] Final Cache Size/Given Cache Size : " + hnsw.size() + "/" + cacheSize);
-        System.out.println("Init Search-time: " + (initSearchTime / n) + " VPTree Search-time: " + (searchTime / n)
-                + " Cache Update-time: " + (updateTime / n));
-        System.out.println("Effective count: " + cc.size());
         System.out.println(" Graph calcCount: " + hnsw.calcCount / n);
+        hnsw.printGraph();
         return res;
     }
 
     public ArrayList<PriorityQueue<NN>> bestCache(String cacheStrategy, double factor, double updateThreshold, int k,
             boolean useBFS) {
-        // Initilize best caches for all queries
+        // 1. Initilize best caches for all queries
         ArrayList<PriorityQueue<NN>> cache = new ArrayList<>();
         t1 = System.currentTimeMillis();
-        int cacheK = (int) (k * factor);
         for (Point queryPoint : qData) {
-            cache.add(vp.searchkNNDFS(queryPoint, cacheK, Double.MAX_VALUE));
+            cache.add(vp.searchkNNDFS(queryPoint, k, Double.MAX_VALUE));
         }
         t2 = System.currentTimeMillis();
         init();
-
+        // 2. Query
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
         t1 = System.currentTimeMillis();
         for (int i = 0; i < qData.length; i++) {
             Point queryPoint = qData[i];
-            double maxKdist = cache.get(i).peek().dist2query;
+            double maxKdist = factor * cache.get(i).peek().dist2query;
             PriorityQueue<NN> nns = new PriorityQueue<>();
             if (useBFS) {
                 nns = vp.searchkNNBFS(queryPoint, k, maxKdist);
@@ -1104,10 +1091,8 @@ public class VPAlg {
             }
         }
         t2 = System.currentTimeMillis();
-
         int methodID = myMap.getOrDefault(cacheStrategy, -1);
         assert methodID != -1;
-
         timeOfEachMethod[methodID] = (t2 - t1) / n;
         nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
         calcCountOfEachMethod[methodID] = vp.calcCount / n;

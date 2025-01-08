@@ -46,7 +46,7 @@ public class Loader {
                 }
                 vectors.add(vector);
                 // show the progress
-                if (vectors.size() % 100000 == 0) {
+                if (vectors.size() % 500000 == 0) {
                     System.out.println("Loaded vectors:  " + vectors.size() + "/" + readSize);
                 }
             }
