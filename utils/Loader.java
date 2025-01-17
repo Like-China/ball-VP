@@ -84,10 +84,11 @@ public class Loader {
         }
 
         // get vectors with a specifized dimension
-        List<float[]> allVectors = new ArrayList<>();
-        for (float[] vector : tempVectors) {
-            allVectors.add(Arrays.copyOf(vector, dim));
-        }
+        // List<float[]> allVectors = new ArrayList<>();
+        // for (float[] vector : tempVectors) {
+        // allVectors.add(Arrays.copyOf(vector, dim));
+        // }
+        List<float[]> allVectors = SimplePCA.reduceDimensions(tempVectors, dim);
         if (Settings.isShuffle) {
             Collections.shuffle(allVectors);
         }

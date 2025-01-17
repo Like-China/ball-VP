@@ -29,10 +29,10 @@ public class Settings {
         public static boolean isEarlyStopConstruct = false;
         public static boolean isUseKmeans = true;
         // the bucket size (leafnode capacity) in the balltree and VP-tree
-        public static int qNB = 20000;
-        public static int dbNB = 200000;
+        public static int qNB = 200000;
+        public static int dbNB = 500000;
         // the dimension size
-        public static int dim = 15;
+        public static int dim = 8;
         public static int[] dims = new int[] { 10, 20, 30, 40, 50 };
         // the number of selected VP candidates
         public static int sampleNB = 100;
@@ -44,7 +44,7 @@ public class Settings {
         public static int k = 10;
         public static int[] ks = new int[] { 10, 20, 30, 40, 50 };
         // the expand factor
-        public static double factor = 2;
+        public static double factor = 1.5f;
         public static double[] factors = new double[] { 1, 1.5, 2, 2.5, 3 };
         // the cache size (need larger than k and M)
         public static int cacheSize = dbNB / 100;
@@ -53,7 +53,7 @@ public class Settings {
         public static double updateThreshold = factor;
         public static double[] updateThresholds = new double[] { 2f, 2.5f, 3f, 3.5f, 4f };
 
-        public static String data = "BIGANN";
+        public static String data = "SIFT";
         public static boolean isShuffle = false;
 
 }

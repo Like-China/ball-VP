@@ -35,9 +35,13 @@ public class Test {
                         if (Settings.isUseKmeans) {
                                 ArrayList<Point> points = new ArrayList();
                                 int maxIterations = 100;
-                                List<List<Point>> clusters = KMeans.kMeansCluster(l.query, 5, maxIterations);
-                                for (Point p : clusters.get(0)) {
-                                        points.add(p);
+                                int k = 100;
+                                List<List<Point>> clusters = KMeans.kMeansCluster(l.query, k, maxIterations);
+                                System.out.println("KMeans Cluster Done! Cluster Size: " + clusters.size());
+                                for (int i = 0; i < clusters.size(); i++) {
+                                        for (Point p : clusters.get(i)) {
+                                                points.add(p);
+                                        }
                                 }
                                 this.queryPoints = points.toArray(new Point[points.size()]);
                         }
@@ -106,21 +110,22 @@ public class Test {
                 ArrayList<PriorityQueue<NN>> DFS_BDCCache_Res, BFS_BDCCache_Res;
                 ArrayList<PriorityQueue<NN>> DFS_GLOCache_Res, BFS_GLOCache_Res;
 
-                DFS_NoCache_Res = sVP.DFS_BFS("#DFS", k, false, updateThreshold, false);
+                // DFS_NoCache_Res = sVP.DFS_BFS("#DFS", k, false, updateThreshold, false);
                 // ArrayList<PriorityQueue<NN>> res1 = sVP.DFS_BFS("#DFS", k, true,
                 // updateThreshold, false);
                 // checkKNN(DFS_NoCache_Res, res1);
                 // BFS_NoCache_Res = sVP.DFS_BFS("#BFS", k, false, updateThreshold, true);
                 // checkKNN(DFS_NoCache_Res, BFS_NoCache_Res);
-                // res1 = sVP.DFS_BFS("#BFS", k, true, updateThreshold, true);
+                // ArrayList<PriorityQueue<NN>> res1 = sVP.DFS_BFS("#BFS", k, true,
+                // updateThreshold, true);
                 // checkKNN(BFS_NoCache_Res, res1);
 
                 // DFS_BestCache_Res = sVP.bestCache("Best-DFS", 1, updateThreshold, k,
                 // false);
                 // checkKNN(DFS_NoCache_Res, DFS_BestCache_Res);
-                BFS_BestCache_Res = sVP.bestCache("Best-BFS", factor, updateThreshold, k,
-                                true);
-                checkKNN(DFS_NoCache_Res, BFS_BestCache_Res);
+                // BFS_BestCache_Res = sVP.bestCache("Best-BFS", factor, updateThreshold, k,
+                // true);
+                // checkKNN(DFS_NoCache_Res, BFS_BestCache_Res);
 
                 /*
                  * queryLinear_Cache1/queryLinear_To_ObjectLinear_Cache1
@@ -133,15 +138,15 @@ public class Test {
                 BFS_FIFOCache_Res = sVP.ObjectHNSW_Cache("FIFO-BFS",
                                 cacheSize,
                                 updateThreshold, k, true);
-                checkKNN(DFS_NoCache_Res, BFS_FIFOCache_Res);
+                // checkKNN(DFS_NoCache_Res, BFS_FIFOCache_Res);
 
                 // DFS_LRUCache_Res = sVP.ObjectHNSW_Cache("LRU-DFS",
                 // cacheSize,
                 // updateThreshold, k, false);
                 // checkKNN(DFS_NoCache_Res, DFS_LRUCache_Res);
-                // BFS_LRUCache_Res = sVP.ObjectHNSW_Cache("LRU-BFS",
-                // cacheSize,
-                // updateThreshold, k, true);
+                BFS_LRUCache_Res = sVP.ObjectHNSW_Cache("LRU-BFS",
+                                cacheSize,
+                                updateThreshold, k, true);
                 // checkKNN(DFS_NoCache_Res, BFS_LRUCache_Res);
 
                 // DFS_LFUCache_Res = sVP.ObjectHNSW_Cache("LFU-DFS",
@@ -160,15 +165,15 @@ public class Test {
                 BFS_BDCCache_Res = sVP.ObjectHNSW_Cache("BDC-BFS",
                                 cacheSize,
                                 updateThreshold, k, true);
-                checkKNN(DFS_NoCache_Res, BFS_BDCCache_Res);
+                // checkKNN(DFS_NoCache_Res, BFS_BDCCache_Res);
 
-                DFS_GLOCache_Res = sVP.ObjectHNSW_Cache("GLO-DFS",
-                                cacheSize,
-                                updateThreshold, k, false);
-                // checkKNN(DFS_NoCache_Res, DFS_GLOCache_Res);
-                // BFS_GLOCache_Res = sVP.ObjectHNSW_Cache("GLO-BFS",
+                // DFS_GLOCache_Res = sVP.ObjectHNSW_Cache("GLO-DFS",
                 // cacheSize,
-                // updateThreshold, k, true);
+                // updateThreshold, k, false);
+                // checkKNN(DFS_NoCache_Res, DFS_GLOCache_Res);
+                BFS_GLOCache_Res = sVP.ObjectHNSW_Cache("GLO-BFS",
+                                cacheSize,
+                                updateThreshold, k, true);
                 // checkKNN(DFS_NoCache_Res, BFS_GLOCache_Res);
                 System.out.println("---------------------------------------------------------------------------");
                 System.out.println("---------------------------------------------------------------------------");

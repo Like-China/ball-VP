@@ -202,12 +202,12 @@ public class VPAlg {
                         } else {
                             // remove the query point with minimal hit count
                             updateCount += 1;
-                            double minExpense = Double.MAX_VALUE;
+                            double minnodeAccess = Double.MAX_VALUE;
                             Point removeP = cachedQueryPoints.get(0);
                             for (Point pp : cachedQueryPoints) {
                                 double e = pp.hitCount;
-                                if (e < minExpense) {
-                                    minExpense = e;
+                                if (e < minnodeAccess) {
+                                    minnodeAccess = e;
                                     removeP = pp;
                                 }
                             }
@@ -233,13 +233,13 @@ public class VPAlg {
                             minPP.addHitCount();
                         } else {
                             updateCount += 1;
-                            double minExpense = Double.MAX_VALUE;
+                            double minnodeAccess = Double.MAX_VALUE;
                             Point removeP = cachedQueryPoints.get(0);
                             for (Point pp : cachedQueryPoints) {
                                 assert i - pp.ts > 0;
-                                double e = pp.expense;
-                                if (e < minExpense) {
-                                    minExpense = e;
+                                double e = pp.nodeAccess;
+                                if (e < minnodeAccess) {
+                                    minnodeAccess = e;
                                     removeP = pp;
                                 }
                             }
@@ -402,12 +402,12 @@ public class VPAlg {
                         } else {
                             updateCount += 1;
                             // remove the queryPoint node with minimal hit count
-                            double minExpense = Double.MAX_VALUE;
+                            double minnodeAccess = Double.MAX_VALUE;
                             Point removeP = cachedQueryPoints.get(0);
                             for (Point pp : cachedQueryPoints) {
                                 double e = pp.hitCount;
-                                if (e < minExpense) {
-                                    minExpense = e;
+                                if (e < minnodeAccess) {
+                                    minnodeAccess = e;
                                     removeP = pp;
                                 }
                             }
@@ -432,13 +432,13 @@ public class VPAlg {
                             }
                         } else {
                             updateCount += 1;
-                            double minExpense = Double.MAX_VALUE;
+                            double minnodeAccess = Double.MAX_VALUE;
                             Point removeP = cachedQueryPoints.get(0);
                             for (Point pp : cachedQueryPoints) {
                                 assert i - pp.ts > 0;
-                                double e = pp.expense;
-                                if (e < minExpense) {
-                                    minExpense = e;
+                                double e = pp.nodeAccess;
+                                if (e < minnodeAccess) {
+                                    minnodeAccess = e;
                                     removeP = pp;
                                 }
                             }
@@ -681,7 +681,7 @@ public class VPAlg {
                             double minBenefit = Double.MAX_VALUE;
                             Point removeP = cachedQueryPoints.get(0);
                             for (Point p : cachedQueryPoints) {
-                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 2);
+                                double e = p.nodeAccess * p.hitCount / Math.pow(i - p.ts, 2);
                                 if (e < minBenefit) {
                                     minBenefit = e;
                                     removeP = p;
@@ -778,7 +778,7 @@ public class VPAlg {
             for (NN nn : nns) {
                 nn.point.ts = i;
                 nn.point.addHitCount();
-                nn.point.expense = nodeAccessAfter - nodeAccessBefore;
+                nn.point.nodeAccess = nodeAccessAfter - nodeAccessBefore;
             }
             end = System.currentTimeMillis();
             searchTime += (end - start);
@@ -868,7 +868,7 @@ public class VPAlg {
                             double minBenefit = Double.MAX_VALUE;
                             Point removeP = cachedObjectPoints.get(0);
                             for (Point p : cachedObjectPoints) {
-                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 2);
+                                double e = p.nodeAccess * p.hitCount / Math.pow(i - p.ts, 2);
                                 if (e < minBenefit) {
                                     minBenefit = e;
                                     removeP = p;
@@ -922,6 +922,9 @@ public class VPAlg {
         t1 = System.currentTimeMillis();
         long start, end;
         HNSW hnsw = new HNSW(2, 20);
+        double meanApproxRatio = 0;
+
+        int validCount = 0; // when the maxDist is updated
         for (int i = 0; i < n; i++) {
             Point queryPoint = qData[i];
             // 1．use cached point to get an initial kNN distance
@@ -949,9 +952,14 @@ public class VPAlg {
             for (NN nn : nns) {
                 nn.point.ts = i;
                 nn.point.addHitCount();
-                nn.point.expense = nodeAccessAfter - nodeAccessBefore;
+                nn.point.nodeAccess = nodeAccessAfter - nodeAccessBefore;
+
             }
             // System.out.println("\n" + i + " " + maxKdist + "/" + nns.peek().dist2query);
+            if (maxKdist != Double.MAX_VALUE && nns.peek().dist2query != 0) {
+                meanApproxRatio += maxKdist / nns.peek().dist2query;
+                validCount += 1;
+            }
             end = System.currentTimeMillis();
             searchTime += (end - start);
             // 3. update cache
@@ -1013,6 +1021,21 @@ public class VPAlg {
                     break;
                 case "BDC-DFS":
                 case "BDC-BFS":
+                    // if (maxFrequency > 15) {
+                    // System.out.println(maxFrequency + " " + minFrequency);
+
+                    // }
+
+                    int maxFrequency = 0;
+                    double maxDensity = 0;
+                    int maxTimeDiff = 0;
+                    long maxNodeAccess = 0;
+                    for (Point p : hnsw.points) {
+                        maxFrequency = Math.max(maxFrequency, p.hitCount);
+                        maxTimeDiff = Math.max(maxTimeDiff, i - p.ts);
+                        maxNodeAccess = Math.max(maxNodeAccess, p.nodeAccess);
+                    }
+
                     for (NN nn : nns) {
                         Point nnPoint = nn.point;
                         hnsw.addPoint(nnPoint, k);
@@ -1020,9 +1043,10 @@ public class VPAlg {
                             double minBenefit = Double.MAX_VALUE;
                             Point removeP = hnsw.points.get(0);
                             for (Point p : hnsw.points) {
-                                double e = p.expense * p.hitCount / Math.pow(i - p.ts, 2);
-                                if (e < minBenefit) {
-                                    minBenefit = e;
+                                double benefit = p.hitCount / maxFrequency + p.nodeAccess / maxNodeAccess
+                                        - Math.pow(i - p.ts, 2) / Math.pow(maxTimeDiff, 2);
+                                if (benefit < minBenefit) {
+                                    minBenefit = benefit;
                                     removeP = p;
                                 }
                             }
@@ -1051,11 +1075,12 @@ public class VPAlg {
         timeOfEachMethod[methodID] = (t2 - t1) / n;
         nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
         calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        meanApproxRatio = meanApproxRatio / validCount;
         info = String.format(
-                "\n***        %s \nnode accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time |\n%10d %10d    %10d %15.4fms %15.4fms %15.4fms %15.4fms",
+                "\n***        %s \nnode accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|\n%10d %10d    %10d %15.4fms %15.4fms %15.4fms %15.4fms %15.4f %10d",
                 cacheStrategy, nodeAccessOfEachMethod[methodID],
                 calcCountOfEachMethod[methodID], updateCount, initSearchTime / n,
-                searchTime / n, updateTime / n, timeOfEachMethod[methodID]);
+                searchTime / n, updateTime / n, timeOfEachMethod[methodID], meanApproxRatio, validCount);
         System.out.println(info);
         System.out.println("[Object Level hnsw] Final Cache Size/Given Cache Size : " + hnsw.size() + "/" + cacheSize);
         System.out.println(" Graph calcCount: " + hnsw.calcCount / n);

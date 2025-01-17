@@ -355,3 +355,16 @@ Linear_update_ratio = [99.75  , 33.26  ,  0.24  ,  5.3375,  3.0525]
 
 2025/01/08 
 1. 加上平均近似率指标
+
+2025/01/16
+***        LRU-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      4647       4647          9682          0.0538ms          0.8091ms          0.5817ms          1.4449ms          1.6152      19962
+[Object Level hnsw] Final Cache Size/Given Cache Size : 5000/5000
+ Graph calcCount: 970.66265
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 5000
+Layer 1--NB OF Nodes: 1496

@@ -12,8 +12,8 @@ public class Point {
     public int ts = 0;
     // the hit number if it is stored as a cached point
     public int hitCount = 0;
-    // the expense of get the kNN of this point
-    public float expense = 0;
+    // the node access of getting the kNN
+    public long nodeAccess = 0;
     // the NN neighbor of this point
     public PriorityQueue<NN> NNs = new PriorityQueue<>();
     // if the point is an object point, record its reverse kNN query points
@@ -72,8 +72,8 @@ public class Point {
         return hitCount;
     }
 
-    public void setNNs(PriorityQueue<NN> NNs, float expense) {
-        this.expense = expense;
+    public void setNNs(PriorityQueue<NN> NNs, long nodeAccess) {
+        this.nodeAccess = nodeAccess;
         this.NNs = NNs;
     }
 
