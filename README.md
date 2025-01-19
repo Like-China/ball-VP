@@ -368,3 +368,236 @@ HNSW Graph Info:
 HNSW Graph Structure:
 Layer 0--NB OF Nodes: 5000
 Layer 1--NB OF Nodes: 1496
+
+***        #BFS 
+node accesses | calc count | unhit count | search time |
+     20393      20393     100000          3.8228ms 
+
+***        Best-BFS 
+node accesses | calc count | unhit count | search time |
+      7388       7388          0          1.3090ms 
+
+***        FIFO-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      6015       6015          7949          0.0541ms          1.0866ms          0.0978ms          1.2387ms          1.6406      99997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 8000/8000
+ Graph calcCount: 304.95557
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 8000
+Layer 1--NB OF Nodes: 2396
+
+***        LRU-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      6028       6028          8219          0.0540ms          1.0885ms          0.1581ms          1.3007ms          1.6511      99997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 8000/8000
+ Graph calcCount: 299.64094
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 8000
+Layer 1--NB OF Nodes: 2453
+
+***        LFU-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+     14395      14395         78974          0.0250ms          2.7567ms          1.5713ms          4.3532ms          8.4563      99997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 8000/8000
+ Graph calcCount: 501.01694
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 8000
+Layer 1--NB OF Nodes: 2398
+
+***        BDC-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      6015       6015          8031          0.0506ms          1.0670ms          0.3789ms          1.4966ms          1.6415      99997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 8000/8000
+ Graph calcCount: 306.59819
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 8000
+Layer 1--NB OF Nodes: 2423
+
+***        GLO-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      5984       5984          7065          0.0624ms          1.0709ms          0.2351ms          1.3684ms          1.6298      99997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 68223/8000
+ Graph calcCount: 342.95291
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 68223
+Layer 1--NB OF Nodes: 20410
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Test Done! Cache test-time cost: 2544027 ms
+like@dell-PowerEdge-R740:~/codes1/ball-VP$ ^C
+
+like@dell-PowerEdge-R740:~/codes1/ball-VP$  /usr/bin/env /usr/local/jdk-11.0.18/bin/java -cp /home/like/.vscode-server/data/User/workspaceStorage/9de51ba5597546271770798c64b79fa0-2/redhat.java/jdt_ws/ball-VP_cefbcf7b/bin VPTree.Test 
+Data Loaded in 3279 ms
+Dimension Reduced in 188844 ms
+KMeans Cluster Done! Cluster Size: 100
+Kmeans Finished in 17365 ms
+VP in  35202.0 ms: 800000 nodes 19 layers
+Data: DEEP      qSize: 100000   dbSize: 800000  k: 10   dim: 10         sample: 100     Bucket Size: 20         factor: 2.00    cache size: 8000     
+
+***        #BFS 
+node accesses | calc count | unhit count | search time |
+     82936      82936     100000         24.8959ms 
+
+***        Best-BFS 
+node accesses | calc count | unhit count | search time |
+     74244      74244          0         21.8817ms 
+
+***        FIFO-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+     67020      67020          1457          0.0813ms         19.4511ms          0.0165ms         19.5492ms          1.6562      99989
+[Object Level hnsw] Final Cache Size/Given Cache Size : 8000/8000
+ Graph calcCount: 222.48193
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 8000
+Layer 1--NB OF Nodes: 2325
+
+***        LRU-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+     66984      66984          1388          0.0816ms         19.2391ms          0.0207ms         19.3415ms          1.6546      99989
+[Object Level hnsw] Final Cache Size/Given Cache Size : 8000/8000
+ Graph calcCount: 221.15486
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 8000
+Layer 1--NB OF Nodes: 2375
+
+***        LFU-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+     67038      67038          1315          0.0828ms         19.6254ms          0.0199ms         19.7283ms          1.6562      99989
+[Object Level hnsw] Final Cache Size/Given Cache Size : 8000/8000
+ Graph calcCount: 229.25151
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 8000
+Layer 1--NB OF Nodes: 2363
+
+***        BDC-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+     66965      66965          1366          0.0800ms         19.3481ms          0.0411ms         19.4694ms          1.6535      99989
+[Object Level hnsw] Final Cache Size/Given Cache Size : 8000/8000
+ Graph calcCount: 225.70699
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 8000
+Layer 1--NB OF Nodes: 2370
+
+***        GLO-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+     66907      66907          1106          0.0832ms         18.9760ms          0.0110ms         19.0704ms          1.6507      99989
+[Object Level hnsw] Final Cache Size/Given Cache Size : 10843/8000
+ Graph calcCount: 228.78187
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 10843
+Layer 1--NB OF Nodes: 3236
+\
+
+-------------------------------------
+
+Data Loaded in 5367 ms
+Dimension Reduced in 170957 ms
+KMeans Cluster Done! Cluster Size: 100
+Kmeans Finished in 8567 ms
+VP in  17677.0 ms: 400000 nodes 18 layers
+Data: SIFT      qSize: 50000    dbSize: 400000  k: 10   dim: 10         sample: 100     Bucket Size: 20         factor: 1.50    cache size: 4000     
+
+***        BDC-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      4268       4268         12285          0.0486ms          0.6502ms          0.4186ms          1.1175ms          1.4265      49999
+[Object Level hnsw] Final Cache Size/Given Cache Size : 4000/4000
+ Graph calcCount: 543.4014
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 4000
+Layer 1--NB OF Nodes: 1129
+
+***        GLO-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      4151       4151          9959          0.0635ms          0.6468ms          0.6899ms          1.4005ms          1.3850      49999
+[Object Level hnsw] Final Cache Size/Given Cache Size : 91054/4000
+ Graph calcCount: 606.48042
+HNSW Graph Info:
+  The Maximum Layer: 2
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 91054
+Layer 1--NB OF Nodes: 27323
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+2025/01/18
+***        #DFS 
+node accesses | calc count | unhit count | search time | meanApproxRatio|
+     32508      38508     400000          5.9797ms      Infinityms
+
+***        FIFO-DFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      4815       4815         44948          0.0421ms          0.7829ms          0.0895ms          0.9147ms          1.3202     399997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 6000/6000
+ Graph calcCount: 277.505585
+HNSW Graph Info:
+  The Maximum Layer: 1
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 6000
+
+***        LRU-DFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      4763       4763         38874          0.0401ms          0.7773ms          0.1256ms          0.9431ms          1.3062     399997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 6000/6000
+ Graph calcCount: 261.712915
+HNSW Graph Info:
+  The Maximum Layer: 1
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 6000
+
+***        LFU-DFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+     20764      20764        382744          0.0087ms          3.7657ms          1.3209ms          5.0955ms          6.9943     399997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 6000/6000
+ Graph calcCount: 321.79143
+HNSW Graph Info:
+  The Maximum Layer: 1
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 6000
+
+***        BDC-BFS 
+node accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|
+      4555       4555         41181          0.0402ms          0.7465ms          0.2454ms          1.0323ms          1.3101     399997
+[Object Level hnsw] Final Cache Size/Given Cache Size : 6000/6000
+ Graph calcCount: 261.994985
+HNSW Graph Info:
+  The Maximum Layer: 1
+  The Maximum Connections: 20
+HNSW Graph Structure:
+Layer 0--NB OF Nodes: 6000
+

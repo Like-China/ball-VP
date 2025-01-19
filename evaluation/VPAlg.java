@@ -46,11 +46,6 @@ public class VPAlg {
     }
 
     public void init() {
-        for (int i = 0; i < myMap.size(); i++) {
-            nodeAccessOfEachMethod[i] = 0;
-            calcCountOfEachMethod[i] = 0;
-            timeOfEachMethod[i] = 0;
-        }
         for (Point p : qData) {
             p.init();
         }
@@ -68,11 +63,12 @@ public class VPAlg {
         init();
         t1 = System.currentTimeMillis();
         ArrayList<PriorityQueue<NN>> res = new ArrayList<>();
+        double meanApproxRatio = 0;
         for (Point queryPoint : qData) {
             double maxKdist = Double.MAX_VALUE;
             if (useInitkNN) {
                 PriorityQueue<NN> nns = new PriorityQueue<>((a, b) -> Double.compare(b.dist2query, a.dist2query));
-                Random r = new Random(10);
+                Random r = new Random();
                 for (int i = 0; i < Settings.cacheSize; i++) {
                     int randomIdx = r.nextInt(dbData.length);
                     Point db = dbData[randomIdx];
@@ -96,6 +92,7 @@ public class VPAlg {
                 nns = vp.searchkNNDFS(queryPoint, k, maxKdist);
             }
             res.add(nns);
+            meanApproxRatio += maxKdist / nns.peek().dist2query;
             if (maxKdist / nns.peek().dist2query > updateThreshold) {
                 updateCount += 1;
             }
@@ -105,11 +102,11 @@ public class VPAlg {
         assert methodID != -1;
         timeOfEachMethod[methodID] = (t2 - t1) / n;
         nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
-        calcCountOfEachMethod[methodID] = vp.calcCount / n;
+        calcCountOfEachMethod[methodID] = vp.calcCount / n + Settings.cacheSize;
         info = String.format(
-                "\n***        %s \nnode accesses | calc count | unhit count | search time |\n%10d %10d %10d \t%8.4fms ",
+                "\n***        %s \nnode accesses | calc count | unhit count | search time | meanApproxRatio|\n%10d %10d %10d \t%8.4fms \t%8.4fms",
                 cacheStrategy, nodeAccessOfEachMethod[methodID],
-                calcCountOfEachMethod[methodID], updateCount, timeOfEachMethod[methodID]);
+                calcCountOfEachMethod[methodID], updateCount, timeOfEachMethod[methodID], meanApproxRatio / n);
         System.out.println(info);
         return res;
     }
@@ -1021,11 +1018,6 @@ public class VPAlg {
                     break;
                 case "BDC-DFS":
                 case "BDC-BFS":
-                    // if (maxFrequency > 15) {
-                    // System.out.println(maxFrequency + " " + minFrequency);
-
-                    // }
-
                     int maxFrequency = 0;
                     double maxDensity = 0;
                     int maxTimeDiff = 0;
@@ -1072,7 +1064,7 @@ public class VPAlg {
         t2 = System.currentTimeMillis();
         int methodID = myMap.getOrDefault(cacheStrategy, -1);
         assert methodID != -1;
-        timeOfEachMethod[methodID] = (t2 - t1) / n;
+        timeOfEachMethod[methodID] = searchTime / n;
         nodeAccessOfEachMethod[methodID] = vp.nodeAccess / n;
         calcCountOfEachMethod[methodID] = vp.calcCount / n;
         meanApproxRatio = meanApproxRatio / validCount;
@@ -1080,11 +1072,10 @@ public class VPAlg {
                 "\n***        %s \nnode accesses | calc count | unhit count | init search-time | vp search time | cache update time | run time | meanApproxRatio | validCount|\n%10d %10d    %10d %15.4fms %15.4fms %15.4fms %15.4fms %15.4f %10d",
                 cacheStrategy, nodeAccessOfEachMethod[methodID],
                 calcCountOfEachMethod[methodID], updateCount, initSearchTime / n,
-                searchTime / n, updateTime / n, timeOfEachMethod[methodID], meanApproxRatio, validCount);
+                searchTime / n, updateTime / n, (t2 - t1) / n, meanApproxRatio, validCount);
         System.out.println(info);
         System.out.println("[Object Level hnsw] Final Cache Size/Given Cache Size : " + hnsw.size() + "/" + cacheSize);
         System.out.println(" Graph calcCount: " + hnsw.calcCount / n);
-        hnsw.printGraph();
         return res;
     }
 

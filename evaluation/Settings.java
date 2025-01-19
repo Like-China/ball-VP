@@ -21,7 +21,6 @@ public class Settings {
                         put("BDC-BFS", 11);
                         put("GLO-DFS", 12);
                         put("GLO-BFS", 13);
-
                 }
         };
 
@@ -29,10 +28,12 @@ public class Settings {
         public static boolean isEarlyStopConstruct = false;
         public static boolean isUseKmeans = true;
         // the bucket size (leafnode capacity) in the balltree and VP-tree
-        public static int qNB = 200000;
-        public static int dbNB = 500000;
+        public static int qNB = 50000;
+        public static int[] qNBs = new int[] { 10000, 20000, 30000, 40000, 500000 };
+        public static int dbNB = 50000;
+        public static int[] dbNBs = new int[] { 100000, 200000, 300000, 400000, 5000000 };
         // the dimension size
-        public static int dim = 8;
+        public static int dim = 10;
         public static int[] dims = new int[] { 10, 20, 30, 40, 50 };
         // the number of selected VP candidates
         public static int sampleNB = 100;
@@ -43,17 +44,14 @@ public class Settings {
         // the k
         public static int k = 10;
         public static int[] ks = new int[] { 10, 20, 30, 40, 50 };
-        // the expand factor
-        public static double factor = 1.5f;
-        public static double[] factors = new double[] { 1, 1.5, 2, 2.5, 3 };
         // the cache size (need larger than k and M)
         public static int cacheSize = dbNB / 100;
-        public static int[] cacheSizes = new int[] { 1000, 2000, 3000, 4000, 5000 };
+        public static int[] cacheSizes = new int[] { dbNB * 1 / 100, dbNB * 2 / 100, dbNB * 3 / 100, dbNB * 4 / 100,
+                        dbNB * 5 / 100 };
         // the update thresold of caching
-        public static double updateThreshold = factor;
-        public static double[] updateThresholds = new double[] { 2f, 2.5f, 3f, 3.5f, 4f };
-
-        public static String data = "SIFT";
+        public static double updateThreshold = 2f;
+        public static double[] updateThresholds = new double[] { 1, 1.5, 2, 2.5, 3 };
+        public static String data = "QCL";
         public static boolean isShuffle = false;
 
 }

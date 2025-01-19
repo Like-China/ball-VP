@@ -110,7 +110,6 @@ public class VPTree {
 			}
 			return;
 		}
-
 		// Non-leaf node case (VP node)
 		Point db = n.getItem().getPoint();
 		double dist = q.distanceTo(db);
@@ -121,7 +120,7 @@ public class VPTree {
 			res.add(new NN(db, dist));
 		} else {
 			double maxKdist = Math.min(res.peek().dist2query, maxD);
-			if (dist <= maxKdist) {
+			if (dist < maxKdist) {
 				res.poll();
 				res.add(new NN(db, dist));
 			}
@@ -131,10 +130,10 @@ public class VPTree {
 		double maxKdist = Math.min(res.peek().dist2query, maxD); // Distance of the farthest k-th neighbor found so far
 		// Determine which subtree(s) to search:
 		if (dist - mu <= maxKdist) {
-			_searchkNNDFS(n.getLeft(), q, k, res, maxD);
+			_searchkNNDFS(n.getLeft(), q, k, res, maxKdist);
 		}
 		if (mu - dist <= maxKdist) {
-			_searchkNNDFS(n.getRight(), q, k, res, maxD);
+			_searchkNNDFS(n.getRight(), q, k, res, maxKdist);
 		}
 	}
 
@@ -184,17 +183,17 @@ public class VPTree {
 		double maxKdist = Math.min(res.peek().dist2query, maxD); // Distance of the farthest k-th neighbor found so far
 		if (dist - mu < mu - dist) {
 			if (dist - mu <= maxKdist) {
-				_searchkNNDFS(n.getLeft(), q, k, res, maxD);
+				_searchkNNDFS(n.getLeft(), q, k, res, maxKdist);
 			}
 			if (mu - dist <= maxKdist) {
-				_searchkNNDFS(n.getRight(), q, k, res, maxD);
+				_searchkNNDFS(n.getRight(), q, k, res, maxKdist);
 			}
 		} else {
 			if (mu - dist <= maxKdist) {
-				_searchkNNDFS(n.getRight(), q, k, res, maxD);
+				_searchkNNDFS(n.getRight(), q, k, res, maxKdist);
 			}
 			if (dist - mu <= maxKdist) {
-				_searchkNNDFS(n.getLeft(), q, k, res, maxD);
+				_searchkNNDFS(n.getLeft(), q, k, res, maxKdist);
 			}
 		}
 

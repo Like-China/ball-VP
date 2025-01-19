@@ -54,7 +54,29 @@ public class Loader {
         return vectors;
     }
 
+    public List<float[]> loadTxt(String filePath, int readSize) throws IOException {
+        List<float[]> vectors = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = br.readLine()) != null && vectors.size() < readSize) {
+                // Split the line by spaces or commas (adjust as needed)
+                String[] stringValues = line.trim().split(",");
+                float[] vector = new float[stringValues.length];
+
+                for (int i = 0; i < stringValues.length; i++) {
+                    vector[i] = Float.parseFloat(stringValues[i]);
+                }
+
+                vectors.add(vector);
+            }
+        }
+        return vectors;
+    }
+
     public void loadData(int qNB, int dbNB, int dim) throws IOException {
+        long t1, t2;
+        t1 = System.currentTimeMillis();
         List<float[]> tempVectors = new ArrayList<>();
         switch (dataName) {
             case "random":
@@ -79,21 +101,30 @@ public class Loader {
                 filePath = filePath + "bigann/bigann_base.bvecs";
                 tempVectors = loadBvecs(filePath, qNB + dbNB);
                 break;
+            case "QCL":
+                filePath = "/data/home/like/SOGOU-QCL/qcl.txt";
+                tempVectors = loadTxt(filePath, qNB + dbNB);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown datasets: " + dataName);
         }
+        t2 = System.currentTimeMillis();
+        System.out.println("Data Loaded in " + (t2 - t1) + " ms");
 
         // get vectors with a specifized dimension
         // List<float[]> allVectors = new ArrayList<>();
         // for (float[] vector : tempVectors) {
         // allVectors.add(Arrays.copyOf(vector, dim));
         // }
+        t1 = System.currentTimeMillis();
         List<float[]> allVectors = SimplePCA.reduceDimensions(tempVectors, dim);
         if (Settings.isShuffle) {
             Collections.shuffle(allVectors);
         }
         assert allVectors.get(0).length == dim : "Dimensional is not aligned!";
         assert allVectors.size() == qNB + dbNB : "Data is limited!";
+        t2 = System.currentTimeMillis();
+        System.out.println("Dimension Reduced in " + (t2 - t1) + " ms");
 
         query = new Point[qNB];
         db = new Point[dbNB];
@@ -107,13 +138,12 @@ public class Loader {
     }
 
     // public static void main(String[] args) throws IOException {
-    // String dataName = "SIFT";
+    // String dataName = "QCL";
     // int qNB = 100000;
-    // int dbNB = 900000;
+    // int dbNB = 100000;
     // Loader l = new Loader(dataName);
     // l.loadData(qNB, dbNB, 128);
-    // System.out.println(l.query.size() + "/" + l.db.size());
-
+    // System.out.println(l.query.length + "/" + l.db.length);
     // }
 
 }

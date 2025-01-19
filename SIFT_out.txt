@@ -1,0 +1,137 @@
+
+Varying k[10, 20, 30, 40, 50]
+DF_NodeAccess=[5827, 6741, 7364, 7851, 8256]
+DF_FIFO_NodeAccess=[2291, 3007, 3431, 3817, 4116]
+DF_LRU_NodeAccess=[2287, 2971, 3429, 3766, 4074]
+DF_LFU_NodeAccess=[4995, 5407, 6146, 6340, 7142]
+BF_BDC_NodeAccess=[2168, 2785, 3181, 3499, 3784]
+BF_GLO_NodeAccess=[2154, 2900, 3301, 4077, 3853]
+
+DF_CalcCount=[6327, 7241, 7864, 8351, 8756]
+DF_FIFO_CalcCount=[2291, 3007, 3431, 3817, 4116]
+DF_LRU_CalcCount=[2287, 2971, 3429, 3766, 4074]
+DF_LFU_CalcCount=[4995, 5407, 6146, 6340, 7142]
+BF_BDC_CalcCount=[2168, 2785, 3181, 3499, 3784]
+BF_GLO_CalcCount=[2154, 2900, 3301, 4077, 3853]
+
+
+
+Varying cacheSize[500, 1000, 1500, 2000, 2500]
+DF_NodeAccess=[5827, 5827, 5827, 5827, 5827]
+DF_FIFO_NodeAccess=[2290, 2290, 2283, 2282, 2289]
+DF_LRU_NodeAccess=[2298, 2286, 2285, 2279, 2288]
+DF_LFU_NodeAccess=[4956, 4585, 3813, 3670, 3393]
+BF_BDC_NodeAccess=[2167, 2174, 2165, 2166, 2164]
+BF_GLO_NodeAccess=[2149, 2158, 2159, 2151, 2160]
+
+DF_CalcCount=[6327, 6327, 6327, 6327, 6327]
+DF_FIFO_CalcCount=[2290, 2290, 2283, 2282, 2289]
+DF_LRU_CalcCount=[2298, 2286, 2285, 2279, 2288]
+DF_LFU_CalcCount=[4956, 4585, 3813, 3670, 3393]
+BF_BDC_CalcCount=[2167, 2174, 2165, 2166, 2164]
+BF_GLO_CalcCount=[2149, 2158, 2159, 2151, 2160]
+
+
+
+
+
+
+Varying cacheUpdateThreshold[1.0, 1.5, 2.0, 2.5, 3.0]
+DF_NodeAccess=[5827, 5827, 5827, 5827, 5827]
+DF_FIFO_NodeAccess=[1700, 1925, 2293, 2575, 2824]
+DF_LRU_NodeAccess=[1695, 1921, 2288, 2581, 2817]
+DF_LFU_NodeAccess=[5234, 5282, 4685, 4752, 4243]
+BF_BDC_NodeAccess=[1781, 1864, 2170, 2394, 2564]
+BF_GLO_NodeAccess=[1451, 1841, 2158, 2390, 2568]
+
+DF_CalcCount=[6327, 6327, 6327, 6327, 6327]
+DF_FIFO_CalcCount=[1700, 1925, 2293, 2575, 2824]
+DF_LRU_CalcCount=[1695, 1921, 2288, 2581, 2817]
+DF_LFU_CalcCount=[5234, 5282, 4685, 4752, 4243]
+BF_BDC_CalcCount=[1781, 1864, 2170, 2394, 2564]
+BF_GLO_CalcCount=[1451, 1841, 2158, 2390, 2568]
+
+
+
+
+
+
+Varying bucketSize[10, 20, 30, 40, 50]
+DF_NodeAccess=[5827, 5827, 5827, 5827, 5827]
+DF_FIFO_NodeAccess=[2293, 2294, 2294, 2294, 2298]
+DF_LRU_NodeAccess=[2299, 2295, 2291, 2291, 2293]
+DF_LFU_NodeAccess=[4493, 4463, 4956, 4842, 4974]
+BF_BDC_NodeAccess=[2169, 2176, 2172, 2167, 2173]
+BF_GLO_NodeAccess=[2154, 2158, 2148, 2155, 2160]
+
+DF_CalcCount=[6327, 6327, 6327, 6327, 6327]
+DF_FIFO_CalcCount=[2293, 2294, 2294, 2294, 2298]
+DF_LRU_CalcCount=[2299, 2295, 2291, 2291, 2293]
+DF_LFU_CalcCount=[4493, 4463, 4956, 4842, 4974]
+BF_BDC_CalcCount=[2169, 2176, 2172, 2167, 2173]
+BF_GLO_CalcCount=[2154, 2158, 2148, 2155, 2160]
+
+
+
+
+
+
+Varying sampleNB[100, 200, 300, 400, 500]
+DF_NodeAccess=[5827, 5054, 5421, 5494, 5596]
+DF_FIFO_NodeAccess=[2290, 2221, 2228, 2211, 2247]
+DF_LRU_NodeAccess=[2291, 2226, 2228, 2211, 2247]
+DF_LFU_NodeAccess=[4661, 4324, 3873, 4651, 4853]
+BF_BDC_NodeAccess=[2167, 2113, 2126, 2106, 2141]
+BF_GLO_NodeAccess=[2158, 2095, 2111, 2093, 2128]
+
+DF_CalcCount=[6327, 5554, 5921, 5994, 6096]
+DF_FIFO_CalcCount=[2290, 2221, 2228, 2211, 2247]
+DF_LRU_CalcCount=[2291, 2226, 2228, 2211, 2247]
+DF_LFU_CalcCount=[4661, 4324, 3873, 4651, 4853]
+BF_BDC_CalcCount=[2167, 2113, 2126, 2106, 2141]
+BF_GLO_CalcCount=[2158, 2095, 2111, 2093, 2128]
+
+
+
+
+
+
+Varying dimension[10, 20, 30, 40, 50]
+DF_NodeAccess=[5827, 15145, 23412, 32991, 30751]
+BF_NodeAccess=[0, 0, 0, 0, 0]
+DF_Best_NodeAccess=[0, 0, 0, 0, 0]
+BF_Best_NodeAccess=[0, 0, 0, 0, 0]
+DF_FIFO_NodeAccess=[2289, 9300, 18044, 25784, 24158]
+BF_FIFO_NodeAccess=[0, 0, 0, 0, 0]
+DF_LRU_NodeAccess=[2296, 9319, 18106, 25712, 24186]
+BF_LRU_NodeAccess=[0, 0, 0, 0, 0]
+DF_LFU_NodeAccess=[4957, 10925, 18442, 25781, 24191]
+BF_LFU_NodeAccess=[0, 0, 0, 0, 0]
+DF_BDC_NodeAccess=[0, 0, 0, 0, 0]
+BF_BDC_NodeAccess=[2171, 8547, 16508, 22705, 21992]
+DF_GLO_NodeAccess=[0, 0, 0, 0, 0]
+BF_GLO_NodeAccess=[2160, 8525, 16487, 22688, 21989]
+
+DF_CalcCount=[6327, 15645, 23912, 33491, 31251]
+BF_CalcCount=[0, 0, 0, 0, 0]
+DF_Best_CalcCount=[0, 0, 0, 0, 0]
+BF_Best_CalcCount=[0, 0, 0, 0, 0]
+DF_FIFO_CalcCount=[2289, 9300, 18044, 25784, 24158]
+BF_FIFO_CalcCount=[0, 0, 0, 0, 0]
+DF_LRU_CalcCount=[2296, 9319, 18106, 25712, 24186]
+BF_LRU_CalcCount=[0, 0, 0, 0, 0]
+DF_LFU_CalcCount=[4957, 10925, 18442, 25781, 24191]
+BF_LFU_CalcCount=[0, 0, 0, 0, 0]
+DF_BDC_CalcCount=[0, 0, 0, 0, 0]
+BF_BDC_CalcCount=[2171, 8547, 16508, 22705, 21992]
+DF_GLO_CalcCount=[0, 0, 0, 0, 0]
+BF_GLO_CalcCount=[2160, 8525, 16487, 22688, 21989]
+
+
+
+
+
+
+
+
+
